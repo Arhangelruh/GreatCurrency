@@ -14,6 +14,9 @@ namespace GreatCurrency.DAL.Configurations
             builder.ToTable(TableConstants.Currency)
                 .HasKey(currency => currency.Id);
 
+            builder.Property(currency => currency.IncomingDate)
+                .HasColumnType("Timestamp");
+
             builder.Property(currency => currency.USDBuyRate)
                 .IsRequired();
 

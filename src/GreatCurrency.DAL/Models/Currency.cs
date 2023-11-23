@@ -46,5 +46,10 @@
         /// Navigate to bank department.
         /// </summary>
         public BankDepartment BankDepartment { get; set; }
+
+        /// <summary>
+        /// Incoming date.
+        /// </summary>
+        public DateTime IncomingDate { get; set; }
     }
 }
