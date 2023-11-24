@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GreatCurrency.DAL\GreatCurrency.DAL.csproj" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\GreatCurrency.DAL\GreatCurrency.DAL.csproj" />
   </ItemGroup>
 
 </Project>
