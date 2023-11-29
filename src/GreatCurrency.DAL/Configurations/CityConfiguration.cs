@@ -17,8 +17,7 @@ namespace GreatCurrency.DAL.Configurations
             builder.Property(city => city.CityName)
                 .IsRequired();
 
-            builder.Property(city => city.CityURL)
-                .IsRequired();
+            builder.Property(city => city.CityURL);                
         }
     }
 }

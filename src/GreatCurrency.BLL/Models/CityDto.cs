@@ -15,6 +15,6 @@
         /// <summary>
         /// Url for request.
         /// </summary>
-        public string CityURL { get; set; }
+        public string? CityURL { get; set; }
     }
 }

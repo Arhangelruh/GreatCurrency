@@ -29,24 +29,27 @@ namespace GreatCurrency.BLL.Services
             {
                 foreach (var city in cities)
                 {
-                    var currencies = await getCurrencyService.GetCurrencyAsync(city.CityURL);
-                    foreach (var currency in currencies)
+                    if (city.CityURL != null)
                     {
-                        var bank = await BankCheckOrSaveAsync(currency.BankName);
-                        var department = await DepartmentChekOrSaveAsync(currency.FilialName, bank, city.Id);
-
-                        var newCurrency = new CurrencyDto
+                        var currencies = await getCurrencyService.GetCurrencyAsync(city.CityURL);
+                        foreach (var currency in currencies)
                         {
-                            USDBuyRate = currency.USDBuyRate,
-                            USDSaleRate = currency.USDSaleRate,
-                            EURBuyRate = currency.EURBuyRate,
-                            EURSaleRate = currency.EURSaleRate,
-                            RUBBuyRate = currency.RUBBuyRate,
-                            RUBSaleRate = currency.RUBSaleRate,
-                            BankDepartmentId = department.Id
-                        };
+                            var bank = await BankCheckOrSaveAsync(currency.BankName);
+                            var department = await DepartmentChekOrSaveAsync(currency.FilialName, bank, city.Id);
 
-                        await _currencyService.AddCurrencyAsync(newCurrency);
+                            var newCurrency = new CurrencyDto
+                            {
+                                USDBuyRate = currency.USDBuyRate,
+                                USDSaleRate = currency.USDSaleRate,
+                                EURBuyRate = currency.EURBuyRate,
+                                EURSaleRate = currency.EURSaleRate,
+                                RUBBuyRate = currency.RUBBuyRate,
+                                RUBSaleRate = currency.RUBSaleRate,
+                                BankDepartmentId = department.Id
+                            };
+
+                            await _currencyService.AddCurrencyAsync(newCurrency);
+                        }
                     }
                 }
             }
