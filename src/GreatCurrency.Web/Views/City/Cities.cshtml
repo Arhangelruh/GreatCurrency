@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CityViewModel>
+
+<div class="table-wrapper">
+    <div class="table-heading">
+        <div class="table-heading-text">Города</div>
+        <form method="get" asp-controller="City" asp-action="CreateCity">
+            <button class="button_classic" type="submit" title="Создать">Создать</button>
+        </form>
+    </div>
+
+    <table class="city-table">
+        <tr>
+            <th>Город</th>
+            <th>URL для подключения</th>            
+        </tr>
+        @foreach (var city in Model)
+        {
+            <tr>
+                <td>@city.CityName</td>
+                <td>@city.CityURL</td>
+                <td>
+                    <a asp-controller="City" asp-action="EditCity" asp-route-cityid="@city.Id">
+                        <img title="Изменить" src="/images/Edit.svg" />
+                    </a>
+                </td>
+                <td>
+                    <a class="Delete_City" name="@city.Id">
+                        <img title="Удалить" src="/images/Delete.svg" />
+                    </a>                    
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@section js {
+    <script src="~/js/deleteCity.js" asp-append-version="true"></script>
+}

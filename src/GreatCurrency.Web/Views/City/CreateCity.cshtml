@@ -1,0 +1,17 @@
+﻿@model CityViewModel
+
+<form class="forms" method="post" asp-controller="City" asp-action="CreateCity">
+    <div class="formslabel">
+        <label asp-for="CityName">Город</label><br />
+        <input class="formsfield" asp-for="CityName" />
+        <span asp-validation-for="CityName" class="text_error"></span>
+    </div>
+    <div class="formslabel">
+        <label asp-for="CityURL">Ссылка для получения данных</label><br />
+        <input class="formsfield" asp-for="CityURL" />
+        <span asp-validation-for="CityURL" class="text_error"></span>
+    </div>
+        <div class="formslabel">
+        <input class="button_classic" type="submit" value="Сохранить" />
+    </div>
+</form>

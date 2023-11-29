@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/app.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/images/favicon.ico">
+    @RenderSection("css", false)
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-wrapper">                
+                  <a class="logo" asp-controller="Home" asp-action="Index">
+                     <img class="logo-image" title="logo" src="~/images/Logo_Statusbank.svg" />
+                     <div class="logo-text">Great currency</div>
+                  </a>                                  
+                  <div class="header-nav">
+                    <div class="header-dropdown">
+                        <img class="header-settings-img" src="/images/Settings.svg" />
+                        <div class="dropdown-content">
+                            <a class="nav-button" asp-controller="City" asp-action="Cities">
+                                  <div class="nav-button">Города</div>
+                            </a>
+                        </div>
+                    </div>                                                                        
+                  </div>                  
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    @RenderSection("js", false)    
+</body>
+</html>
