@@ -8,8 +8,13 @@ namespace GreatCurrency.DAL.Context
     {
         public GreatCurrencyContext(DbContextOptions<GreatCurrencyContext> options)
         : base(options)
-        {        
+        {
         }
+
+        /// <summary>
+        /// City.
+        /// </summary>
+        public DbSet<City> Cities { get; set; }
 
         /// <summary>
         /// Banks.
@@ -22,18 +27,32 @@ namespace GreatCurrency.DAL.Context
         public DbSet<BankDepartment> BankDepartments { get; set; }
 
         /// <summary>
+        /// Request.
+        /// </summary>
+        public DbSet<Request> Requests { get; set; }
+
+        /// <summary>
         /// Currencies.
         /// </summary>
         public DbSet<Currency> Currency { get; set; }
+
+        /// <summary>
+        /// Best currency.
+        /// </summary>
+        public DbSet<BestCurrency> BestCurrencies { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder = modelBuilder ?? throw new ArgumentNullException(nameof(modelBuilder));
 
-            modelBuilder.ApplyConfiguration(new BankConfiguration());
-            modelBuilder.ApplyConfiguration(new BankDepartmentConfiguration());
-            modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new BankConfiguration());
+            modelBuilder.ApplyConfiguration(new RequestConfiguration());
+            modelBuilder.ApplyConfiguration(new BankDepartmentConfiguration());
+            modelBuilder.ApplyConfiguration(new BestCurrencyConfiguration());
+            modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
+            
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,6 +1,6 @@
 ﻿namespace GreatCurrency.DAL.Models
 {
-    public class Currency
+    public class BestCurrency
     {
         /// <summary>
         /// Currency Id.
@@ -38,14 +38,14 @@
         public double RUBSaleRate { get; set; }
 
         /// <summary>
-        /// Navigate to bank department.
+        /// Navigate to bank.
         /// </summary>
-        public int BankDepartmentId { get; set; }
+        public int BankId { get; set; }
 
         /// <summary>
-        /// Navigate to bank department.
+        /// Navigate to bank.
         /// </summary>
-        public BankDepartment BankDepartment { get; set; }
+        public Bank Bank { get; set; }
 
         /// <summary>
         /// Navigate to request.

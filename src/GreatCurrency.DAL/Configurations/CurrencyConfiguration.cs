@@ -14,9 +14,6 @@ namespace GreatCurrency.DAL.Configurations
             builder.ToTable(TableConstants.Currency)
                 .HasKey(currency => currency.Id);
 
-            builder.Property(currency => currency.IncomingDate)
-                .HasColumnType("Timestamp");
-
             builder.Property(currency => currency.USDBuyRate)
                 .IsRequired();
 
@@ -35,9 +32,14 @@ namespace GreatCurrency.DAL.Configurations
             builder.Property(currency => currency.RUBSaleRate)
                 .IsRequired();
 
-            builder.HasOne(bankdepartment=>bankdepartment.BankDepartment)
-                .WithMany(currency=>currency.Currencies)
-                .HasForeignKey(bankdepartment=>bankdepartment.BankDepartmentId)
+            builder.HasOne(request => request.Request)
+                .WithMany(currency => currency.Currencies)
+                .HasForeignKey(request => request.RequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(bankdepartment => bankdepartment.BankDepartment)
+                .WithMany(currency => currency.Currencies)
+                .HasForeignKey(bankdepartment => bankdepartment.BankDepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
         }

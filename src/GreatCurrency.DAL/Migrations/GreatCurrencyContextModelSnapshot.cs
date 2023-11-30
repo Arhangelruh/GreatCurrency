@@ -66,6 +66,47 @@ namespace GreatCurrency.DAL.Migrations
                     b.ToTable("BankDepartment", (string)null);
                 });
 
+            modelBuilder.Entity("GreatCurrency.DAL.Models.BestCurrency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BankId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("EURBuyRate")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("EURSaleRate")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("RUBBuyRate")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("RUBSaleRate")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("USDBuyRate")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("USDSaleRate")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("BestCurrency", (string)null);
+                });
+
             modelBuilder.Entity("GreatCurrency.DAL.Models.City", b =>
                 {
                     b.Property<int>("Id")
@@ -103,14 +144,14 @@ namespace GreatCurrency.DAL.Migrations
                     b.Property<double>("EURSaleRate")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("IncomingDate")
-                        .HasColumnType("Timestamp");
-
                     b.Property<double>("RUBBuyRate")
                         .HasColumnType("double precision");
 
                     b.Property<double>("RUBSaleRate")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("integer");
 
                     b.Property<double>("USDBuyRate")
                         .HasColumnType("double precision");
@@ -122,7 +163,25 @@ namespace GreatCurrency.DAL.Migrations
 
                     b.HasIndex("BankDepartmentId");
 
+                    b.HasIndex("RequestId");
+
                     b.ToTable("Currency", (string)null);
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.Request", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("IncomingDate")
+                        .HasColumnType("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Request", (string)null);
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.BankDepartment", b =>
@@ -144,6 +203,25 @@ namespace GreatCurrency.DAL.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("GreatCurrency.DAL.Models.BestCurrency", b =>
+                {
+                    b.HasOne("GreatCurrency.DAL.Models.Bank", "Bank")
+                        .WithMany("BestCurrencies")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GreatCurrency.DAL.Models.Request", "Request")
+                        .WithMany("BestCurrencies")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Bank");
+
+                    b.Navigation("Request");
+                });
+
             modelBuilder.Entity("GreatCurrency.DAL.Models.Currency", b =>
                 {
                     b.HasOne("GreatCurrency.DAL.Models.BankDepartment", "BankDepartment")
@@ -152,12 +230,22 @@ namespace GreatCurrency.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("GreatCurrency.DAL.Models.Request", "Request")
+                        .WithMany("Currencies")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("BankDepartment");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.Bank", b =>
                 {
                     b.Navigation("BankDepartments");
+
+                    b.Navigation("BestCurrencies");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.BankDepartment", b =>
@@ -168,6 +256,13 @@ namespace GreatCurrency.DAL.Migrations
             modelBuilder.Entity("GreatCurrency.DAL.Models.City", b =>
                 {
                     b.Navigation("BankDepartments");
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.Request", b =>
+                {
+                    b.Navigation("BestCurrencies");
+
+                    b.Navigation("Currencies");
                 });
 #pragma warning restore 612, 618
         }

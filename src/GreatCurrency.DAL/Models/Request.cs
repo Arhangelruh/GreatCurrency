@@ -1,21 +1,21 @@
 ﻿namespace GreatCurrency.DAL.Models
 {
-    public class Bank 
+    public class Request
     {
         /// <summary>
-        /// Id.
+        /// Currency Id.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Bank Name.
+        /// Incoming date.
         /// </summary>
-        public string BankName { get; set; }
+        public DateTime IncomingDate { get; set; }
 
         /// <summary>
-        /// Navigation to Bank Departments.
+        /// Navigation to Currency.
         /// </summary>
-        public ICollection<BankDepartment> BankDepartments { get; set; }
+        public ICollection<Currency> Currencies { get; set; }
 
         /// <summary>
         /// Navigation to Best Currency.
