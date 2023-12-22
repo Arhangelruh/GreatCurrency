@@ -108,6 +108,11 @@ object-fit: contain;
     position: relative;
 }
 
+.message_label{
+    text-align: center;  
+    line-height: 15px;  
+}
+
 /*------Table--------*/
 
 .table-wrapper{
@@ -172,4 +177,120 @@ th{
     z-index: 2;
     background-color: #000000a6;
     color: #fff;
+}
+
+/*---------Request---------*/
+
+.request_field{
+    display: flex;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.get_statistic_dropbox_field{    
+    width: 35%;
+}
+
+.get_statistic_dropbox{
+    height: 34px;
+    width: 80px;
+    margin-left: 10%;
+}
+
+.get_statistic_data{
+    width: 280px;
+}
+
+.get_statistic_field{
+    height: 30px;
+    width: 130px;
+}
+
+.get_statistic_form{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.get_statistic_button_field{
+    width: 35%;
+}
+
+.get_statistic_button{
+    height: 34px;
+    width: 80px;
+}
+
+.wrapper_statistic{
+   margin: 20px;
+   min-width: 830px;
+   display: flex;
+}
+
+.best_rates_table{
+    width: 80%;    
+}
+
+.statistic_table{
+    display: flex;
+    width: 20%;
+    justify-content: center;
+}
+
+.statistic{
+    border: groove;
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.bank_name{
+    display: flex;
+    justify-content: center;
+}
+
+.statistic_data{
+    padding: 10px;    
+}
+
+.scroll{
+    width: 20px;
+    height: 20px;    
+}
+
+.time_field{
+   padding-left: 15px;
+   padding-right: 15px;  
+}
+
+.show_times{   
+    cursor: pointer;
+    color: burlywood;
+}
+
+.statistic_times{
+    margin-top: 5px;
+}
+
+.hidden_times{
+    margin-top: 5px;
+    cursor: pointer;
+    color: burlywood;
+}
+
+.best_rates_table_footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.table-settings{
+    margin: 0px 10px;
 }

@@ -8,7 +8,7 @@ function check(){
 }
 
 async function deleteRequest(){        
-    var link = "/City/DeleteCity/"+ this.name;   
+    var link = "/City/DeleteCity?cityid="+ this.name;   
     var el = this; 
     const responce = await fetch(link,
     {
@@ -21,7 +21,6 @@ async function deleteRequest(){
       if(checkdiv == null){              
       let addblock = document.createElement('div')
       addblock.innerHTML = "Удаление города не возможно, пока есть курсы привязанные к городу.";
-      // addblock.innerHTML = "You can't delete Status. Because find request whith this status.";
       addblock.className = "tooltiptext";
       addblock.style.display="inline";          
       el.append(addblock);

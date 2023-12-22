@@ -2,6 +2,7 @@ using GreatCurrency.BLL.Interfaces;
 using GreatCurrency.BLL.Repository;
 using GreatCurrency.BLL.Services;
 using GreatCurrency.DAL.Context;
+using GreatCurrency.Web.Services;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 string connection = builder.Configuration.GetConnectionString("GreatCurrencyPostgreSQL");
+var mainBank = builder.Configuration["AppSettings:MainBank"];
 
 builder.Services.AddDbContext<GreatCurrencyContext>(options =>
  options.UseNpgsql(connection));
@@ -20,6 +22,11 @@ builder.Services.AddScoped<IBankService, BankService>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<ISaveCurrencyService, SaveCurrencyService>();
+builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<IBestCurrencyService, BestCurrencyService>();
+builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
+builder.Services.AddScoped(s => new GetParameters(mainBank));
+
 
 builder.Services.AddHangfire(configuration => configuration
         .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)

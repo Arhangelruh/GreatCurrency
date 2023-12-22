@@ -15,7 +15,7 @@
             <div class="header-wrapper">                
                   <a class="logo" asp-controller="Home" asp-action="Index">
                      <img class="logo-image" title="logo" src="~/images/Logo_Statusbank.svg" />
-                     <div class="logo-text">Great currency</div>
+                     <div class="logo-text">Best rates</div>
                   </a>                                  
                   <div class="header-nav">
                     <div class="header-dropdown">
@@ -23,6 +23,9 @@
                         <div class="dropdown-content">
                             <a class="nav-button" asp-controller="City" asp-action="Cities">
                                   <div class="nav-button">Города</div>
+                            </a>
+                            <a class="nav-button" asp-controller="Home" asp-action="DeleteData">
+                                <div class="nav-button">Удаление старых данных</div>
                             </a>
                         </div>
                     </div>                                                                        
