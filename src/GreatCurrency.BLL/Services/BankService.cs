@@ -2,6 +2,7 @@
 using GreatCurrency.BLL.Models;
 using GreatCurrency.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace GreatCurrency.BLL.Services
 {
@@ -10,14 +11,16 @@ namespace GreatCurrency.BLL.Services
     {
         private readonly IRepository<Bank> _bankRepository;
         private readonly IRepository<BankDepartment> _bankDepartmentRepository;
+        private readonly IRepository<BestCurrency> _bestCurrencyRepository;
 
-        public BankService(IRepository<Bank> bankRepository, IRepository<BankDepartment> bankDepartmentRepository)
+        public BankService(IRepository<Bank> bankRepository, IRepository<BankDepartment> bankDepartmentRepository, IRepository<BestCurrency> bestCurrencyRepository)
         {
             _bankRepository = bankRepository ?? throw new ArgumentNullException(nameof(bankRepository));
             _bankDepartmentRepository = bankDepartmentRepository ?? throw new ArgumentNullException(nameof(bankDepartmentRepository));
+            _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
         }
 
-        public async Task AddBankAsync(BankDto bankDto)
+        public async Task<int> AddBankAsync(BankDto bankDto)
         {
             if (bankDto is null)
             {
@@ -30,6 +33,8 @@ namespace GreatCurrency.BLL.Services
             };
             await _bankRepository.AddAsync(newBank);
             await _bankRepository.SaveChangesAsync();
+
+            return newBank.Id;
         }
 
         public async Task<bool> DeleteBankAsync(BankDto bankDto)
@@ -40,7 +45,8 @@ namespace GreatCurrency.BLL.Services
             }
             
             var bankDepartment = await _bankDepartmentRepository.GetEntityAsync(bankDepartment => bankDepartment.BankId == bankDto.Id);
-            if (bankDepartment is null)
+            var bestCurrency = await _bestCurrencyRepository.GetEntityAsync(currency => currency.BankId == bankDto.Id);
+            if (bankDepartment is null && bestCurrency is null)
             {
                 var bank = await _bankRepository.GetEntityAsync(bank => bank.Id == bankDto.Id);
                 _bankRepository.Delete(bank);

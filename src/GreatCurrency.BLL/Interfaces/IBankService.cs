@@ -20,7 +20,7 @@ namespace GreatCurrency.BLL.Interfaces
         /// Add bank.
         /// </summary>
         /// <param name="bankDto">Dto model</param>
-        Task AddBankAsync(BankDto bankDto);
+        Task<int> AddBankAsync(BankDto bankDto);
 
         /// <summary>
         /// Update bank.

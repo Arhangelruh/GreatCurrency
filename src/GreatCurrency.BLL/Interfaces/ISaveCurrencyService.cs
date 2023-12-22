@@ -16,14 +16,14 @@ namespace GreatCurrency.BLL.Interfaces
         /// </summary>
         /// <param name="bankName">bank name</param>
         /// <returns>bank dto</returns>
-        Task<BankDto> BankCheckOrSaveAsync(string bankName);
+        Task<int> BankCheckOrSaveAsync(string bankName);
 
         /// <summary>
         /// Chek department in database and save if nonfound
         /// </summary>
         /// <param name="departmentName">department name</param>
         /// <returns>depatment dto</returns>
-        Task<BankDepartmentDto> DepartmentChekOrSaveAsync(string departmentName, BankDto bank, int cityId);
+        Task<int> DepartmentChekOrSaveAsync(string departmentName, int bankId, int cityId);
 
     }
 }

@@ -54,29 +54,36 @@ namespace GreatCurrency.BLL.Services
                                                     {
                                                         HtmlNode filialNameNode = cells[0].SelectSingleNode(".//a");
                                                         string filialName = filialNameNode.InnerText;
-                                                        try
-                                                        {
-                                                            double buyUSD = double.Parse(cells[1].InnerText.Trim());
-                                                            double sellUSD = double.Parse(cells[2].InnerText.Trim());
-                                                            double buyEUR = double.Parse(cells[3].InnerText.Trim());
-                                                            double sellEUR = double.Parse(cells[4].InnerText.Trim());
-                                                            double buyRUB = double.Parse(cells[5].InnerText.Trim());
-                                                            double sellRUB = double.Parse(cells[6].InnerText.Trim());
+                                                        HtmlNode filialtimeNode = cells[0].SelectSingleNode(".//i");
+                                                        
+                                                        var warn = filialtimeNode.Attributes.FirstOrDefault(a => a.Value == "ic-warning mr-5");
 
-                                                            currencies.Add(new BankCurrency
+                                                        if (warn == null)
+                                                        {
+                                                            try
                                                             {
-                                                                BankName = bankName,
-                                                                FilialName = filialName,
-                                                                USDBuyRate = buyUSD,
-                                                                USDSaleRate = sellUSD,
-                                                                EURBuyRate = buyEUR,
-                                                                EURSaleRate = sellEUR,
-                                                                RUBBuyRate = buyRUB,
-                                                                RUBSaleRate = sellRUB
-                                                            });
+                                                                double buyUSD = double.Parse(cells[1].InnerText.Trim());
+                                                                double sellUSD = double.Parse(cells[2].InnerText.Trim());
+                                                                double buyEUR = double.Parse(cells[3].InnerText.Trim());
+                                                                double sellEUR = double.Parse(cells[4].InnerText.Trim());
+                                                                double buyRUB = double.Parse(cells[5].InnerText.Trim());
+                                                                double sellRUB = double.Parse(cells[6].InnerText.Trim());
+
+                                                                currencies.Add(new BankCurrency
+                                                                {
+                                                                    BankName = bankName,
+                                                                    FilialName = filialName,
+                                                                    USDBuyRate = buyUSD,
+                                                                    USDSaleRate = sellUSD,
+                                                                    EURBuyRate = buyEUR,
+                                                                    EURSaleRate = sellEUR,
+                                                                    RUBBuyRate = buyRUB,
+                                                                    RUBSaleRate = sellRUB
+                                                                });
+                                                            }
+                                                            catch
+                                                            { }
                                                         }
-                                                        catch
-                                                        {}
                                                     }
                                                 }
                                             }

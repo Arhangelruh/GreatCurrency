@@ -9,10 +9,12 @@ namespace GreatCurrency.BLL.Services
     public class CurrencyService : ICurrencyService
     {
         private readonly IRepository<Currency> _currencyRepository;
+        private readonly IRequestService _requestService;
 
-        public CurrencyService(IRepository<Currency> currencyRepository)
+        public CurrencyService(IRepository<Currency> currencyRepository, IRequestService requestService)
         {
             _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
+            _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
         }
 
         public async Task AddCurrencyAsync(CurrencyDto currencyDto)
@@ -22,18 +24,16 @@ namespace GreatCurrency.BLL.Services
                 throw new ArgumentNullException(nameof(currencyDto));
             }
 
-            var dateRequest = DateTime.Now;
-
             var newCurrency = new Currency
             {
                 BankDepartmentId = currencyDto.BankDepartmentId,
-                IncomingDate = dateRequest,
                 USDBuyRate = currencyDto.USDBuyRate,
                 USDSaleRate = currencyDto.USDSaleRate,
                 EURBuyRate = currencyDto.EURBuyRate,
                 EURSaleRate = currencyDto.EURSaleRate,
                 RUBBuyRate = currencyDto.RUBBuyRate,
                 RUBSaleRate = currencyDto.RUBSaleRate,
+                RequestId = currencyDto.RequestId
             };
 
             await _currencyRepository.AddAsync(newCurrency);
@@ -42,50 +42,65 @@ namespace GreatCurrency.BLL.Services
 
         public async Task DeleteCurrenciesAsync(DateTime date)
         {
-            var getCurrencies = await _currencyRepository
-               .GetAll()
-               .AsNoTracking()
-               .Where(currency => currency.IncomingDate <= date)
-               .ToListAsync();
+            var getRequests = await _requestService.GetRequestByDateAsync(date);
 
-            if (getCurrencies.Any())
-            {
-                foreach (var currency in getCurrencies)
+            if (getRequests.Any())
+            {                
+                foreach (var request in getRequests)
                 {
-                    _currencyRepository.Delete(currency);
-                    await _currencyRepository.SaveChangesAsync();
+                    var getCurrencies = await _currencyRepository
+                   .GetAll()
+                   .Where(currency => currency.RequestId == request.Id)
+                   .AsNoTracking()
+                   .ToListAsync();
+
+                    if (getCurrencies.Any())
+                    {
+                        foreach (var currency in getCurrencies)
+                        {
+                            _currencyRepository.Delete(currency);
+                            await _currencyRepository.SaveChangesAsync();                           
+                        }
+                    }
+                    await _requestService.DeleteRequestAsync(request.Id);
                 }
             }
         }
 
         public async Task<List<CurrencyDto>> GetCurrenciesByTimeAsync(DateTime begin, DateTime end)
-        {
+        {            
+            var getRequests = await _requestService.GetRequestByDateBetweenAsync(begin,end);
             List<CurrencyDto> currencies = [];
 
-            var getCurrencies = await _currencyRepository
-                .GetAll()
-                .AsNoTracking()
-                .Where(currency => currency.IncomingDate >= begin && currency.IncomingDate <= end)
-                .ToListAsync();
+            if (getRequests.Any()) {                
 
-            if (!getCurrencies.Any())
-            {
-                return null;
-            }
-            foreach (var currency in getCurrencies)
-            {
-                currencies.Add(new CurrencyDto
+                foreach (var request in getRequests)
                 {
-                    Id = currency.Id,
-                    IncomingDate = currency.IncomingDate,
-                    BankDepartmentId = currency.BankDepartmentId,
-                    USDBuyRate = currency.USDBuyRate,
-                    USDSaleRate = currency.USDSaleRate,
-                    EURBuyRate = currency.EURBuyRate,
-                    EURSaleRate = currency.EURSaleRate,
-                    RUBBuyRate = currency.RUBBuyRate,
-                    RUBSaleRate = currency.RUBSaleRate
-                });
+                    var getCurrencies = await _currencyRepository
+                       .GetAll()
+                       .Where(currency => currency.RequestId == request.Id)
+                       .AsNoTracking()
+                       .ToListAsync();
+
+                    if (getCurrencies.Any()) {
+                        
+                        foreach (var currency in getCurrencies)
+                        {
+                            currencies.Add(new CurrencyDto
+                            {
+                                Id = currency.Id,
+                                BankDepartmentId = currency.BankDepartmentId,
+                                USDBuyRate = currency.USDBuyRate,
+                                USDSaleRate = currency.USDSaleRate,
+                                EURBuyRate = currency.EURBuyRate,
+                                EURSaleRate = currency.EURSaleRate,
+                                RUBBuyRate = currency.RUBBuyRate,
+                                RUBSaleRate = currency.RUBSaleRate,
+                                RequestId = currency.RequestId
+                            });
+                        }
+                    }
+                }                
             }
             return currencies;
         }

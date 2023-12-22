@@ -21,7 +21,7 @@ namespace GreatCurrency.BLL.Services
             _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
         }
 
-        public async Task AddBankDepartmentAsync(BankDepartmentDto bankDepartmentDto)
+        public async Task<int> AddBankDepartmentAsync(BankDepartmentDto bankDepartmentDto)
         {
             if (bankDepartmentDto is null)
             {
@@ -36,6 +36,8 @@ namespace GreatCurrency.BLL.Services
             };
             await _bankDepartmentRepository.AddAsync(newBankDepartment);
             await _bankDepartmentRepository.SaveChangesAsync();
+            
+            return newBankDepartment.Id;
         }
 
         public async Task<bool> DeleteBankDepartmentAsync(BankDepartmentDto bankDepartmentDto)
@@ -50,7 +52,7 @@ namespace GreatCurrency.BLL.Services
             {
                 var bankDepartment = await _bankDepartmentRepository.GetEntityAsync(bankdepartment => bankdepartment.Id == bankDepartmentDto.Id);
                 _bankDepartmentRepository.Delete(bankDepartment);
-                await _bankDepartmentRepository.SaveChangesAsync();
+                await _bankDepartmentRepository.SaveChangesAsync(); 
                 return true;
             }
             return false;

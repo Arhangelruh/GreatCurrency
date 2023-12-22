@@ -1,9 +1,9 @@
 ﻿namespace GreatCurrency.BLL.Models
 {
-    public class CurrencyDto
+    public class BestCurrencyDto
     {
         /// <summary>
-        /// Currency Id.
+        /// Best Currency Id.
         /// </summary>
         public int Id { get; set; }
 
@@ -38,13 +38,23 @@
         public double RUBSaleRate { get; set; }
 
         /// <summary>
-        /// Navigate to bank department.
+        /// Navigate to bank.
         /// </summary>
-        public int BankDepartmentId { get; set; }
+        public int BankId { get; set; }
 
         /// <summary>
-        /// Navigate to request.
+        /// Request Id.
         /// </summary>
         public int RequestId { get; set; }
+
+        /// <summary>
+        /// Request datetime.
+        /// </summary>
+        public DateTime RequestTime { get; set; }
+
+        /// <summary>
+        /// Navigate to bank.
+        /// </summary>
+        public int CityId { get; set; }
     }
 }

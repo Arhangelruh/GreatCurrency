@@ -28,7 +28,7 @@ namespace GreatCurrency.BLL.Interfaces
         /// Add bank department.
         /// </summary>
         /// <param name="bankDepartmentDto">Dto model</param>
-        Task AddBankDepartmentAsync(BankDepartmentDto bankDepartmentDto);
+        Task<int> AddBankDepartmentAsync(BankDepartmentDto bankDepartmentDto);
 
         /// <summary>
         /// Get bank department by id.
