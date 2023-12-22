@@ -56,5 +56,16 @@
         /// Navigate to request.
         /// </summary>
         public Request Request { get; set; }
+
+        /// <summary>
+        /// Navigate to city.
+        /// </summary>
+        public int CityId { get; set; }
+
+        /// <summary>
+        /// Navigate to city.
+        /// </summary>
+        public City City { get; set; }
+
     }
 }

@@ -21,5 +21,10 @@
         /// Navigation to Bank Departments.
         /// </summary>
         public ICollection<BankDepartment> BankDepartments { get; set; }
+
+        /// <summary>
+        /// Navigation to Best Currency.
+        /// </summary>
+        public ICollection<BestCurrency> BestCurrencies { get; set; }
     }
 }

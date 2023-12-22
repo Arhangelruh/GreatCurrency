@@ -41,6 +41,11 @@ namespace GreatCurrency.DAL.Configurations
                 .WithMany(bestcurrency => bestcurrency.BestCurrencies)
                 .HasForeignKey(bank => bank.BankId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(city => city.City)
+                .WithMany(bestcurrency => bestcurrency.BestCurrencies)
+                .HasForeignKey(city => city.CityId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
