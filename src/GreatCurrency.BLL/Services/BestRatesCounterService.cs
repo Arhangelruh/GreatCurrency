@@ -53,6 +53,26 @@ namespace GreatCurrency.BLL.Services
                     bestRUBSellRates.Add(sortBestRates(bestRequestCurrencyRUBSell, bankId));
                 }
 
+                if (requests.Count == 1)
+                {
+                    return new RateStatisticDto
+                    {
+                        BankId = bankId,
+                        USDBuyStatistic = bestUSDBuyRates[0].BankId==bankId ? 100 : 0,
+                        bestUsdBuyRates = [],
+                        USDSellStatistic = bestUSDSellRates[0].BankId == bankId ? 100 : 0,
+                        bestUsdSellRates = [],
+                        EURBuyStatistic = bestEURBuyRates[0].BankId == bankId ? 100 : 0,
+                        bestEURBuyRates = [],
+                        EURSellStatistic = bestEURSellRates[0].BankId == bankId ? 100 : 0,
+                        bestEURSellRates = [],
+                        RUBBuyStatistic = bestRUBBuyRates[0].BankId == bankId ? 100 : 0,
+                        bestRubBuyRates = [],
+                        RUBSellStatistic = bestRUBSellRates[0].BankId == bankId ? 100 : 0,
+                        bestRubSellRates = []
+                    };
+                }
+
                 var USDBuyRates = GetTimeRates(bestUSDBuyRates, bankId);
                 var USDSellRates = GetTimeRates(bestUSDSellRates, bankId);
                 var EURBuyRates = GetTimeRates(bestEURBuyRates, bankId);
