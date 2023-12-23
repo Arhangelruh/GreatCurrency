@@ -76,7 +76,12 @@ namespace GreatCurrency.Web.Controllers
             if (bankId is null)
             {
                 var bank = await _bankService.GetBankByNameAsync(_getParameters.MainBank);
-                bankId = bank.Id;
+                if (bank is null) {
+                    ViewBag.ErrorMessage = "В базе не найден банк указанный в конфигурации.";
+                    ViewBag.ErrorTitle = "Ошибка";
+                    return View("~/Views/Error/Error.cshtml");
+                }
+                    bankId = bank.Id;                
             }
 
             var bestRates = await _bestCurrencyService.GetCurrenciesByTimeAsync(firstDate, secondDate,cityId);

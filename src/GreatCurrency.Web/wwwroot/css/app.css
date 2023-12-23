@@ -111,6 +111,7 @@ object-fit: contain;
 .message_label{
     text-align: center;  
     line-height: 15px;  
+    width: 100%;
 }
 
 /*------Table--------*/
