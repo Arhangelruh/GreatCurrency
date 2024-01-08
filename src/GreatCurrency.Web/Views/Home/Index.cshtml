@@ -8,12 +8,13 @@
 <div class="wrapper">
     <div class="request_field">
         <form class="get_statistic_form" method="get" asp-controller="Home" asp-action="Index">
+			<div class="get_statistic_dropbox_field">
             @if (ViewBag.CityList != null)
-            {
-                <div class="get_statistic_dropbox_field">
-                    @Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })
+            {               
+                @Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })               
+            }            
+                @Html.DropDownList("bankId", new SelectList(ViewBag.BankList, "Id", "BankName"), new { @class = "get_statistic_longdropbox" })
             </div>
-            }
             <div class="get_statistic_data">
                 <input class="get_statistic_field" type="date" name="startDate" />
                 <input class="get_statistic_field" type="date" name="endDate"/>             
@@ -66,7 +67,7 @@
                                 
                 @if (Model.bestRates.HasPreviousPage)
                 {
-                    <a onclick="location.href =
+                    <a class="change_page" onclick="location.href =
                          '@Url.Action(
                          "Index",
                          "Home",
@@ -74,7 +75,8 @@
                             pageSize = ViewData["PageSize"],
                             startDate = ViewData["StartData"],
                             endDate = ViewData["EndData"],
-                            cityId = ViewData["CurrentCity"]
+                            cityId = ViewData["CurrentCity"],
+                            bankId = ViewData["CurrentBank"]
                            })'">
                             <img title="Previous" src="/images/Left.svg" />
                     </a>
@@ -84,6 +86,7 @@
                         <input type="date" asp-for=requestModel.startDate name=startDate style="display:none" />
                         <input type="date" asp-for=requestModel.endDate name=endDate style="display:none" />                        
                         <input type="hidden" asp-for=requestModel.cityId name="cityId" />
+                        <input type="hidden" asp-for=requestModel.bankId name="bankId" />
                         <select onchange="this.form.submit()" name="pagesize">
                             <option value="" selected></option>
                             <option value="30">30</option>
@@ -94,7 +97,7 @@
 
                  @if (Model.bestRates.HasNextPage)
                  {
-                    <a onclick="location.href =
+                        <a class="change_page" onclick="location.href =
                        '@Url.Action(
                        "Index",
                        "Home",
@@ -102,7 +105,8 @@
                             pageSize = ViewData["PageSize"],
                             startDate = ViewData["StartData"],
                             endDate = ViewData["EndData"],
-                            cityId = ViewData["CurrentCity"]
+                            cityId = ViewData["CurrentCity"],
+                            bankId = ViewData["CurrentBank"]
                            })'">
                             <img title="Next" src="/images/Right.svg" />
                     </a>

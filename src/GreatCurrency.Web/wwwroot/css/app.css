@@ -14,7 +14,7 @@
 .container {
     width: 100%;
     margin: 0 auto;
-    min-width: 830px;    
+    min-width: 870px;    
 }
 
 .logo{
@@ -150,6 +150,10 @@ th{
     text-align: center;
 }
 
+.change_page{
+    cursor: pointer;
+}
+
 /*---------Button-------*/
 
 .button_classic{
@@ -200,6 +204,12 @@ th{
     height: 34px;
     width: 80px;
     margin-left: 10%;
+}
+
+.get_statistic_longdropbox{
+    height: 34px;
+    width: 160px;
+    margin-left: 5%;
 }
 
 .get_statistic_data{
