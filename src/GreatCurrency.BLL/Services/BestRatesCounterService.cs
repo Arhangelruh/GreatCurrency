@@ -146,6 +146,7 @@ namespace GreatCurrency.BLL.Services
                                         endTime = ratesByBank[i].RequestTime
                                     });
                                     counter = 0;
+                                    requestIDStartTime = 0;
                                 }
                             }
                         }
