@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="NCrontab" Version="3.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Telegram.Bot" Version="19.0.0" />
   </ItemGroup>
 
 </Project>

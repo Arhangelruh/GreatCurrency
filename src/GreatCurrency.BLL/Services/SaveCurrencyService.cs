@@ -12,6 +12,7 @@ namespace GreatCurrency.BLL.Services
         private readonly ICurrencyService _currencyService;
         private readonly IBestCurrencyService _bestCurrencyService;
         private readonly IRequestService _requestService;
+        private readonly ICheckCurrency _checkCurrency;
 
         public SaveCurrencyService(
             ICityService cityService,
@@ -19,7 +20,8 @@ namespace GreatCurrency.BLL.Services
             IBankDepartmentService bankDepartmentService,
             ICurrencyService currencyService,
             IBestCurrencyService bestCurrencyService,
-            IRequestService requestService
+            IRequestService requestService,
+            ICheckCurrency checkCurrency
             )
         {
             _cityService = cityService ?? throw new ArgumentNullException(nameof(cityService));
@@ -28,9 +30,10 @@ namespace GreatCurrency.BLL.Services
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
             _bestCurrencyService = bestCurrencyService ?? throw new ArgumentNullException(nameof(bestCurrencyService));
             _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
+            _checkCurrency = checkCurrency ?? throw new ArgumentNullException(nameof(checkCurrency));
         }
 
-        public async Task GetAndSaveAsync()
+        public async Task GetAndSaveAsync(int mainBankId)
         {
 
             GetCurrencyService getCurrencyService = new GetCurrencyService();
@@ -86,6 +89,7 @@ namespace GreatCurrency.BLL.Services
                         }
 
                         await SaveBestCurrencyAsync(tableForCount);
+                        await _checkCurrency.CheckCurrencyAsync(mainBankId);
                     }
                 }
             }

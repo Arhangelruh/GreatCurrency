@@ -107,6 +107,58 @@ namespace GreatCurrency.BLL.Services
             }
             return currencies;
         }
+
+        public async Task<List<int>> GetLastTwoRequestsByCityAsync(int cityId)
+        {
+            List<int> requests = [];
+
+            var getRequests = await _bestCurrencyRepository
+                .GetAll()
+                .Where(p => p.CityId == cityId)
+                .Select(c => new { c.RequestId })
+                .Distinct()
+                .OrderByDescending(c => c.RequestId)
+                .Take(2)
+                .AsNoTracking()
+                .ToListAsync();
+
+
+            foreach (var request in getRequests)
+            {
+                requests.Add(request.RequestId);
+            }
+
+            return requests;
+        }
+
+        public async Task<List<BestCurrencyDto>> GetCurrenciesByRequestAsync(int requestId) {
+            List<BestCurrencyDto> currencies = [];
+
+            var getCurrencies = await _bestCurrencyRepository
+                .GetAll()
+                .Where(currency => currency.RequestId == requestId)                
+                .AsNoTracking()
+                .ToListAsync();
+
+            foreach (var currency in getCurrencies)
+            {
+                currencies.Add(new BestCurrencyDto
+                {
+                    Id = currency.Id,
+                    BankId = currency.BankId,
+                    USDBuyRate = currency.USDBuyRate,
+                    USDSaleRate = currency.USDSaleRate,
+                    EURBuyRate = currency.EURBuyRate,
+                    EURSaleRate = currency.EURSaleRate,
+                    RUBBuyRate = currency.RUBBuyRate,
+                    RUBSaleRate = currency.RUBSaleRate,
+                    RequestId = currency.RequestId,
+                    CityId = currency.CityId
+                });
+            }
+
+            return currencies;
+        }
     }
 }
 
