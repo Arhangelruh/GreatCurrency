@@ -2,6 +2,9 @@
 
 namespace GreatCurrency.BLL.Interfaces
 {
+    /// <summary>
+    /// Class for working with best currencies data.
+    /// </summary>
     public interface IBestCurrencyService
     {
         /// <summary>
@@ -21,5 +24,19 @@ namespace GreatCurrency.BLL.Interfaces
         /// </summary>
         /// <param name="currencyDto">Dto model</param>
         Task AddCurrencyAsync(BestCurrencyDto currencyDto);
+
+        /// <summary>
+        /// Get last unic two requests by city.
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        Task<List<int>> GetLastTwoRequestsByCityAsync(int cityId);
+
+        /// <summary>
+        /// Get currencies by request id
+        /// </summary>
+        /// <param name="requestId"></param>
+        /// <returns>List of currencies</returns>
+        Task<List<BestCurrencyDto>> GetCurrenciesByRequestAsync(int requestId);
     }
 }

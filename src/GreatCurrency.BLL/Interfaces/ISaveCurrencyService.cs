@@ -2,14 +2,16 @@
 
 namespace GreatCurrency.BLL.Interfaces
 {
-
+    /// <summary>
+    /// Parse currencies from myfin and save to base.
+    /// </summary>
     public interface ISaveCurrencyService
     {
         /// <summary>
         /// Get currencies from site and save to database.
         /// </summary>
         /// <returns></returns>
-        Task GetAndSaveAsync();
+        Task GetAndSaveAsync(int mainBankId);
 
         /// <summary>
         /// Chek bank in database and save if nonfound.

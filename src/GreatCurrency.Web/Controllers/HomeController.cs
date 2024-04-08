@@ -72,8 +72,6 @@ namespace GreatCurrency.Web.Controllers
                 return View("~/Views/Error/Error.cshtml");
             }
 
-           // List<BankDto> bankList = [];
-
             var banks = await _bankService.GetAllBanksAsync();
             
             ViewBag.BankList = banks;
