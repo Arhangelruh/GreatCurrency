@@ -84,14 +84,12 @@ namespace GreatCurrency.BLL.Services
                                 CityId = city.Id,
                                 RequestId = requestId
                             });
-
                             await _currencyService.AddCurrencyAsync(newCurrency);
                         }
-
-                        await SaveBestCurrencyAsync(tableForCount);
-                        await _checkCurrency.CheckCurrencyAsync(mainBankId);
+                        await SaveBestCurrencyAsync(tableForCount);                        
                     }
                 }
+                await _checkCurrency.CheckCurrencyAsync(mainBankId);
             }
         }
 
