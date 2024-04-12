@@ -431,7 +431,8 @@ namespace GreatCurrency.BLL.Services
 
             StringBuilder stringBuilder = new();
 
-            stringBuilder.Append("Есть более выгодные курсы \n");
+            string firstPart = "Есть более выгодные курсы ";
+
             var bestUsdBuy = betterRates.Where(rate => rate.Currency == RatesConstant.USD && rate.Meaning == DealMeaningConstant.Buy).ToList();
             var bestUsdSell = betterRates.Where(rate => rate.Currency == RatesConstant.USD && rate.Meaning == DealMeaningConstant.Sell).ToList();
             var bestEurBuy = betterRates.Where(rate => rate.Currency == RatesConstant.EUR && rate.Meaning == DealMeaningConstant.Buy).ToList();
@@ -441,7 +442,7 @@ namespace GreatCurrency.BLL.Services
 
             if (bestUsdBuy.Count != 0 || bestEurBuy.Count != 0 || bestRubBuy.Count != 0)
             {
-                stringBuilder.Append("Покупки: \n");
+                stringBuilder.Append(firstPart+"покупки: \n");
                 if (bestUsdBuy.Count != 0)
                 {
                     stringBuilder.Append($"{RatesPicturesConstant.USD} {RatesConstant.USD}\n");
@@ -473,7 +474,7 @@ namespace GreatCurrency.BLL.Services
 
             if (bestUsdSell.Count != 0 || bestEurSell.Count != 0 || bestRubSell.Count != 0)
             {
-                stringBuilder.Append("Продажи: \n");
+                stringBuilder.Append(firstPart+"продажи: \n");
                 if (bestUsdSell.Count != 0)
                 {
                     stringBuilder.Append($"{RatesPicturesConstant.USD} {RatesConstant.USD}\n");
