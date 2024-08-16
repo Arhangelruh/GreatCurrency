@@ -86,7 +86,9 @@ namespace GreatCurrency.BLL.Services
                         if (betterRates != null)
                         {
                             var betterRatesMessage = await CreateBetterRatesMessageAsync(betterRates);
-                            messages.Add(betterRatesMessage);
+                            if (betterRatesMessage != "") {
+								messages.Add(betterRatesMessage);
+                            }                         
                         }
                         return messages;
                     }
