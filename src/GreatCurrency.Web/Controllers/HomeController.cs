@@ -88,14 +88,15 @@ namespace GreatCurrency.Web.Controllers
             ViewData["CurrentCity"] = cityId;
             ViewData["CurrentBank"] = bankId;
 
-            var bestRates = await _bestCurrencyService.GetCurrenciesByTimeAsync(firstDate, secondDate,cityId);
-
-            if (!bestRates.Any())
+            var bestRates = await _bestCurrencyService.GetBestCurrenciesAsync(firstDate, secondDate,cityId, page ?? 1, pageSize);
+            if (bestRates.Count == 0)
             {
                 return View();
             }
 
-            var requestViewModel = new RequestViewModel { startDate = firstDate, endDate = secondDate, cityId=cityId, bankId = bankId };
+            var getCount = await _bestCurrencyService.BestCurrencyCountsAsync();
+
+			var requestViewModel = new RequestViewModel { startDate = firstDate, endDate = secondDate, cityId=cityId, bankId = bankId };
             var modelsBestRates = new List<BestRatesViewModel>();
 
             foreach (var rate in bestRates)
@@ -119,8 +120,9 @@ namespace GreatCurrency.Web.Controllers
             }
 
             var getStatistic = await _bestRatesCounterService.BestCurrencyCounterAsync(firstDate, secondDate, (int)bankId, cityId);
+			var paginatedList = new PaginatedList<BestRatesViewModel>(modelsBestRates, getCount, page ?? 1, pageSize);
 
-            if (getStatistic != null)
+			if (getStatistic != null)
             {
                 var bankForStatistic = await _bankService.GetBankByIdAsync(getStatistic.BankId);
                 var statistic = new StatisticViewModel
@@ -139,10 +141,10 @@ namespace GreatCurrency.Web.Controllers
                     RUBSellStatistic = getStatistic.RUBSellStatistic,
                     bestRubSellRates = getStatistic.bestRubSellRates
                 };
-
-                return View((PaginatedList<BestRatesViewModel>.Create(modelsBestRates, page ?? 1, pageSize), statistic, requestViewModel));
-            }
-            return View((PaginatedList<BestRatesViewModel>.Create(modelsBestRates, page ?? 1, pageSize), requestViewModel));
+                
+                return View((paginatedList, statistic, requestViewModel));
+            }			
+			return View((paginatedList, requestViewModel));
         }
 
         /// <summary>
