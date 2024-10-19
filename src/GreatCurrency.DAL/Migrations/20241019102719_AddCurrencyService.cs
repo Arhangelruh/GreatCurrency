@@ -30,12 +30,12 @@ namespace GreatCurrency.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    USDBuyRate = table.Column<double>(type: "double precision", nullable: false),
-                    USDSaleRate = table.Column<double>(type: "double precision", nullable: false),
-                    EURBuyRate = table.Column<double>(type: "double precision", nullable: false),
-                    EURSaleRate = table.Column<double>(type: "double precision", nullable: false),
-                    RUBBuyRate = table.Column<double>(type: "double precision", nullable: false),
-                    RUBSaleRate = table.Column<double>(type: "double precision", nullable: false),
+                    USDBuyRate = table.Column<double>(type: "double precision", nullable: true),
+                    USDSaleRate = table.Column<double>(type: "double precision", nullable: true),
+                    EURBuyRate = table.Column<double>(type: "double precision", nullable: true),
+                    EURSaleRate = table.Column<double>(type: "double precision", nullable: true),
+                    RUBBuyRate = table.Column<double>(type: "double precision", nullable: true),
+                    RUBSaleRate = table.Column<double>(type: "double precision", nullable: true),
                     CurrencyServicesId = table.Column<int>(type: "integer", nullable: false),
                     RequestId = table.Column<int>(type: "integer", nullable: false)
                 },

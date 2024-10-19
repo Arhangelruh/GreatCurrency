@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GreatCurrency.DAL.Migrations
 {
     [DbContext(typeof(GreatCurrencyContext))]
-    [Migration("20241019084504_AddCurrencyService")]
+    [Migration("20241019102719_AddCurrencyService")]
     partial class AddCurrencyService
     {
         /// <inheritdoc />
