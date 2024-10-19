@@ -21,5 +21,10 @@
         /// Navigation to Best Currency.
         /// </summary>
         public ICollection<BestCurrency> BestCurrencies { get; set; }
-    }
+
+		/// <summary>
+		/// Navigation to services currency.
+		/// </summary>
+		public ICollection<CSCurrencies> CSCurrencies { get; set; }
+	}
 }
