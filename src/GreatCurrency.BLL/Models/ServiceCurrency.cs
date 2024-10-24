@@ -3,9 +3,9 @@
 	public class ServiceCurrency
 	{
 		/// <summary>
-		/// Srvice Name.
+		/// Service Name.
 		/// </summary>
-		public string BankName { get; set; }		
+		public string ServiceName { get; set; }		
 
 		/// <summary>
 		/// Usd buy currency.
