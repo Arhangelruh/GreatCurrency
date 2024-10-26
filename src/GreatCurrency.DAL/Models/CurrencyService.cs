@@ -1,6 +1,6 @@
 ﻿namespace GreatCurrency.DAL.Models
 {
-	public class CurrencyServices
+	public class CurrencyService
 	{
 		/// <summary>
 		/// Id.
@@ -15,6 +15,6 @@
 		/// <summary>
 		/// Navigation to service currencies.
 		/// </summary>
-		public ICollection<CSCurrencies> CSCurrencies { get; set; }
+		public ICollection<CSCurrency> CSCurrencies { get; set; }
 	}
 }

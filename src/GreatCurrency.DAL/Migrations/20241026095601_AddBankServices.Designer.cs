@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GreatCurrency.DAL.Migrations
 {
     [DbContext(typeof(GreatCurrencyContext))]
-    [Migration("20241019102719_AddCurrencyService")]
-    partial class AddCurrencyService
+    [Migration("20241026095601_AddBankServices")]
+    partial class AddBankServices
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,7 +115,7 @@ namespace GreatCurrency.DAL.Migrations
                     b.ToTable("BestCurrency", (string)null);
                 });
 
-            modelBuilder.Entity("GreatCurrency.DAL.Models.CSCurrencies", b =>
+            modelBuilder.Entity("GreatCurrency.DAL.Models.CSCurrency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace GreatCurrency.DAL.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("CSCurrencies");
+                    b.ToTable("CSCurrencies", (string)null);
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.City", b =>
@@ -217,7 +217,7 @@ namespace GreatCurrency.DAL.Migrations
                     b.ToTable("Currency", (string)null);
                 });
 
-            modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyServices", b =>
+            modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyService", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace GreatCurrency.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CurrencyServices");
+                    b.ToTable("CurrencyServices", (string)null);
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.Request", b =>
@@ -248,6 +248,22 @@ namespace GreatCurrency.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Request", (string)null);
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.SCRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("IncomingDate")
+                        .HasColumnType("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SCRequests", (string)null);
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.BankDepartment", b =>
@@ -296,23 +312,23 @@ namespace GreatCurrency.DAL.Migrations
                     b.Navigation("Request");
                 });
 
-            modelBuilder.Entity("GreatCurrency.DAL.Models.CSCurrencies", b =>
+            modelBuilder.Entity("GreatCurrency.DAL.Models.CSCurrency", b =>
                 {
-                    b.HasOne("GreatCurrency.DAL.Models.CurrencyServices", "CurrencyServices")
+                    b.HasOne("GreatCurrency.DAL.Models.CurrencyService", "CurrencyService")
                         .WithMany("CSCurrencies")
                         .HasForeignKey("CurrencyServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GreatCurrency.DAL.Models.Request", "Request")
+                    b.HasOne("GreatCurrency.DAL.Models.SCRequest", "SCRequest")
                         .WithMany("CSCurrencies")
                         .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("CurrencyServices");
+                    b.Navigation("CurrencyService");
 
-                    b.Navigation("Request");
+                    b.Navigation("SCRequest");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.Currency", b =>
@@ -353,7 +369,7 @@ namespace GreatCurrency.DAL.Migrations
                     b.Navigation("BestCurrencies");
                 });
 
-            modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyServices", b =>
+            modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyService", b =>
                 {
                     b.Navigation("CSCurrencies");
                 });
@@ -362,9 +378,12 @@ namespace GreatCurrency.DAL.Migrations
                 {
                     b.Navigation("BestCurrencies");
 
-                    b.Navigation("CSCurrencies");
-
                     b.Navigation("Currencies");
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.SCRequest", b =>
+                {
+                    b.Navigation("CSCurrencies");
                 });
 #pragma warning restore 612, 618
         }

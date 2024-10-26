@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GreatCurrency.DAL.Configurations
 {
-	public class CurrencyServicesConfiguration : IEntityTypeConfiguration<CurrencyServices>
+	public class CurrencyServiceConfiguration : IEntityTypeConfiguration<CurrencyService>
 	{
-		public void Configure(EntityTypeBuilder<CurrencyServices> builder)
+		public void Configure(EntityTypeBuilder<CurrencyService> builder)
 		{
 			builder = builder ?? throw new ArgumentNullException(nameof(builder));
 

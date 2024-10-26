@@ -45,5 +45,10 @@
 		/// Currency from currency services.
 		/// </summary>
 		public const string CSCurrencies = nameof(CSCurrencies);
+
+		/// <summary>
+		/// Requests for currency service.
+		/// </summary>
+		public const string SCRequests = nameof(SCRequests);
 	}
 }

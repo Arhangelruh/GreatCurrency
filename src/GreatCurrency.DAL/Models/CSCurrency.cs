@@ -1,6 +1,6 @@
 ﻿namespace GreatCurrency.DAL.Models
 {
-	public class CSCurrencies
+	public class CSCurrency
 	{
 		/// <summary>
 		/// Currency Id.
@@ -45,16 +45,16 @@
 		/// <summary>
 		/// Navigate to currency service.
 		/// </summary>
-		public CurrencyServices CurrencyServices { get; set; }
+		public CurrencyService CurrencyService { get; set; }
 
 		/// <summary>
-		/// Navigate to request.
+		/// Navigate to SC request.
 		/// </summary>
 		public int RequestId { get; set; }
 
 		/// <summary>
-		/// Navigate to request.
+		/// Navigate to SC request.
 		/// </summary>
-		public Request Request { get; set; }
+		public SCRequest SCRequest { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GreatCurrency.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCurrencyService : Migration
+    public partial class AddBankServices : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +23,19 @@ namespace GreatCurrency.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CurrencyServices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SCRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IncomingDate = table.Column<DateTime>(type: "Timestamp", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SCRequests", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,13 +61,13 @@ namespace GreatCurrency.DAL.Migrations
                         column: x => x.CurrencyServicesId,
                         principalTable: "CurrencyServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CSCurrencies_Request_RequestId",
+                        name: "FK_CSCurrencies_SCRequests_RequestId",
                         column: x => x.RequestId,
-                        principalTable: "Request",
+                        principalTable: "SCRequests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -75,6 +89,9 @@ namespace GreatCurrency.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "CurrencyServices");
+
+            migrationBuilder.DropTable(
+                name: "SCRequests");
         }
     }
 }
