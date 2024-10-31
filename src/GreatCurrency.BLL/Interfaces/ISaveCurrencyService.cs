@@ -27,5 +27,11 @@ namespace GreatCurrency.BLL.Interfaces
         /// <returns>depatment dto</returns>
         Task<int> DepartmentChekOrSaveAsync(string departmentName, int bankId, int cityId);
 
-    }
+        /// <summary>
+        /// Chek service in database and save if it's new.
+        /// </summary>
+        /// <param name="serviceName"></param>
+        /// <returns></returns>
+        Task<int> ServiceCheckOrSaveAsync(string serviceName);
+	}
 }
