@@ -33,6 +33,7 @@ builder.Services.AddScoped<ICheckCurrency, CheckCurrency>();
 builder.Services.AddScoped<ISCRequestService, SCRequestService>();
 builder.Services.AddScoped<IServiceCurrencyService, ServiceCurrencyService>();
 builder.Services.AddScoped<ICSCurrencyService, CSCurrencyService>();
+builder.Services.AddScoped<ICurrencyServiceCounterService, CurrencyServiceCounterService>();
 
 
 builder.Services.AddHangfire(configuration => configuration

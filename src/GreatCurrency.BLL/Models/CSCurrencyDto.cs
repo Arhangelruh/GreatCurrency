@@ -46,5 +46,10 @@
 		/// Navigate to request.
 		/// </summary>
 		public int RequestId { get; set; }
+
+		/// <summary>
+		/// Request datetime.
+		/// </summary>
+		public DateTime RequestTime { get; set; }
 	}
 }

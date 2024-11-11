@@ -87,7 +87,8 @@ namespace GreatCurrency.BLL.Services
 								EURSaleRate = currency.EURSaleRate,
 								RUBBuyRate = currency.RUBBuyRate,
 								RUBSaleRate = currency.RUBSaleRate,
-								RequestId = currency.RequestId
+								RequestId = currency.RequestId,
+								RequestTime = request.IncomingDate
 							});
 						}
 					}
