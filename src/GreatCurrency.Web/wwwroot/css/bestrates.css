@@ -1,0 +1,11 @@
+.wrapper_rates{
+    margin: 20px;
+   min-width: 830px;
+   display: flex;
+}
+
+.best_rates_table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;    
+}
