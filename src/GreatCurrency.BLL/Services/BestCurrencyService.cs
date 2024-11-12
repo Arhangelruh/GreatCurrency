@@ -5,23 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
-	public class BestCurrencyService : IBestCurrencyService
+	public class BestCurrencyService(IRepository<BestCurrency> bestCurrencyRepository, IRequestService requestService) : IBestCurrencyService
 	{
-		private readonly IRepository<BestCurrency> _bestCurrencyRepository;
-		private readonly IRequestService _requestService;
-
-		public BestCurrencyService(IRepository<BestCurrency> bestCurrencyRepository, IRequestService requestService)
-		{
-			_bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
-			_requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
-		}
+		private readonly IRepository<BestCurrency> _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
+		private readonly IRequestService _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
 
 		public async Task AddCurrencyAsync(BestCurrencyDto bestCurrencyDto)
 		{
-			if (bestCurrencyDto is null)
-			{
-				throw new ArgumentNullException(nameof(bestCurrencyDto));
-			}
+			ArgumentNullException.ThrowIfNull(bestCurrencyDto);
 
 			var newCurrency = new BestCurrency
 			{
@@ -43,7 +34,7 @@ namespace GreatCurrency.BLL.Services
 		public async Task DeleteCurrenciesAsync(DateTime date)
 		{
 			var getRequests = await _requestService.GetRequestByDateAsync(date);
-			if (getRequests.Any())
+			if (getRequests.Count != 0)
 			{
 				foreach (var request in getRequests)
 				{
@@ -71,7 +62,7 @@ namespace GreatCurrency.BLL.Services
 			var getRequests = await _requestService.GetRequestByDateBetweenAsync(begin, end);
 			List<BestCurrencyDto> currencies = [];
 
-			if (getRequests.Any())
+			if (getRequests.Count != 0)
 			{
 
 				foreach (var request in getRequests.OrderBy(r => r.IncomingDate).ToList())
@@ -82,7 +73,7 @@ namespace GreatCurrency.BLL.Services
 					   .AsNoTracking()
 					   .ToListAsync();
 
-					if (getCurrencies.Any())
+					if (getCurrencies.Count != 0)
 					{
 
 						foreach (var currency in getCurrencies)
@@ -164,7 +155,7 @@ namespace GreatCurrency.BLL.Services
 		public async Task<List<BestCurrencyDto>> GetBestCurrenciesAsync(DateTime begin, DateTime end, int cityId, int pageIndex, int pageSize)
 		{
 			var getCurrencies = await _bestCurrencyRepository.GetAll()
-				.Where(r => r.Request.IncomingDate > begin && r.Request.IncomingDate < end)
+				.Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end)
 				.OrderBy(r => r.RequestId)
 				.Skip(pageIndex * pageSize)
 				.Take(pageSize)
@@ -173,7 +164,7 @@ namespace GreatCurrency.BLL.Services
 
 			List<BestCurrencyDto> currencies = [];
 
-			if (getCurrencies.Count() != 0)
+			if (getCurrencies.Count != 0)
 			{
 				foreach (var rate in getCurrencies)
 				{
@@ -198,9 +189,9 @@ namespace GreatCurrency.BLL.Services
 			return currencies;
 		}
 
-		public async Task<int> BestCurrencyCountsAsync()
+		public async Task<int> BestCurrencyCountsAsync(DateTime begin, DateTime end, int cityId)
 		{
-			return await _bestCurrencyRepository.GetAll().CountAsync();
+			return await _bestCurrencyRepository.GetAll().Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end).CountAsync();
 		}
 	}
 }
