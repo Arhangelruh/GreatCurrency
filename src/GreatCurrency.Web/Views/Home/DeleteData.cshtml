@@ -13,7 +13,7 @@
 </form>
 
 <div class="message_label">Введите дату до которой можно удалить данные и нажмите кнопку удалить лучшие курсы.</div>
-<form class="forms" method="post" asp-controller="Home" asp-action="DeleteDataBestCurrency">
+<form class="forms" method="post" asp-controller="BestRates" asp-action="DeleteDataBestCurrency">
     <div class="formslabel">
         <label asp-for="Date">Дата</label><br />
         <input class="formsfield" type="date" asp-for="Date" />

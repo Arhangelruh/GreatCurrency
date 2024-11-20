@@ -13,7 +13,6 @@
          {               
              @Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })               
          }            
-             @Html.DropDownList("bankId", new SelectList(ViewBag.BankList, "Id", "BankName"), new { @class = "get_statistic_longdropbox" })
          </div>
          <div class="get_statistic_data">
              <input class="get_statistic_field" type="date" name="startDate" />
@@ -74,8 +73,7 @@
                       pageSize = ViewData["PageSize"],
                       startDate = ViewData["StartData"],
                       endDate = ViewData["EndData"],
-                      cityId = ViewData["CurrentCity"],
-                      bankId = ViewData["CurrentBank"]
+                      cityId = ViewData["CurrentCity"]                      
                      })'">
                       <img title="Previous" src="/images/Left.svg" />
               </a>
@@ -84,8 +82,7 @@
               <form class="table-settings" asp-controller="BestRates" asp-action="BestRates" method="get">
                   <input type="date" asp-for=requestModel.startDate name=startDate style="display:none" />
                   <input type="date" asp-for=requestModel.endDate name=endDate style="display:none" />                        
-                  <input type="hidden" asp-for=requestModel.cityId name="cityId" />
-                  <input type="hidden" asp-for=requestModel.bankId name="bankId" />
+                  <input type="hidden" asp-for=requestModel.cityId name="cityId" />                  
                   <select onchange="this.form.submit()" name="pagesize">
                       <option value="" selected></option>
                       <option value="30">30</option>
@@ -104,8 +101,7 @@
                       pageSize = ViewData["PageSize"],
                       startDate = ViewData["StartData"],
                       endDate = ViewData["EndData"],
-                      cityId = ViewData["CurrentCity"],
-                      bankId = ViewData["CurrentBank"]
+                      cityId = ViewData["CurrentCity"]                      
                      })'">
                       <img title="Next" src="/images/Right.svg" />
               </a>

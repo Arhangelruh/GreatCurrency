@@ -9,3 +9,8 @@
     margin-right: auto;
     width: 80%;    
 }
+
+.get_statistic_dropbox_field{    
+    width: auto;
+    min-width: 100px;
+}
