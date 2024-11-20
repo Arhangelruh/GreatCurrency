@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("GreatCurrencyPostgreSQL");
 var mainBank = builder.Configuration["AppSettings:MainBank"];
+var mainService = builder.Configuration["AppSettings:MainService"];
 var botConfigurationSection = builder.Configuration.GetSection(BotConfiguration.Configuration);
 BotConfiguration.ChatId = builder.Configuration.GetSection("BotConfiguration:ChatId").Value;
 
@@ -27,7 +28,7 @@ builder.Services.AddScoped<ISaveCurrencyService, SaveCurrencyService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IBestCurrencyService, BestCurrencyService>();
 builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
-builder.Services.AddScoped(s => new GetParameters(mainBank));
+builder.Services.AddScoped(s => new GetParameters(mainBank, mainService));
 builder.Services.AddTelegramBotClient(botConfigurationSection);
 builder.Services.AddScoped<ICheckCurrency, CheckCurrency>();
 builder.Services.AddScoped<ISCRequestService, SCRequestService>();
