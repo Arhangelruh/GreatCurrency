@@ -14,3 +14,9 @@
     width: auto;
     min-width: 100px;
 }
+
+.best_rates_table_footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}

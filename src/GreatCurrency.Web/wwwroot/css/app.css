@@ -244,10 +244,6 @@ th{
    display: flex;
 }
 
-.best_rates_table{
-    width: 80%;    
-}
-
 .statistic_table{
     width: 50%;
     justify-content: center;
@@ -300,12 +296,6 @@ th{
     margin-top: 5px;
     cursor: pointer;
     color: burlywood;
-}
-
-.best_rates_table_footer{
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
 }
 
 .table-settings{
