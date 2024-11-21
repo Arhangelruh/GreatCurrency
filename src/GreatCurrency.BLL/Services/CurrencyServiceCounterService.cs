@@ -24,9 +24,35 @@ namespace GreatCurrency.BLL.Services
 				List<CSCurrencyDto> bestRUBBuyRates = [];
 				List<CSCurrencyDto> bestRUBSellRates = [];
 
+				foreach (var request in requests)
+				{
+					var requestRates = allCurrencies.Where(cur => cur.RequestId == request);
+
+					var bestRequestCurrencyUSDBuy = requestRates.Where(cur => cur.USDBuyRate == requestRates.Select(usd => usd.USDBuyRate).Max()).ToList();
+					bestUSDBuyRates.Add(SortServiceRates(bestRequestCurrencyUSDBuy, serviceid));
+
+					var reqRatesUSDSaleWithoutNull = requestRates.Where(cur => cur.USDSaleRate != 0);
+					var bestRequestCurrencyUSDSell = requestRates.Where(cur => cur.USDSaleRate == reqRatesUSDSaleWithoutNull.Select(usd => usd.USDSaleRate).Min()).ToList();
+					bestUSDSellRates.Add(SortServiceRates(bestRequestCurrencyUSDSell, serviceid));
+
+					var bestRequestCurrencyEURBuy = requestRates.Where(cur => cur.EURBuyRate == requestRates.Select(eur => eur.EURBuyRate).Max()).ToList();
+					bestEURBuyRates.Add(SortServiceRates(bestRequestCurrencyEURBuy, serviceid));
+
+					var reqRatesEURSaleWithoutNull = requestRates.Where(cur => cur.EURSaleRate != 0);
+					var bestRequestCurrencyEURSell = requestRates.Where(cur => cur.EURSaleRate == reqRatesEURSaleWithoutNull.Select(eur => eur.EURSaleRate).Min()).ToList();
+					bestEURSellRates.Add(SortServiceRates(bestRequestCurrencyEURSell, serviceid));
+
+					var bestRequestCurrencyRUBBuy = requestRates.Where(cur => cur.RUBBuyRate == requestRates.Select(rub => rub.RUBBuyRate).Max()).ToList();
+					bestRUBBuyRates.Add(SortServiceRates(bestRequestCurrencyRUBBuy, serviceid));
+
+					var reqRatesRUBSaleWithoutNull = requestRates.Where(cur => cur.RUBSaleRate != 0);
+					var bestRequestCurrencyRUBSell = reqRatesRUBSaleWithoutNull.Where(cur => cur.RUBSaleRate == reqRatesRUBSaleWithoutNull.Select(rub => rub.RUBSaleRate).Min()).ToList();
+					bestRUBSellRates.Add(SortServiceRates(bestRequestCurrencyRUBSell, serviceid));
+				}
+
 				if (requests.Count == 1)
 				{
-					return new CSStatisticDto
+					var currencyModel = new CSStatisticDto
 					{
 						ServiceId = serviceid,
 						USDBuyStatistic = bestUSDBuyRates[0].CurrencyServiceId == serviceid ? 100 : 0,
@@ -42,30 +68,7 @@ namespace GreatCurrency.BLL.Services
 						RUBSellStatistic = bestRUBSellRates[0].CurrencyServiceId == serviceid ? 100 : 0,
 						BestRubSellRates = []
 					};
-				}
-
-				foreach (var request in requests)
-				{
-					var requestRates = allCurrencies.Where(cur => cur.RequestId == request);
-
-					var bestRequestCurrencyUSDBuy = requestRates.Where(cur => cur.USDBuyRate == requestRates.Select(usd => usd.USDBuyRate).Max()).ToList();
-
-					bestUSDBuyRates.Add(SortServiceRates(bestRequestCurrencyUSDBuy, serviceid));
-
-					var bestRequestCurrencyUSDSell = requestRates.Where(cur => cur.USDSaleRate != 0 && cur.USDSaleRate == requestRates.Select(usd => usd.USDSaleRate).Min()).ToList();
-					bestUSDSellRates.Add(SortServiceRates(bestRequestCurrencyUSDSell, serviceid));
-
-					var bestRequestCurrencyEURBuy = requestRates.Where(cur => cur.EURBuyRate == requestRates.Select(eur => eur.EURBuyRate).Max()).ToList();
-					bestEURBuyRates.Add(SortServiceRates(bestRequestCurrencyEURBuy, serviceid));
-
-					var bestRequestCurrencyEURSell = requestRates.Where(cur => cur.USDSaleRate != 0 && cur.EURSaleRate == requestRates.Select(eur => eur.EURSaleRate).Min()).ToList();
-					bestEURSellRates.Add(SortServiceRates(bestRequestCurrencyEURSell, serviceid));
-
-					var bestRequestCurrencyRUBBuy = requestRates.Where(cur => cur.RUBBuyRate == requestRates.Select(rub => rub.RUBBuyRate).Max()).ToList();
-					bestRUBBuyRates.Add(SortServiceRates(bestRequestCurrencyRUBBuy, serviceid));
-
-					var bestRequestCurrencyRUBSell = requestRates.Where(cur => cur.USDSaleRate != 0 && cur.RUBSaleRate == requestRates.Select(rub => rub.RUBSaleRate).Min()).ToList();
-					bestRUBSellRates.Add(SortServiceRates(bestRequestCurrencyRUBSell, serviceid));
+					return currencyModel;
 				}
 
 				var USDBuyRates = GetTimeRates(bestUSDBuyRates, serviceid);
@@ -92,7 +95,7 @@ namespace GreatCurrency.BLL.Services
 					BestRubSellRates = RUBSellRates
 				};
 			}
-			return new CSStatisticDto { };
+			return null;
 		}
 
 		/// <summary>

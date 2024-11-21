@@ -42,5 +42,12 @@ namespace GreatCurrency.BLL.Interfaces
 		/// <param name="serviceName">service name</param>
 		/// <returns>service dto</returns>
 		Task<ServiceDto?> GetServiceByNameAsync(string serviceName);
+
+
+		/// <summary>
+		/// Check services and delete if there isn't currency;
+		/// </summary>
+		/// <returns></returns>
+		Task CheckOrDeleteAsync();
 	}
 }

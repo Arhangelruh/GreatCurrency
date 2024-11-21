@@ -98,5 +98,17 @@ namespace GreatCurrency.BLL.Services
 			_serviceRepository.Update(getService);
 			await _serviceRepository.SaveChangesAsync();
 		}
+
+		public async Task CheckOrDeleteAsync() {
+			var getServices = await _serviceRepository.GetAll().AsNoTracking().ToListAsync();
+			foreach (var service in getServices) {
+				var currency = await _currencyRepository.GetEntityAsync(currency => currency.CurrencyServicesId == service.Id);
+				if (currency is null)
+				{					
+					_serviceRepository.Delete(service);
+					await _serviceRepository.SaveChangesAsync();					
+				}
+			}
+		}
 	}
 }
