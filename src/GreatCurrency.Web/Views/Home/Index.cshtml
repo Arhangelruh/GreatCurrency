@@ -1,240 +1,274 @@
-﻿@using GreatCurrency.Web.Services
-@model (PaginatedList<BestRatesViewModel> bestRates,StatisticViewModel statistic, RequestViewModel requestModel);
+﻿@model FullStatisticViewModel;
 
 @{
-    ViewData["Title"] = "Creat Currency";
+	ViewData["Title"] = "Creat Currency";
 }
 
 <div class="wrapper">
-    <div class="request_field">
-        <form class="get_statistic_form" method="get" asp-controller="Home" asp-action="Index">
+	<div class="request_field">
+		<form class="get_statistic_form" method="get" asp-controller="Home" asp-action="Index">
 			<div class="get_statistic_dropbox_field">
-            @if (ViewBag.CityList != null)
-            {               
-                @Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })               
-            }            
-                @Html.DropDownList("bankId", new SelectList(ViewBag.BankList, "Id", "BankName"), new { @class = "get_statistic_longdropbox" })
-            </div>
-            <div class="get_statistic_data">
-                <input class="get_statistic_field" type="date" name="startDate" />
-                <input class="get_statistic_field" type="date" name="endDate"/>             
-            </div>
-            <div class="get_statistic_button_field">
-                <button class="get_statistic_button" type="submit" title="Запросить">Запросить</button>
-            </div>
-        </form>
-    </div>
-  <div class="wrapper_statistic">
-       
-      @if (Model.bestRates is null)
-        {
-            <div class="message_label">
-                <h2>Курсы за указанный период не найдены.</h2>
-            </div>
-        }
-        else
-        {
-      
-          <div class="best_rates_table">
-            <div class="bestrates_table_heading">Лучшие курсы.</div>
-              <table class="rates_table">
-                 <tr>
-                    <th>Банк</th>
-                    <th>Сдать USD</th>
-                    <th>Купить USD</th>
-                    <th>Сдать EUR</th>
-                    <th>Купить EUR</th>
-                    <th>Сдать RUB</th>
-                    <th>Купить RUB</th>
-                    <th>Время запроса</th>
-                 </tr>
-                @foreach (var rate in Model.bestRates)
-                { 
-                 <tr>
-                    <td>@rate.BankName</td>
-                    <td>@rate.USDBuyRate</td>
-                    <td>@rate.USDSaleRate</td>
-                    <td>@rate.EURBuyRate</td>
-                    <td>@rate.EURSaleRate</td>
-                    <td>@rate.RUBBuyRate</td>
-                    <td>@rate.RUBSaleRate</td>
-                    <td>@rate.RequestTime</td>
-                 </tr>
-                }
-              </table>
+				@if (ViewBag.CityList != null)
+				{
+					@Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })
+				}
+				@Html.DropDownList("bankId", new SelectList(ViewBag.BankList, "Id", "BankName"), new { @class = "get_statistic_longdropbox" })
 
-            <div class="best_rates_table_footer">
-                                
-                @if (Model.bestRates.HasPreviousPage)
-                {
-                    <a class="change_page" onclick="location.href =
-                         '@Url.Action(
-                         "Index",
-                         "Home",
-                          new { page = Model.bestRates.PageIndex - 1,
-                            pageSize = ViewData["PageSize"],
-                            startDate = ViewData["StartData"],
-                            endDate = ViewData["EndData"],
-                            cityId = ViewData["CurrentCity"],
-                            bankId = ViewData["CurrentBank"]
-                           })'">
-                            <img title="Previous" src="/images/Left.svg" />
-                    </a>
-                }
+				@if (ViewBag.ServiceList != null)
+				{
+					@Html.DropDownList("ServiceId", new SelectList(ViewBag.ServiceList, "Id", "ServiceName"), new { @class = "get_statistic_longdropbox" })
+				}
+			</div>
+			<div class="get_statistic_data">
+				<input class="get_statistic_field" type="date" name="startDate" />
+				<input class="get_statistic_field" type="date" name="endDate" />
+			</div>
+			<div class="get_statistic_button_field">
+				<button class="get_statistic_button" type="submit" title="Запросить">Запросить</button>
+			</div>
+		</form>
+	</div>
 
-                    <form class="table-settings" asp-controller="Home" asp-action="Index" method="get">
-                        <input type="date" asp-for=requestModel.startDate name=startDate style="display:none" />
-                        <input type="date" asp-for=requestModel.endDate name=endDate style="display:none" />                        
-                        <input type="hidden" asp-for=requestModel.cityId name="cityId" />
-                        <input type="hidden" asp-for=requestModel.bankId name="bankId" />
-                        <select onchange="this.form.submit()" name="pagesize">
-                            <option value="" selected></option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </form>
+	<div class="wrapper_statistic">
+		<div class="statistic_table">
+			@if (Model.Statistic != null)
+			{
+				<div class="statistic">
+					<div class="statistic_data bank_name">@Model.Statistic.BankName</div>
 
-                 @if (Model.bestRates.HasNextPage)
-                 {
-                        <a class="change_page" onclick="location.href =
-                       '@Url.Action(
-                       "Index",
-                       "Home",
-                       new { page = Model.bestRates.PageIndex + 1,
-                            pageSize = ViewData["PageSize"],
-                            startDate = ViewData["StartData"],
-                            endDate = ViewData["EndData"],
-                            cityId = ViewData["CurrentCity"],
-                            bankId = ViewData["CurrentBank"]
-                           })'">
-                            <img title="Next" src="/images/Right.svg" />
-                    </a>
-                 }                
-            </div>
-          </div>
-        }
+					<div class="statistic_data">Курс сдать USD был выгодным @Model.Statistic.USDBuyStatistic% времени</div>
 
-    @if (Model.statistic != null) {
-        <div class="statistic_table">
-            <div class="statistic">
-            <div class="statistic_data bank_name">@Model.statistic.BankName</div>
+					@if (Model.Statistic.bestUsdBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestUsdBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
 
-            <div class="statistic_data">Курс сдать USD был выгодным @Model.statistic.USDBuyStatistic% времени</div>
-            
-               @if (Model.statistic.bestUsdBuyRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach(var time in Model.statistic.bestUsdBuyRates)
-                            {                                
-                                <div class="static_time_field">
-                                    Максимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                        </div>
-                        </div>
-                    }            
+					<div class="statistic_data">Курс купить USD был выгодным @Model.Statistic.USDSellStatistic% времени</div>
 
-                    <div class="statistic_data">Курс купить USD был выгодным @Model.statistic.USDSellStatistic% времени</div>
-            
-                    @if (Model.statistic.bestUsdSellRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach (var time in Model.statistic.bestUsdSellRates)
-                            {
-                                <div class="static_time_field">
-                                    Минимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                            </div>
-                        </div>
-                    }            
+					@if (Model.Statistic.bestUsdSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestUsdSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
 
-            <div class="statistic_data">Курс сдать EUR был выгодным @Model.statistic.EURBuyStatistic% времени</div>
-            
-                    @if (Model.statistic.bestEURBuyRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach (var time in Model.statistic.bestEURBuyRates)
-                            {
-                                <div class="static_time_field">
-                                    Максимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                        </div>
-                        </div>
-                    }
-            
+					<div class="statistic_data">Курс сдать EUR был выгодным @Model.Statistic.EURBuyStatistic% времени</div>
 
-                    <div class="statistic_data">Курс купить EUR был выгодным @Model.statistic.EURSellStatistic% времени</div>
-           
-                    @if (Model.statistic.bestEURSellRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach (var time in Model.statistic.bestEURSellRates)
-                            {
-                                <div class="static_time_field">
-                                    Минимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                        </div>
-                        </div>
-                    }
-           
+					@if (Model.Statistic.bestEURBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestEURBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
 
-                    <div class="statistic_data">Курс сдать RUB был выгодным @Model.statistic.RUBBuyStatistic% времени</div>
-            
-                    @if (Model.statistic.bestRubBuyRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach (var time in Model.statistic.bestRubBuyRates)
-                            {
-                                <div class="static_time_field">
-                                    Максимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                        </div>
-                        </div>
-                    }            
+					<div class="statistic_data">Курс купить EUR был выгодным @Model.Statistic.EURSellStatistic% времени</div>
 
-                    <div class="statistic_data">Курс купить RUB был выгодным @Model.statistic.RUBSellStatistic% времени</div>
-            
-                    @if (Model.statistic.bestRubSellRates.Any())
-                    {
-                        <div class="time_field">
-                            <div class="show_times">Время лучших курсов...</div>
-                            <div class="statistic_times" style="display:none">
-                            @foreach (var time in Model.statistic.bestRubSellRates)
-                            {
-                                <div class="static_time_field">
-                                    Минимальный курс с @time.startTime по @time.endTime.
-                                </div>
-                            }
-                                <div class="hidden_times">Свернуть...</div>
-                        </div>
-                        </div>
-                     }            
-            </div>
-        </div>
-    }
-    </div>
+					@if (Model.Statistic.bestEURSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestEURSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+
+					<div class="statistic_data">Курс сдать RUB был выгодным @Model.Statistic.RUBBuyStatistic% времени</div>
+
+					@if (Model.Statistic.bestRubBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestRubBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить RUB был выгодным @Model.Statistic.RUBSellStatistic% времени</div>
+
+					@if (Model.Statistic.bestRubSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestRubSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+				</div>
+			}			   
+                @Html.ActionLink("Перейти к курсам", "BestRates", "BestRates", null, new {@class = "course_link" })         
+		</div>
+		<div class="statistic_table service_table">
+			@if (Model.ServiceStatistic != null)
+			{
+				<div class="statistic">
+					<div class="statistic_data service_name">@Model.ServiceStatistic.ServiceName</div>
+
+					<div class="statistic_data">Курс сдать USD был выгодным @Model.ServiceStatistic.USDBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestUsdBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestUsdBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить USD был выгодным @Model.ServiceStatistic.USDSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestUsdSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestUsdSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс сдать EUR был выгодным @Model.ServiceStatistic.EURBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить EUR был выгодным @Model.ServiceStatistic.EURSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+
+					<div class="statistic_data">Курс сдать RUB был выгодным @Model.ServiceStatistic.RUBBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestRubBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestRubBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить RUB был выгодным @Model.ServiceStatistic.RUBSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestRubSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestRubSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+			 @Html.ActionLink("Перейти к курсам", "ServiceRates", "ServiceRates", null, new {@class = "course_link" })
+		</div>
+	</div>
 </div>
 
 @section js {
-    <script src="~/js/indexPage.js" asp-append-version="true"></script>
+	<script src="~/js/indexPage.js" asp-append-version="true"></script>
 }

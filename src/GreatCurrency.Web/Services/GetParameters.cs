@@ -3,12 +3,10 @@
     /// <summary>
     /// Class for get parametres from appsetting.
     /// </summary>
-    public class GetParameters
+    public class GetParameters(string mainBank, string mainService)
     {
-        public string MainBank;
+        public string MainBank = mainBank;
 
-        public GetParameters(string mainBank) {
-            MainBank = mainBank;        
-        }
+        public string MainService = mainService;
     }
 }

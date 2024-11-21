@@ -41,8 +41,22 @@ namespace GreatCurrency.DAL.Context
         /// </summary>
         public DbSet<BestCurrency> BestCurrencies { get; set; }
 
+		/// <summary>
+		/// Best requests to sevices.
+		/// </summary>
+		public DbSet<SCRequest> SCRequests { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		/// <summary>
+		/// Bank currecy sevices.
+		/// </summary>
+		public DbSet<CurrencyService> CurrencyServices { get; set; }
+
+		/// <summary>
+		/// Bank currecy sevices currency.
+		/// </summary>
+		public DbSet<CSCurrency> CSCurrencies { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder = modelBuilder ?? throw new ArgumentNullException(nameof(modelBuilder));
 
@@ -52,9 +66,11 @@ namespace GreatCurrency.DAL.Context
             modelBuilder.ApplyConfiguration(new BankDepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new BestCurrencyConfiguration());
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
-            
+			modelBuilder.ApplyConfiguration(new SCRequestConfiguration());
+            modelBuilder.ApplyConfiguration(new CurrencyServiceConfiguration());
+			modelBuilder.ApplyConfiguration(new CSCurrenciesConfiguration());
 
-            base.OnModelCreating(modelBuilder);
+			base.OnModelCreating(modelBuilder);
         }
     }
 }

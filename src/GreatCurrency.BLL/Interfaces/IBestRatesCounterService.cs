@@ -26,15 +26,6 @@ namespace GreatCurrency.BLL.Interfaces
         /// </summary>
         /// <param name="list">List of Best rates</param>
         /// <returns></returns>
-        List<TimeRates> GetTimeRates(List<BestCurrencyDto> list, int bankId);
-
-        /// <summary>
-        /// Count statistic how match time bank used best rates.
-        /// </summary>
-        /// <param name="list">List times</param>
-        /// <param name="alltime">All work time</param>
-        /// <returns>Int number</returns>
-        int CountStatic(List<TimeRates> list, TimeSpan alltime);
-
+        List<TimeRates> GetTimeRates(List<BestCurrencyDto> list, int bankId);        
     }
 }

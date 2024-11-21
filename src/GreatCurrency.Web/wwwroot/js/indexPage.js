@@ -1,8 +1,11 @@
-const timesList=document.querySelector(".statistic");
+const timeList = document.querySelectorAll(".statistic");
 
-
-//Event Listeners
-timesList.addEventListener("click", showTimes);
+function check(){
+    timeList.forEach(
+        function (element){                             
+        element.addEventListener("click", showTimes)}
+    );
+ }
 
 function showTimes(e){
     const item=e.target;
@@ -22,3 +25,4 @@ function showTimes(e){
     };
 }
 
+document.addEventListener("DOMContentLoaded", check);

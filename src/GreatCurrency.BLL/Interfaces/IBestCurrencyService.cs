@@ -54,6 +54,6 @@ namespace GreatCurrency.BLL.Interfaces
         /// Get best currency counts.
         /// </summary>
         /// <returns></returns>
-        Task<int> BestCurrencyCountsAsync();
+        Task<int> BestCurrencyCountsAsync(DateTime begin, DateTime end, int cityId);
 	}
 }

@@ -21,5 +21,10 @@
         /// Bank id.
         /// </summary>
         public int? bankId { get; set; }
+
+        /// <summary>
+        /// Service id.
+        /// </summary>
+        public int? ServiceId { get; set; }
     }
 }

@@ -13,9 +13,9 @@
             this.AddRange(items);
         }
 
-        public bool HasPreviousPage => PageIndex > 1;
+        public bool HasPreviousPage => PageIndex > 0;
 
-        public bool HasNextPage => PageIndex < TotalPages;
+        public bool HasNextPage => PageIndex < TotalPages - 1;
 
         public static PaginatedList<T> Create(List<T> source, int pageIndex, int pageSize)
         {

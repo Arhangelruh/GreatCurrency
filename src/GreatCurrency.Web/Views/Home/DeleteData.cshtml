@@ -1,6 +1,6 @@
 ﻿@model DeleteDataViewModel;
 
-<div class="message_label">Введите дату до которой можно удалить данные и нажмите кнопку удалить курсы.</div>
+<div class="message_label">Введите дату до которой можно удалить данные о курсах и нажмите кнопку удалить.</div>
 <form class="forms" method="post" asp-controller="Home" asp-action="DeleteData">
     <div class="formslabel">
         <label asp-for="Date">Дата</label><br />
@@ -12,8 +12,20 @@
     </div>
 </form>
 
-<div class="message_label">Введите дату до которой можно удалить данные и нажмите кнопку удалить лучшие курсы.</div>
-<form class="forms" method="post" asp-controller="Home" asp-action="DeleteDataBestCurrency">
+<div class="message_label">Введите дату до которой можно удалить данные о лучших курсах и нажмите кнопку удалить.</div>
+<form class="forms" method="post" asp-controller="BestRates" asp-action="DeleteDataBestCurrency">
+    <div class="formslabel">
+        <label asp-for="Date">Дата</label><br />
+        <input class="formsfield" type="date" asp-for="Date" />
+        <span asp-validation-for="Date" class="text_error"></span>
+    </div>
+    <div class="formslabel">
+        <input class="button_classic" type="submit" value="Удалить" />
+    </div>
+</form>
+
+<div class="message_label">Введите дату до которой можно удалить данные по курсам сервисов и нажмите кнопку удалить.</div>
+<form class="forms" method="post" asp-controller="ServiceRates" asp-action="DeleteServiceCurrencies">
     <div class="formslabel">
         <label asp-for="Date">Дата</label><br />
         <input class="formsfield" type="date" asp-for="Date" />
