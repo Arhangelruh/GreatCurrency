@@ -35,5 +35,20 @@
         /// Best currency.
         /// </summary>
         public const string BestCurrency = nameof(BestCurrency);
-    }
+
+		/// <summary>
+		/// Currency services.
+		/// </summary>
+		public const string CurrencyServices = nameof(CurrencyServices);
+
+		/// <summary>
+		/// Currency from currency services.
+		/// </summary>
+		public const string CSCurrencies = nameof(CSCurrencies);
+
+		/// <summary>
+		/// Requests for currency service.
+		/// </summary>
+		public const string SCRequests = nameof(SCRequests);
+	}
 }

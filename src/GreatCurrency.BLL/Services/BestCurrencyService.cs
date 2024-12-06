@@ -5,160 +5,194 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
-    public class BestCurrencyService : IBestCurrencyService
-    {
-        private readonly IRepository<BestCurrency> _bestCurrencyRepository;
-        private readonly IRequestService _requestService;
+	public class BestCurrencyService(IRepository<BestCurrency> bestCurrencyRepository, IRequestService requestService) : IBestCurrencyService
+	{
+		private readonly IRepository<BestCurrency> _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
+		private readonly IRequestService _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
 
-        public BestCurrencyService(IRepository<BestCurrency> bestCurrencyRepository, IRequestService requestService)
-        {
-            _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
-            _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
-        }
+		public async Task AddCurrencyAsync(BestCurrencyDto bestCurrencyDto)
+		{
+			ArgumentNullException.ThrowIfNull(bestCurrencyDto);
 
-        public async Task AddCurrencyAsync(BestCurrencyDto bestCurrencyDto)
-        {
-            if (bestCurrencyDto is null)
-            {
-                throw new ArgumentNullException(nameof(bestCurrencyDto));
-            }
+			var newCurrency = new BestCurrency
+			{
+				BankId = bestCurrencyDto.BankId,
+				USDBuyRate = bestCurrencyDto.USDBuyRate,
+				USDSaleRate = bestCurrencyDto.USDSaleRate,
+				EURBuyRate = bestCurrencyDto.EURBuyRate,
+				EURSaleRate = bestCurrencyDto.EURSaleRate,
+				RUBBuyRate = bestCurrencyDto.RUBBuyRate,
+				RUBSaleRate = bestCurrencyDto.RUBSaleRate,
+				RequestId = bestCurrencyDto.RequestId,
+				CityId = bestCurrencyDto.CityId
+			};
 
-            var newCurrency = new BestCurrency
-            {
-                BankId = bestCurrencyDto.BankId,
-                USDBuyRate = bestCurrencyDto.USDBuyRate,
-                USDSaleRate = bestCurrencyDto.USDSaleRate,
-                EURBuyRate = bestCurrencyDto.EURBuyRate,
-                EURSaleRate = bestCurrencyDto.EURSaleRate,
-                RUBBuyRate = bestCurrencyDto.RUBBuyRate,
-                RUBSaleRate = bestCurrencyDto.RUBSaleRate,
-                RequestId = bestCurrencyDto.RequestId,
-                CityId = bestCurrencyDto.CityId
-            };
+			await _bestCurrencyRepository.AddAsync(newCurrency);
+			await _bestCurrencyRepository.SaveChangesAsync();
+		}
 
-            await _bestCurrencyRepository.AddAsync(newCurrency);
-            await _bestCurrencyRepository.SaveChangesAsync();
-        }
+		public async Task DeleteCurrenciesAsync(DateTime date)
+		{
+			var getRequests = await _requestService.GetRequestByDateAsync(date);
+			if (getRequests.Count != 0)
+			{
+				foreach (var request in getRequests)
+				{
+					var getCurrencies = await _bestCurrencyRepository
+					   .GetAll()
+					   .Where(currency => currency.RequestId == request.Id)
+					   .AsNoTracking()
+					   .ToListAsync();
 
-        public async Task DeleteCurrenciesAsync(DateTime date)
-        {
-            var getRequests = await _requestService.GetRequestByDateAsync(date);
-            if (getRequests.Any())
-            {
-                foreach (var request in getRequests)
-                {
-                    var getCurrencies = await _bestCurrencyRepository
-                       .GetAll()
-                       .Where(currency => currency.RequestId == request.Id)
-                       .AsNoTracking()
-                       .ToListAsync();
+					if (getCurrencies.Any())
+					{
+						foreach (var currency in getCurrencies)
+						{
+							_bestCurrencyRepository.Delete(currency);
+							await _bestCurrencyRepository.SaveChangesAsync();
+						}
+					}
+					await _requestService.DeleteRequestAsync(request.Id);
+				}
+			}
+		}
 
-                    if (getCurrencies.Any())
-                    {
-                        foreach (var currency in getCurrencies)
-                        {
-                            _bestCurrencyRepository.Delete(currency);
-                            await _bestCurrencyRepository.SaveChangesAsync();                            
-                        }
-                    }
-                    await _requestService.DeleteRequestAsync(request.Id);
-                }
-            }
-        }
+		public async Task<List<BestCurrencyDto>> GetCurrenciesByTimeAsync(DateTime begin, DateTime end, int cityId)
+		{
+			var getRequests = await _requestService.GetRequestByDateBetweenAsync(begin, end);
+			List<BestCurrencyDto> currencies = [];
 
-        public async Task<List<BestCurrencyDto>> GetCurrenciesByTimeAsync(DateTime begin, DateTime end, int cityId)
-        {
-            var getRequests = await _requestService.GetRequestByDateBetweenAsync(begin, end);
-            List<BestCurrencyDto> currencies = [];
+			if (getRequests.Count != 0)
+			{
 
-            if (getRequests.Any())
-            {
+				foreach (var request in getRequests.OrderBy(r => r.IncomingDate).ToList())
+				{
+					var getCurrencies = await _bestCurrencyRepository
+					   .GetAll()
+					   .Where(currency => currency.RequestId == request.Id && currency.CityId == cityId)
+					   .AsNoTracking()
+					   .ToListAsync();
 
-                foreach (var request in getRequests.OrderBy(r=>r.IncomingDate).ToList())
-                {
-                    var getCurrencies = await _bestCurrencyRepository
-                       .GetAll()
-                       .Where(currency => currency.RequestId == request.Id && currency.CityId == cityId)
-                       .AsNoTracking()
-                       .ToListAsync();
+					if (getCurrencies.Count != 0)
+					{
 
-                    if (getCurrencies.Any())
-                    {
+						foreach (var currency in getCurrencies)
+						{
+							currencies.Add(new BestCurrencyDto
+							{
+								Id = currency.Id,
+								BankId = currency.BankId,
+								USDBuyRate = currency.USDBuyRate,
+								USDSaleRate = currency.USDSaleRate,
+								EURBuyRate = currency.EURBuyRate,
+								EURSaleRate = currency.EURSaleRate,
+								RUBBuyRate = currency.RUBBuyRate,
+								RUBSaleRate = currency.RUBSaleRate,
+								RequestId = currency.RequestId,
+								RequestTime = request.IncomingDate,
+								CityId = currency.CityId
+							});
+						}
+					}
+				}
+			}
+			return currencies;
+		}
 
-                        foreach (var currency in getCurrencies)
-                        {
-                            currencies.Add(new BestCurrencyDto
-                            {
-                                Id = currency.Id,
-                                BankId = currency.BankId,
-                                USDBuyRate = currency.USDBuyRate,
-                                USDSaleRate = currency.USDSaleRate,
-                                EURBuyRate = currency.EURBuyRate,
-                                EURSaleRate = currency.EURSaleRate,
-                                RUBBuyRate = currency.RUBBuyRate,
-                                RUBSaleRate = currency.RUBSaleRate,
-                                RequestId = currency.RequestId,
-                                RequestTime = request.IncomingDate,
-                                CityId = currency.CityId
-                            });
-                        }
-                    }
-                }
-            }
-            return currencies;
-        }
+		public async Task<List<int>> GetLastTwoRequestsByCityAsync(int cityId)
+		{
+			List<int> requests = [];
 
-        public async Task<List<int>> GetLastTwoRequestsByCityAsync(int cityId)
-        {
-            List<int> requests = [];
-
-            var getRequests = await _bestCurrencyRepository
-                .GetAll()
-                .Where(p => p.CityId == cityId)
-                .Select(c => new { c.RequestId })
-                .Distinct()
-                .OrderByDescending(c => c.RequestId)
-                .Take(2)
-                .AsNoTracking()
-                .ToListAsync();
+			var getRequests = await _bestCurrencyRepository
+				.GetAll()
+				.Where(p => p.CityId == cityId)
+				.Select(c => new { c.RequestId })
+				.Distinct()
+				.OrderByDescending(c => c.RequestId)
+				.Take(2)
+				.AsNoTracking()
+				.ToListAsync();
 
 
-            foreach (var request in getRequests)
-            {
-                requests.Add(request.RequestId);
-            }
+			foreach (var request in getRequests)
+			{
+				requests.Add(request.RequestId);
+			}
 
-            return requests;
-        }
+			return requests;
+		}
 
-        public async Task<List<BestCurrencyDto>> GetCurrenciesByRequestAsync(int requestId) {
-            List<BestCurrencyDto> currencies = [];
+		public async Task<List<BestCurrencyDto>> GetCurrenciesByRequestAsync(int requestId)
+		{
+			List<BestCurrencyDto> currencies = [];
 
-            var getCurrencies = await _bestCurrencyRepository
-                .GetAll()
-                .Where(currency => currency.RequestId == requestId)                
-                .AsNoTracking()
-                .ToListAsync();
+			var getCurrencies = await _bestCurrencyRepository
+				.GetAll()
+				.Where(currency => currency.RequestId == requestId)
+				.AsNoTracking()
+				.ToListAsync();
 
-            foreach (var currency in getCurrencies)
-            {
-                currencies.Add(new BestCurrencyDto
-                {
-                    Id = currency.Id,
-                    BankId = currency.BankId,
-                    USDBuyRate = currency.USDBuyRate,
-                    USDSaleRate = currency.USDSaleRate,
-                    EURBuyRate = currency.EURBuyRate,
-                    EURSaleRate = currency.EURSaleRate,
-                    RUBBuyRate = currency.RUBBuyRate,
-                    RUBSaleRate = currency.RUBSaleRate,
-                    RequestId = currency.RequestId,
-                    CityId = currency.CityId
-                });
-            }
+			foreach (var currency in getCurrencies)
+			{
+				currencies.Add(new BestCurrencyDto
+				{
+					Id = currency.Id,
+					BankId = currency.BankId,
+					USDBuyRate = currency.USDBuyRate,
+					USDSaleRate = currency.USDSaleRate,
+					EURBuyRate = currency.EURBuyRate,
+					EURSaleRate = currency.EURSaleRate,
+					RUBBuyRate = currency.RUBBuyRate,
+					RUBSaleRate = currency.RUBSaleRate,
+					RequestId = currency.RequestId,
+					CityId = currency.CityId
+				});
+			}
 
-            return currencies;
-        }
-    }
+			return currencies;
+		}
+
+		public async Task<List<BestCurrencyDto>> GetBestCurrenciesAsync(DateTime begin, DateTime end, int cityId, int pageIndex, int pageSize)
+		{
+			var getCurrencies = await _bestCurrencyRepository.GetAll()
+				.Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end)
+				.OrderBy(r => r.RequestId)
+				.Skip(pageIndex * pageSize)
+				.Take(pageSize)
+				.AsNoTracking()
+				.ToListAsync();
+
+			List<BestCurrencyDto> currencies = [];
+
+			if (getCurrencies.Count != 0)
+			{
+				foreach (var rate in getCurrencies)
+				{
+					var request = await _requestService.GetRequestByIdAsync(rate.RequestId);
+					currencies.Add(new BestCurrencyDto
+					{
+						Id = rate.Id,
+						BankId = rate.BankId,
+						USDBuyRate = rate.USDBuyRate,
+						USDSaleRate = rate.USDSaleRate,
+						EURBuyRate = rate.EURBuyRate,
+						EURSaleRate = rate.EURSaleRate,
+						RUBBuyRate = rate.RUBBuyRate,
+						RUBSaleRate = rate.RUBSaleRate,
+						RequestId = rate.RequestId,
+						RequestTime = request.IncomingDate,
+						CityId = rate.CityId
+					});
+
+				}
+			}
+			return currencies;
+		}
+
+		public async Task<int> BestCurrencyCountsAsync(DateTime begin, DateTime end, int cityId)
+		{
+			return await _bestCurrencyRepository.GetAll().Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end).CountAsync();
+		}
+	}
 }
 

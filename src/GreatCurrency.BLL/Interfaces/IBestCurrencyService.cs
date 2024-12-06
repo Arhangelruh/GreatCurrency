@@ -38,5 +38,22 @@ namespace GreatCurrency.BLL.Interfaces
         /// <param name="requestId"></param>
         /// <returns>List of currencies</returns>
         Task<List<BestCurrencyDto>> GetCurrenciesByRequestAsync(int requestId);
-    }
+
+        /// <summary>
+        /// Get best currencies with params.
+        /// </summary>
+        /// <param name="begin">date from</param>
+        /// <param name="end">date to</param>
+        /// <param name="cityId">city id</param>
+        /// <param name="pageIndex">current page</param>
+        /// <param name="pageSize">page size</param>
+        /// <returns></returns>
+        Task<List<BestCurrencyDto>> GetBestCurrenciesAsync(DateTime begin, DateTime end, int cityId, int pageIndex, int pageSize);
+
+        /// <summary>
+        /// Get best currency counts.
+        /// </summary>
+        /// <returns></returns>
+        Task<int> BestCurrencyCountsAsync(DateTime begin, DateTime end, int cityId);
+	}
 }

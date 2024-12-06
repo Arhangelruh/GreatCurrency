@@ -14,7 +14,7 @@
 .container {
     width: 100%;
     margin: 0 auto;
-    min-width: 870px;    
+    min-width: 930px;    
 }
 
 .logo{
@@ -198,6 +198,7 @@ th{
 
 .get_statistic_dropbox_field{    
     width: 35%;
+    min-width: 515px;
 }
 
 .get_statistic_dropbox{
@@ -214,6 +215,7 @@ th{
 
 .get_statistic_data{
     width: 280px;
+    min-width: 275px;
 }
 
 .get_statistic_field{
@@ -242,13 +244,8 @@ th{
    display: flex;
 }
 
-.best_rates_table{
-    width: 80%;    
-}
-
 .statistic_table{
-    display: flex;
-    width: 20%;
+    width: 50%;
     justify-content: center;
 }
 
@@ -263,6 +260,11 @@ th{
 }
 
 .bank_name{
+    display: flex;
+    justify-content: center;
+}
+
+.service_name{
     display: flex;
     justify-content: center;
 }
@@ -296,12 +298,22 @@ th{
     color: burlywood;
 }
 
-.best_rates_table_footer{
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-}
-
 .table-settings{
     margin: 0px 10px;
+}
+
+.course_link{
+    width: 90%;
+    height: 30px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    border: groove;
+    border-color: ghostwhite;
+    color: black;
+    align-items: center;
+}
+
+.course_link:hover{
+    background-color: burlywood;
 }
