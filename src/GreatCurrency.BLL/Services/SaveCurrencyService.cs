@@ -1,4 +1,4 @@
-﻿using GreatCurrency.BLL.Interfaces;
+using GreatCurrency.BLL.Interfaces;
 using GreatCurrency.BLL.Models;
 
 namespace GreatCurrency.BLL.Services
