@@ -141,7 +141,7 @@ namespace GreatCurrency.BLL.Services
 
 								foreach (var serviceCell in serviceCells)
 								{
-									if (serviceCell.GetAttributeValue("class", "") == "currencies-courses__currency-cell")
+									if (serviceCell.GetAttributeValue("class", "") == "currencies-courses__currency-cell ")
 									{
 										try
 										{
