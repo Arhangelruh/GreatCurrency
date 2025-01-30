@@ -193,6 +193,41 @@ namespace GreatCurrency.BLL.Services
 		{
 			return await _bestCurrencyRepository.GetAll().Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end).CountAsync();
 		}
+
+		public async Task<List<BestCurrencyDto>> GetAllBestCurrenciesAsync(DateTime begin, DateTime end, int cityId)
+		{
+			var getCurrencies = await _bestCurrencyRepository.GetAll()
+				.Where(r => r.CityId == cityId && r.Request.IncomingDate > begin && r.Request.IncomingDate < end)
+				.OrderBy(r => r.RequestId)				
+				.AsNoTracking()
+				.ToListAsync();
+
+			List<BestCurrencyDto> currencies = [];
+
+			if (getCurrencies.Count != 0)
+			{
+				foreach (var rate in getCurrencies)
+				{
+					var request = await _requestService.GetRequestByIdAsync(rate.RequestId);
+					currencies.Add(new BestCurrencyDto
+					{
+						Id = rate.Id,
+						BankId = rate.BankId,
+						USDBuyRate = rate.USDBuyRate,
+						USDSaleRate = rate.USDSaleRate,
+						EURBuyRate = rate.EURBuyRate,
+						EURSaleRate = rate.EURSaleRate,
+						RUBBuyRate = rate.RUBBuyRate,
+						RUBSaleRate = rate.RUBSaleRate,
+						RequestId = rate.RequestId,
+						RequestTime = request.IncomingDate,
+						CityId = rate.CityId
+					});
+
+				}
+			}
+			return currencies;
+		}
 	}
 }
 
