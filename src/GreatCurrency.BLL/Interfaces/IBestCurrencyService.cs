@@ -55,14 +55,5 @@ namespace GreatCurrency.BLL.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<int> BestCurrencyCountsAsync(DateTime begin, DateTime end, int cityId);
-
-        /// <summary>
-        /// Get best currencies by date and city.
-        /// </summary>
-        /// <param name="begin">date from</param>
-        /// <param name="end">date to</param>
-        /// <param name="cityId">city id</param>
-        /// <returns></returns>
-        Task<List<BestCurrencyDto>> GetAllBestCurrenciesAsync(DateTime begin, DateTime end, int cityId);
 	}
 }
