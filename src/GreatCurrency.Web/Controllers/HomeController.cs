@@ -38,8 +38,10 @@ namespace GreatCurrency.Web.Controllers
 			List<CityViewModel> list = [];
 
 			DateTime now = DateTime.Now;
-			DateTime firstDate = (DateTime)(!requestData.startDate.HasValue ? now.Date : requestData.startDate);
-			DateTime secondDate = (DateTime)(!requestData.endDate.HasValue ? now.Date.AddDays(1) : requestData.endDate);
+			var myDt = DateTime.SpecifyKind(now, DateTimeKind.Unspecified);
+
+			DateTime firstDate = (DateTime)(!requestData.startDate.HasValue ? myDt.Date : requestData.startDate);
+			DateTime secondDate = (DateTime)(!requestData.endDate.HasValue ? myDt.Date.AddDays(1) : requestData.endDate);
 
 			var requestViewModel = new RequestViewModel { startDate = firstDate, endDate = secondDate };
 
