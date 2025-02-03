@@ -35,7 +35,7 @@ builder.Services.AddScoped<ISCRequestService, SCRequestService>();
 builder.Services.AddScoped<IServiceCurrencyService, ServiceCurrencyService>();
 builder.Services.AddScoped<ICSCurrencyService, CSCurrencyService>();
 builder.Services.AddScoped<ICurrencyServiceCounterService, CurrencyServiceCounterService>();
-
+builder.Services.AddScoped<IChartService, ChartsService>();
 
 builder.Services.AddHangfire(configuration => configuration
         .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
