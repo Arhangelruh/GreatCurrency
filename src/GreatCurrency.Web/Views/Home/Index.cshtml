@@ -4,6 +4,8 @@
 	ViewData["Title"] = "Creat Currency";
 }
 
+<input type="hidden" id="requestModelData" value=@Html.Raw(Json.Serialize(Model.Request))>
+
 <div class="wrapper">
 	<div class="request_field">
 		<form class="get_statistic_form" method="get" asp-controller="Home" asp-action="Index">
@@ -267,8 +269,15 @@
 			 @Html.ActionLink("Перейти к курсам", "ServiceRates", "ServiceRates", null, new {@class = "course_link" })
 		</div>
 	</div>
+	<div class="charts_area">
+		<div class="chart_field"><canvas id="USDList" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+		<div class="chart_field"><canvas id="EURList" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+		<div class ="chart_field"><canvas id="RUBList" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+	</div>
 </div>
 
 @section js {
 	<script src="~/js/indexPage.js" asp-append-version="true"></script>
+	<script src="~/lib/chart.js/chart.umd.js"></script>
+	<script type="module" src="~/js/chartsscript.js"></script>
 }

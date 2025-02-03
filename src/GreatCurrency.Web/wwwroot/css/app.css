@@ -317,3 +317,15 @@ th{
 .course_link:hover{
     background-color: burlywood;
 }
+
+/**************Charts************/
+.charts_area{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 2em;
+}
+
+.chart{
+    margin-top: 20px;
+}
