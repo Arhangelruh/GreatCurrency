@@ -90,6 +90,7 @@ namespace GreatCurrency.BLL.Services
 				.GetAll()
 				.AsNoTracking()
 				.Where(request => request.IncomingDate > begin && request.IncomingDate < end)
+				.OrderBy(request => request.Id)
 				.ToListAsync();
 
 			if (getrequests.Any())
