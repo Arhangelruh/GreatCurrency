@@ -15,6 +15,8 @@ var mainBank = builder.Configuration["AppSettings:MainBank"];
 var mainService = builder.Configuration["AppSettings:MainService"];
 var botConfigurationSection = builder.Configuration.GetSection(BotConfiguration.Configuration);
 BotConfiguration.ChatId = builder.Configuration.GetSection("BotConfiguration:ChatId").Value;
+var myfinAPILogin = builder.Configuration["APISettings:Login"];
+var myfinAPIPassword = builder.Configuration["APISettings:Password"];
 
 builder.Services.AddDbContext<GreatCurrencyContext>(options =>
  options.UseNpgsql(connection));
@@ -29,7 +31,7 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IBestCurrencyService, BestCurrencyService>();
 builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
 builder.Services.AddScoped(s => new GetParameters(mainBank, mainService));
-builder.Services.AddTelegramBotClient(botConfigurationSection);
+builder.Services.AddScoped(s => new GetMyfinAPIParameters(myfinAPILogin, myfinAPIPassword));
 builder.Services.AddScoped<ICheckCurrency, CheckCurrency>();
 builder.Services.AddScoped<ISCRequestService, SCRequestService>();
 builder.Services.AddScoped<IServiceCurrencyService, ServiceCurrencyService>();
