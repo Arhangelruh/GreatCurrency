@@ -32,22 +32,31 @@ namespace GreatCurrency.BLL.Services
 					bestUSDBuyRates.Add(SortServiceRates(bestRequestCurrencyUSDBuy, serviceid));
 
 					var reqRatesUSDSaleWithoutNull = requestRates.Where(cur => cur.USDSaleRate != 0);
-					var bestRequestCurrencyUSDSell = requestRates.Where(cur => cur.USDSaleRate == reqRatesUSDSaleWithoutNull.Select(usd => usd.USDSaleRate).Min()).ToList();
-					bestUSDSellRates.Add(SortServiceRates(bestRequestCurrencyUSDSell, serviceid));
+					if (reqRatesUSDSaleWithoutNull.Count() > 0)
+					{
+						var bestRequestCurrencyUSDSell = requestRates.Where(cur => cur.USDSaleRate == reqRatesUSDSaleWithoutNull.Select(usd => usd.USDSaleRate).Min()).ToList();
+						bestUSDSellRates.Add(SortServiceRates(bestRequestCurrencyUSDSell, serviceid));
+					}
 
 					var bestRequestCurrencyEURBuy = requestRates.Where(cur => cur.EURBuyRate == requestRates.Select(eur => eur.EURBuyRate).Max()).ToList();
 					bestEURBuyRates.Add(SortServiceRates(bestRequestCurrencyEURBuy, serviceid));
 
 					var reqRatesEURSaleWithoutNull = requestRates.Where(cur => cur.EURSaleRate != 0);
-					var bestRequestCurrencyEURSell = requestRates.Where(cur => cur.EURSaleRate == reqRatesEURSaleWithoutNull.Select(eur => eur.EURSaleRate).Min()).ToList();
-					bestEURSellRates.Add(SortServiceRates(bestRequestCurrencyEURSell, serviceid));
+					if (reqRatesEURSaleWithoutNull.Count() > 0)
+					{
+						var bestRequestCurrencyEURSell = requestRates.Where(cur => cur.EURSaleRate == reqRatesEURSaleWithoutNull.Select(eur => eur.EURSaleRate).Min()).ToList();
+						bestEURSellRates.Add(SortServiceRates(bestRequestCurrencyEURSell, serviceid));
+					}
 
 					var bestRequestCurrencyRUBBuy = requestRates.Where(cur => cur.RUBBuyRate == requestRates.Select(rub => rub.RUBBuyRate).Max()).ToList();
 					bestRUBBuyRates.Add(SortServiceRates(bestRequestCurrencyRUBBuy, serviceid));
 
 					var reqRatesRUBSaleWithoutNull = requestRates.Where(cur => cur.RUBSaleRate != 0);
-					var bestRequestCurrencyRUBSell = reqRatesRUBSaleWithoutNull.Where(cur => cur.RUBSaleRate == reqRatesRUBSaleWithoutNull.Select(rub => rub.RUBSaleRate).Min()).ToList();
-					bestRUBSellRates.Add(SortServiceRates(bestRequestCurrencyRUBSell, serviceid));
+					if (reqRatesRUBSaleWithoutNull.Count() > 0)
+					{
+						var bestRequestCurrencyRUBSell = reqRatesRUBSaleWithoutNull.Where(cur => cur.RUBSaleRate == reqRatesRUBSaleWithoutNull.Select(rub => rub.RUBSaleRate).Min()).ToList();
+						bestRUBSellRates.Add(SortServiceRates(bestRequestCurrencyRUBSell, serviceid));
+					}
 				}
 
 				if (requests.Count == 1)
