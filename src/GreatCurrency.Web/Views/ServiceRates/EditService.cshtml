@@ -1,0 +1,17 @@
+﻿@model ServiceViewModel
+
+<div class="text_error message">
+    @Html.ValidationMessage("Error")
+</div>
+
+<form class="forms" method="post" asp-controller="ServiceRates" asp-action="EditService">
+    <input type="hidden" asp-for="Id" />
+    <div class="formslabel">
+        <label asp-for="ServiceName">Наименование сервиса</label><br />
+        <input class="formsfield" asp-for="ServiceName" />
+        <span asp-validation-for="ServiceName" class="text_error"></span>
+    </div>    
+    <div class="formslabel">
+        <input class="button_classic" type="submit" value="Сохранить" />
+    </div>
+</form>

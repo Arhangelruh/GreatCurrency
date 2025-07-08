@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ServiceViewModel>
+
+<div class="table-wrapper">
+    <div class="table-heading">
+        <div class="table-heading-text">Сервисы</div>
+        <form method="get" asp-controller="ServiceRates" asp-action="CreateService">
+            <button class="button_classic" type="submit" title="Создать">Создать</button>
+        </form>
+    </div>
+
+    <table class="service-table">
+        <tr>
+            <th>Сервис</th>            
+        </tr>
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.ServiceName</td>
+                <td>
+                    <a asp-controller="ServiceRates" asp-action="EditService" asp-route-serviceid="@service.Id">
+                        <img title="Изменить" src="/images/Edit.svg" />
+                    </a>
+                </td>
+                <td>
+                    <a class="Delete_Service" name="@service.Id">
+                        <img title="Удалить" src="/images/Delete.svg" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@section js {
+    <script src="~/js/deleteService.js" asp-append-version="true"></script>
+}
