@@ -30,6 +30,7 @@ builder.Services.AddScoped<ISaveCurrencyService, SaveCurrencyService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IBestCurrencyService, BestCurrencyService>();
 builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
+builder.Services.AddTelegramBotClient(botConfigurationSection);
 builder.Services.AddScoped(s => new GetParameters(mainBank, mainService));
 builder.Services.AddScoped(s => new GetMyfinAPIParameters(myfinAPILogin, myfinAPIPassword));
 builder.Services.AddScoped<ICheckCurrency, CheckCurrency>();
@@ -37,6 +38,8 @@ builder.Services.AddScoped<ISCRequestService, SCRequestService>();
 builder.Services.AddScoped<IServiceCurrencyService, ServiceCurrencyService>();
 builder.Services.AddScoped<ICSCurrencyService, CSCurrencyService>();
 builder.Services.AddScoped<ICurrencyServiceCounterService, CurrencyServiceCounterService>();
+builder.Services.AddScoped<IMyfinAPIService, MyfinAPIService>();
+builder.Services.AddScoped<ISaveMyfinAPICurrencyService, SaveMyfinAPICurrencyService>();
 
 
 builder.Services.AddHangfire(configuration => configuration
