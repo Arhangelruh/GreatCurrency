@@ -108,6 +108,11 @@ object-fit: contain;
     position: relative;
 }
 
+.Delete_Service{
+    cursor: pointer;
+    position: relative;
+}
+
 .message_label{
     text-align: center;  
     line-height: 15px;  

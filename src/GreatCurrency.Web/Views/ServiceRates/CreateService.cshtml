@@ -1,0 +1,12 @@
+﻿@model ServiceViewModel
+
+<form class="forms" method="post" asp-controller="ServiceRates" asp-action="CreateService">
+    <div class="formslabel">
+        <label asp-for="ServiceName">Наименование сервиса</label><br />
+        <input class="formsfield" asp-for="ServiceName" />
+        <span asp-validation-for="ServiceName" class="text_error"></span>
+    </div>    
+    <div class="formslabel">
+        <input class="button_classic" type="submit" value="Сохранить" />
+    </div>
+</form>

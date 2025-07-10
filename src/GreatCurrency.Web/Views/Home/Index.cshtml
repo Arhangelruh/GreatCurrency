@@ -12,6 +12,7 @@
 				{
 					@Html.DropDownList("cityId", new SelectList(ViewBag.CityList, "Id", "CityName"), new { @class = "get_statistic_dropbox" })
 				}
+				@if (ViewBag.BankList != null)
 				@Html.DropDownList("bankId", new SelectList(ViewBag.BankList, "Id", "BankName"), new { @class = "get_statistic_longdropbox" })
 
 				@if (ViewBag.ServiceList != null)
