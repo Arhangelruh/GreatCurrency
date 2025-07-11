@@ -33,6 +33,8 @@ namespace GreatCurrency.Web.Controllers
 
 		}
 
+        //Job с парсингом закомментирован т.к его нельзя запускать без внесение правок данных в базе или доработок кода: часть онлайн сервисов передается в апи с другим названием, так же наименованиях банков нужно чистить пробелы.
+        /*
         [HttpGet]
         public async Task<ActionResult> CreateReccuringJob(string cron)
         {
@@ -51,6 +53,7 @@ namespace GreatCurrency.Web.Controllers
                 return BadRequest();
             }
         }
+        */
 
 		[HttpGet]
 		public async Task<ActionResult> CreateReccuringJobAPI(string cron)
