@@ -50,5 +50,15 @@
 		/// Requests for currency service.
 		/// </summary>
 		public const string SCRequests = nameof(SCRequests);
+
+		/// <summary>
+		/// Requests for legal enteties.
+		/// </summary>
+		public const string LERequests = nameof(LERequests);
+
+		/// <summary>
+		/// Currency for legal enteties.
+		/// </summary>
+		public const string LECurrencies = nameof(LECurrencies);
 	}
 }
