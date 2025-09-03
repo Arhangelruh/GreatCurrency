@@ -19,9 +19,9 @@ namespace GreatCurrency.DAL.Configurations
 			   .HasForeignKey(request => request.RequestId)
 			   .OnDelete(DeleteBehavior.Restrict);
 
-			builder.HasOne(bank => bank.Bank)
+			builder.HasOne(organisation => organisation.Organisation)
 				.WithMany(currency => currency.LECurrencies)
-				.HasForeignKey(bank => bank.BankId)
+				.HasForeignKey(organisation => organisation.Id)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

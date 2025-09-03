@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GreatCurrency.DAL.Migrations
 {
     [DbContext(typeof(GreatCurrencyContext))]
-    [Migration("20250827092624_AddLegalEntitiesRates")]
+    [Migration("20250903133905_AddLegalEntitiesRates")]
     partial class AddLegalEntitiesRates
     {
         /// <inheritdoc />
@@ -237,12 +237,6 @@ namespace GreatCurrency.DAL.Migrations
             modelBuilder.Entity("GreatCurrency.DAL.Models.LECurrency", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BankId")
                         .HasColumnType("integer");
 
                     b.Property<double>("CNYBuyRate")
@@ -256,6 +250,9 @@ namespace GreatCurrency.DAL.Migrations
 
                     b.Property<double>("EURSaleRate")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("OrganisationId")
+                        .HasColumnType("integer");
 
                     b.Property<double>("RUBBuyRate")
                         .HasColumnType("double precision");
@@ -274,11 +271,26 @@ namespace GreatCurrency.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BankId");
-
                     b.HasIndex("RequestId");
 
                     b.ToTable("LECurrencies", (string)null);
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.LEOrganisation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LEOrganisations", (string)null);
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.LERequest", b =>
@@ -415,9 +427,9 @@ namespace GreatCurrency.DAL.Migrations
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.LECurrency", b =>
                 {
-                    b.HasOne("GreatCurrency.DAL.Models.Bank", "Bank")
+                    b.HasOne("GreatCurrency.DAL.Models.LEOrganisation", "Organisation")
                         .WithMany("LECurrencies")
-                        .HasForeignKey("BankId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -427,9 +439,9 @@ namespace GreatCurrency.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Bank");
-
                     b.Navigation("LERequest");
+
+                    b.Navigation("Organisation");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.Bank", b =>
@@ -437,8 +449,6 @@ namespace GreatCurrency.DAL.Migrations
                     b.Navigation("BankDepartments");
 
                     b.Navigation("BestCurrencies");
-
-                    b.Navigation("LECurrencies");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.BankDepartment", b =>
@@ -456,6 +466,11 @@ namespace GreatCurrency.DAL.Migrations
             modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyService", b =>
                 {
                     b.Navigation("CSCurrencies");
+                });
+
+            modelBuilder.Entity("GreatCurrency.DAL.Models.LEOrganisation", b =>
+                {
+                    b.Navigation("LECurrencies");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.LERequest", b =>

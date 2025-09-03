@@ -13,6 +13,19 @@ namespace GreatCurrency.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "LEOrganisations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LEOrganisations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LERequests",
                 columns: table => new
                 {
@@ -29,8 +42,7 @@ namespace GreatCurrency.DAL.Migrations
                 name: "LECurrencies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "integer", nullable: false),
                     USDBuyRate = table.Column<double>(type: "double precision", nullable: false),
                     USDSaleRate = table.Column<double>(type: "double precision", nullable: false),
                     EURBuyRate = table.Column<double>(type: "double precision", nullable: false),
@@ -39,16 +51,16 @@ namespace GreatCurrency.DAL.Migrations
                     RUBSaleRate = table.Column<double>(type: "double precision", nullable: false),
                     CNYBuyRate = table.Column<double>(type: "double precision", nullable: false),
                     CNYSaleRate = table.Column<double>(type: "double precision", nullable: false),
-                    BankId = table.Column<int>(type: "integer", nullable: false),
+                    OrganisationId = table.Column<int>(type: "integer", nullable: false),
                     RequestId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LECurrencies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LECurrencies_Bank_BankId",
-                        column: x => x.BankId,
-                        principalTable: "Bank",
+                        name: "FK_LECurrencies_LEOrganisations_Id",
+                        column: x => x.Id,
+                        principalTable: "LEOrganisations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -58,11 +70,6 @@ namespace GreatCurrency.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LECurrencies_BankId",
-                table: "LECurrencies",
-                column: "BankId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LECurrencies_RequestId",
@@ -75,6 +82,9 @@ namespace GreatCurrency.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "LECurrencies");
+
+            migrationBuilder.DropTable(
+                name: "LEOrganisations");
 
             migrationBuilder.DropTable(
                 name: "LERequests");

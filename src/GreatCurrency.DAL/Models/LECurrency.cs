@@ -50,12 +50,12 @@
 		/// <summary>
 		/// Navigate to currency service.
 		/// </summary>
-		public int BankId { get; set; }
+		public int OrganisationId { get; set; }
 
 		/// <summary>
 		/// Navigate to currency service.
 		/// </summary>
-		public Bank Bank { get; set; }
+		public LEOrganisation Organisation { get; set; }
 
 		/// <summary>
 		/// Navigate to SC request.

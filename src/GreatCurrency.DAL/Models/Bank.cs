@@ -21,10 +21,5 @@
         /// Navigation to Best Currency.
         /// </summary>
         public ICollection<BestCurrency> BestCurrencies { get; set; }
-
-		/// <summary>
-		/// Navigation to legal entities Currency.
-		/// </summary>
-		public ICollection<LECurrency> LECurrencies { get; set; }
 	}
 }

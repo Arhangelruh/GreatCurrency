@@ -51,6 +51,11 @@
 		/// </summary>
 		public const string SCRequests = nameof(SCRequests);
 
+        /// <summary>
+        /// Organisation for legal entities rates.
+        /// </summary>
+		public const string LEOrganisations = nameof(LEOrganisations);
+
 		/// <summary>
 		/// Requests for legal enteties.
 		/// </summary>
