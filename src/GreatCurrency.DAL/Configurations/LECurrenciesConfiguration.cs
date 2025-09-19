@@ -21,7 +21,7 @@ namespace GreatCurrency.DAL.Configurations
 
 			builder.HasOne(organisation => organisation.Organisation)
 				.WithMany(currency => currency.LECurrencies)
-				.HasForeignKey(organisation => organisation.Id)
+				.HasForeignKey(organisation => organisation.OrganisationId)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

@@ -42,7 +42,8 @@ namespace GreatCurrency.DAL.Migrations
                 name: "LECurrencies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     USDBuyRate = table.Column<double>(type: "double precision", nullable: false),
                     USDSaleRate = table.Column<double>(type: "double precision", nullable: false),
                     EURBuyRate = table.Column<double>(type: "double precision", nullable: false),
@@ -58,8 +59,8 @@ namespace GreatCurrency.DAL.Migrations
                 {
                     table.PrimaryKey("PK_LECurrencies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LECurrencies_LEOrganisations_Id",
-                        column: x => x.Id,
+                        name: "FK_LECurrencies_LEOrganisations_OrganisationId",
+                        column: x => x.OrganisationId,
                         principalTable: "LEOrganisations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -70,6 +71,11 @@ namespace GreatCurrency.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LECurrencies_OrganisationId",
+                table: "LECurrencies",
+                column: "OrganisationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LECurrencies_RequestId",

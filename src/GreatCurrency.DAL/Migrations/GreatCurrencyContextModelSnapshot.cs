@@ -234,7 +234,10 @@ namespace GreatCurrency.DAL.Migrations
             modelBuilder.Entity("GreatCurrency.DAL.Models.LECurrency", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<double>("CNYBuyRate")
                         .HasColumnType("double precision");
@@ -267,6 +270,8 @@ namespace GreatCurrency.DAL.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganisationId");
 
                     b.HasIndex("RequestId");
 
@@ -426,7 +431,7 @@ namespace GreatCurrency.DAL.Migrations
                 {
                     b.HasOne("GreatCurrency.DAL.Models.LEOrganisation", "Organisation")
                         .WithMany("LECurrencies")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

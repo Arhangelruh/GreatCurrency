@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GreatCurrency.DAL.Migrations
 {
     [DbContext(typeof(GreatCurrencyContext))]
-    [Migration("20250903133905_AddLegalEntitiesRates")]
+    [Migration("20250919092457_AddLegalEntitiesRates")]
     partial class AddLegalEntitiesRates
     {
         /// <inheritdoc />
@@ -237,7 +237,10 @@ namespace GreatCurrency.DAL.Migrations
             modelBuilder.Entity("GreatCurrency.DAL.Models.LECurrency", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<double>("CNYBuyRate")
                         .HasColumnType("double precision");
@@ -270,6 +273,8 @@ namespace GreatCurrency.DAL.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganisationId");
 
                     b.HasIndex("RequestId");
 
@@ -429,7 +434,7 @@ namespace GreatCurrency.DAL.Migrations
                 {
                     b.HasOne("GreatCurrency.DAL.Models.LEOrganisation", "Organisation")
                         .WithMany("LECurrencies")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
