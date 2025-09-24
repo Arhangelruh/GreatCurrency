@@ -58,5 +58,10 @@ namespace GreatCurrency.BLL.Models
 		/// Navigate to SC request.
 		/// </summary>
 		public int RequestId { get; set; }
+
+		/// <summary>
+		/// Request datetime.
+		/// </summary>
+		public DateTime RequestTime { get; set; }
 	}
 }
