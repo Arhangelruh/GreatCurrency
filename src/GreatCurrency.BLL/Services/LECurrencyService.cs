@@ -102,5 +102,48 @@ namespace GreatCurrency.BLL.Services
 			}
 			return currencies;
 		}
+
+		public async Task<List<LECurrencyDto>> GetCurrenciesAsync(DateTime begin, DateTime end, int pageIndex, int pageSize)
+		{
+			var getRates = await _currencyRepository.GetAll()
+				.Where(r => r.LERequest.IncomingDate > begin && r.LERequest.IncomingDate < end)
+				.OrderBy(r => r.RequestId)
+				.Skip(pageIndex * pageSize)
+				.Take(pageSize)
+				.AsNoTracking()
+				.ToListAsync();
+
+			List<LECurrencyDto> currencies = [];
+
+			if (getRates.Count != 0)
+			{
+				foreach (var rate in getRates)
+				{
+					var request = await _requestService.GetRequestByIdAsync(rate.RequestId);
+					currencies.Add(new LECurrencyDto
+					{
+						Id = rate.Id,
+						OrganisationId = rate.OrganisationId,
+						USDBuyRate = rate.USDBuyRate,
+						USDSaleRate = rate.USDSaleRate,
+						EURBuyRate = rate.EURBuyRate,
+						EURSaleRate = rate.EURSaleRate,
+						RUBBuyRate = rate.RUBBuyRate,
+						RUBSaleRate = rate.RUBSaleRate,
+						RequestId = rate.RequestId,
+						RequestTime = request.IncomingDate,
+						CNYBuyRate = rate.CNYBuyRate,
+						CNYSaleRate = rate.CNYSaleRate
+					});
+
+				}
+			}
+			return currencies;
+		}
+
+		public async Task<int> CurrencyCountAsync(DateTime begin, DateTime end)
+		{
+			return await _currencyRepository.GetAll().Where(r => r.LERequest.IncomingDate > begin && r.LERequest.IncomingDate < end).CountAsync();
+		}
 	}
 }
