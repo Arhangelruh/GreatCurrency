@@ -31,7 +31,6 @@ namespace GreatCurrency.BLL.Services
 						{
 							HtmlNodeCollection headRows = tHead.SelectNodes(".//tr");
 							HtmlNodeCollection headColumns = headRows[0].SelectNodes(".//th");
-							//HtmlNode thCurrencyAmount = headRows[0].SelectSingleNode(".//th[contains(@class, 'primary')]");
 
 							var currencyAmounthString = headColumns[1].InnerText;
 							if (currencyAmounthString != null)
@@ -51,11 +50,11 @@ namespace GreatCurrency.BLL.Services
 
 											if (organisationCurrency != null)
 											{
-												var sellStringValue = organisationCurrency[1].InnerText.Replace(",", ".");
-												var buyStringValue = organisationCurrency[2].InnerText.Replace(",", ".");
-
-												double sellCurrencyValue = (double.TryParse(sellStringValue, out sellCurrencyValue)) ? sellCurrencyValue : 0;
+												var buyStringValue = organisationCurrency[1].InnerText.Replace(",", ".");
+												var sellStringValue = organisationCurrency[2].InnerText.Replace(",", ".");
+												
 												double buyCurrencyValue = (double.TryParse(buyStringValue, out buyCurrencyValue)) ? buyCurrencyValue : 0;
+												double sellCurrencyValue = (double.TryParse(sellStringValue, out sellCurrencyValue)) ? sellCurrencyValue : 0;
 
 												var currentOrganisation = organisationCurrency[0].InnerText.Replace("&nbsp;", " ");
 
