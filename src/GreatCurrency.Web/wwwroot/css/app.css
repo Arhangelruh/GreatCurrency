@@ -46,6 +46,34 @@ object-fit: contain;
     cursor: pointer;
 }
 
+.header-nav{    
+    display: flex;
+    text-align: center; 
+    align-items: flex-end;
+    right: 20px;
+}
+
+.nav-item{
+    display: flex;
+    list-style: none;    
+}
+
+.nav-item-botton{
+    background: url(../images/Nav-item.svg) no-repeat;
+    background-size: contain;
+    border: none;
+    width: 150px;
+    height: 4em;
+    text-align: center;      
+    line-height: 30px;
+    cursor: pointer;      
+}
+
+.nav-item-botton:hover{
+    width: 200px;
+    height: 7em;
+}
+
 .header-dropdown {
     position: relative;
     display: inline-block;

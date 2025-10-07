@@ -1,0 +1,184 @@
+﻿@model LegalStatisticViewModel;
+
+<div class="wrapper">
+	<div class="request_field">
+		<form class="get_statistic_form" method="get" asp-controller="LegalRates" asp-action="LegalRates">
+			<div class="get_statistic_dropbox_field">				
+				@if (ViewBag.OrganisationList != null)
+					@Html.DropDownList("OrganisationId", new SelectList(ViewBag.OrganisationList, "Id", "Name"), new { @class = "get_statistic_longdropbox" })
+			</div>
+			<div class="get_statistic_data">
+				<input class="get_statistic_field" type="date" name="startDate" />
+				<input class="get_statistic_field" type="date" name="endDate" />
+			</div>
+			<div class="get_statistic_button_field">
+				<button class="get_statistic_button" type="submit" title="Запросить">Запросить</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="wrapper_statistic">
+		<div class="legal_statistic_table">
+			@if (Model.Statistic != null)
+			{
+				<div class="statistic">
+					<div class="statistic_data bank_name">@Model.Statistic.OrganisationName</div>
+
+					<div class="statistic_data">Курс сдать USD был выгодным @Model.Statistic.USDBuyStatistic% времени</div>
+
+					@if (Model.Statistic.bestUsdBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestUsdBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить USD был выгодным @Model.Statistic.USDSellStatistic% времени</div>
+
+					@if (Model.Statistic.bestUsdSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestUsdSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс сдать EUR был выгодным @Model.Statistic.EURBuyStatistic% времени</div>
+
+					@if (Model.Statistic.bestEURBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestEURBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить EUR был выгодным @Model.Statistic.EURSellStatistic% времени</div>
+
+					@if (Model.Statistic.bestEURSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestEURSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+
+					<div class="statistic_data">Курс сдать RUB был выгодным @Model.Statistic.RUBBuyStatistic% времени</div>
+
+					@if (Model.Statistic.bestRubBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestRubBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить RUB был выгодным @Model.Statistic.RUBSellStatistic% времени</div>
+
+					@if (Model.Statistic.bestRubSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestRubSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс сдать CNY был выгодным @Model.Statistic.CNYBuyStatistic% времени</div>
+
+					@if (Model.Statistic.bestCNYBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestCNYBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить RUB был выгодным @Model.Statistic.CNYSellStatistic% времени</div>
+
+					@if (Model.Statistic.bestCNYSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.Statistic.bestCNYSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+			@Html.ActionLink("Перейти к курсам", "Rates", "LegalRates", null, new { @class = "course_link" })
+		</div>
+	</div>
+</div>
+
+	@section js {
+		<script src="~/js/indexPage.js" asp-append-version="true"></script>
+	}
+
+@section css {
+	<link href="~/css/legalrates.css" rel="stylesheet" asp-append-version="true" />
+}
