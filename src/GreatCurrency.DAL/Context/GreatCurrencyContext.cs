@@ -56,6 +56,21 @@ namespace GreatCurrency.DAL.Context
 		/// </summary>
 		public DbSet<CSCurrency> CSCurrencies { get; set; }
 
+		/// <summary>
+		/// Organisations for legal entities rates.
+		/// </summary>
+		public DbSet<LEOrganisation> LEOrganisations { get; set; }
+
+		/// <summary>
+		/// Requests for legal entities.
+		/// </summary>
+		public DbSet<LERequest> LERequests { get; set; }
+
+		/// <summary>
+		/// Currecies for legal entities.
+		/// </summary>
+		public DbSet<LECurrency> LECurrencies { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder = modelBuilder ?? throw new ArgumentNullException(nameof(modelBuilder));
@@ -69,6 +84,9 @@ namespace GreatCurrency.DAL.Context
 			modelBuilder.ApplyConfiguration(new SCRequestConfiguration());
             modelBuilder.ApplyConfiguration(new CurrencyServiceConfiguration());
 			modelBuilder.ApplyConfiguration(new CSCurrenciesConfiguration());
+			modelBuilder.ApplyConfiguration(new LEOrganisationConfiguration());
+			modelBuilder.ApplyConfiguration(new LECurrenciesConfiguration());
+			modelBuilder.ApplyConfiguration(new LERequestConfiguration());
 
 			base.OnModelCreating(modelBuilder);
         }

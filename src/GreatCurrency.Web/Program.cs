@@ -17,6 +17,8 @@ var botConfigurationSection = builder.Configuration.GetSection(BotConfiguration.
 BotConfiguration.ChatId = builder.Configuration.GetSection("BotConfiguration:ChatId").Value;
 var myfinAPILogin = builder.Configuration["APISettings:Login"];
 var myfinAPIPassword = builder.Configuration["APISettings:Password"];
+var statusbankAPILogin = builder.Configuration["StatusbankAPISettings:Login"];
+var statusbankAPIPassword = builder.Configuration["StatusbankAPISettings:Password"];
 
 builder.Services.AddDbContext<GreatCurrencyContext>(options =>
  options.UseNpgsql(connection));
@@ -33,6 +35,7 @@ builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
 builder.Services.AddTelegramBotClient(botConfigurationSection);
 builder.Services.AddScoped(s => new GetParameters(mainBank, mainService));
 builder.Services.AddScoped(s => new GetMyfinAPIParameters(myfinAPILogin, myfinAPIPassword));
+builder.Services.AddScoped(s => new GetStatusbankParameters(statusbankAPILogin, statusbankAPIPassword));
 builder.Services.AddScoped<ICheckCurrency, CheckCurrency>();
 builder.Services.AddScoped<ISCRequestService, SCRequestService>();
 builder.Services.AddScoped<IServiceCurrencyService, ServiceCurrencyService>();
@@ -40,6 +43,12 @@ builder.Services.AddScoped<ICSCurrencyService, CSCurrencyService>();
 builder.Services.AddScoped<ICurrencyServiceCounterService, CurrencyServiceCounterService>();
 builder.Services.AddScoped<IMyfinAPIService, MyfinAPIService>();
 builder.Services.AddScoped<ISaveMyfinAPICurrencyService, SaveMyfinAPICurrencyService>();
+builder.Services.AddScoped<IStatusBankAPIService,StatusBankAPIService>();
+builder.Services.AddScoped<ILECurrencyService, LECurrencyService>();
+builder.Services.AddScoped<ILEOrganisationService, LEOrganisationService>();
+builder.Services.AddScoped<ILERequestService, LERequestService>();
+builder.Services.AddScoped<IGetLegalCurrencyService, GetLegalCurrencyService>();
+builder.Services.AddScoped<ILegalCurrencyCounterService, LegalCurrencyCounterService>();
 
 
 builder.Services.AddHangfire(configuration => configuration

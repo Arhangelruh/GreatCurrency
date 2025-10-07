@@ -41,5 +41,15 @@
         /// RUB sale currency.
         /// </summary>
         public double RUBSaleRate { get; set; }
-    }
+
+		/// <summary>
+		/// CNY buy currency.
+		/// </summary>
+		public double CNYBuyRate { get; set; }
+
+		/// <summary>
+		/// CNY buy currency.
+		/// </summary>
+		public double CNYSaleRate { get; set; }
+	}
 }

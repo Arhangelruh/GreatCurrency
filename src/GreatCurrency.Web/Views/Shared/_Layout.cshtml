@@ -16,8 +16,20 @@
                   <a class="logo" asp-controller="Home" asp-action="Index">
                      <img class="logo-image" title="logo" src="~/images/Logo_Statusbank.svg" />
                      <div class="logo-text">Best rates</div>
-                  </a>                                  
-                  @* <div class="header-nav">
+                  </a>    
+                  <ul class="header-nav">
+                    <li class="nav-item">
+                        <form method="get" asp-controller="Home" asp-action="Index">
+                            <button class="nav-item-botton" type="submit" title="Index">Физ. лица</button>
+                        </form>                        
+                    </li>
+                    <li class="nav-item">
+                        <form method="get" asp-controller="LegalRates" asp-action="LegalRates">
+                            <button class="nav-item-botton" type="submit" title="Index">Юр. лица</button>
+                        </form>
+                    </li>
+                  </ul>
+                  @* <div class="header-configuration">
                     <div class="header-dropdown">
                         <img class="header-settings-img" src="/images/Settings.svg" />
                         <div class="dropdown-content">
@@ -32,7 +44,7 @@
                             </a>
                         </div>
                     </div>                                                                        
-                  </div>  *@                 
+                  </div> *@       
             </div>
         </div>
     </header>

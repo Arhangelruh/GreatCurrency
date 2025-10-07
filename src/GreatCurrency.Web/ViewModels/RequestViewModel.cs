@@ -26,5 +26,10 @@
         /// Service id.
         /// </summary>
         public int? ServiceId { get; set; }
-    }
+
+		/// <summary>
+		/// Organisation id.
+		/// </summary>
+		public int? OrganisationId { get; set; }
+	}
 }

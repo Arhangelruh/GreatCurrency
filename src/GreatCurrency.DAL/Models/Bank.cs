@@ -21,5 +21,5 @@
         /// Navigation to Best Currency.
         /// </summary>
         public ICollection<BestCurrency> BestCurrencies { get; set; }
-    }
+	}
 }
