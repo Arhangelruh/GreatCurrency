@@ -14,7 +14,7 @@ namespace GreatCurrency.BLL.Services
 		public static async Task<List<BankCurrency>> GetBanksCurrencyAsync(string url)
 		{
 			var currencies = new List<BankCurrency>();
-			if (Banki24Constants.LegalCurrencies.Count > 0)
+			if (Banki24Constants.LegalCurrencies.Count != 0)
 			{
 				List<LegalRate> rates = [];
 
@@ -44,38 +44,41 @@ namespace GreatCurrency.BLL.Services
 									if (tBody != null)
 									{
 										HtmlNodeCollection rows = tBody.SelectNodes(".//tr");
-										foreach (var row in rows)
+										if (rows != null)
 										{
-											HtmlNodeCollection organisationCurrency = row.SelectNodes(".//td");
-
-											if (organisationCurrency != null)
+											foreach (var row in rows)
 											{
-												var buyStringValue = organisationCurrency[1].InnerText.Replace(",", ".");
-												var sellStringValue = organisationCurrency[2].InnerText.Replace(",", ".");
-												
-												double buyCurrencyValue = (double.TryParse(buyStringValue, out buyCurrencyValue)) ? buyCurrencyValue : 0;
-												double sellCurrencyValue = (double.TryParse(sellStringValue, out sellCurrencyValue)) ? sellCurrencyValue : 0;
+												HtmlNodeCollection organisationCurrency = row.SelectNodes(".//td");
 
-												var currentOrganisation = organisationCurrency[0].InnerText.Replace("&nbsp;", " ");
-
-												var sellRate = new LegalRate
+												if (organisationCurrency != null)
 												{
-													Organisation = currentOrganisation,
-													Currency = currency.Name,
-													Rate = sellCurrencyValue / currencyAmount,
-													Meaning = "sell"
-												};
+													var buyStringValue = organisationCurrency[1].InnerText.Replace(",", ".");
+													var sellStringValue = organisationCurrency[2].InnerText.Replace(",", ".");
 
-												rates.Add(sellRate);
+													decimal buyCurrencyValue = (decimal.TryParse(buyStringValue, out buyCurrencyValue)) ? buyCurrencyValue : 0;
+													decimal sellCurrencyValue = (decimal.TryParse(sellStringValue, out sellCurrencyValue)) ? sellCurrencyValue : 0;
 
-												var buyRate = new LegalRate
-												{
-													Organisation = currentOrganisation,
-													Currency = currency.Name,
-													Rate = buyCurrencyValue / currencyAmount,
-													Meaning = "buy"
-												};
-												rates.Add(buyRate);
+													var currentOrganisation = organisationCurrency[0].InnerText.Replace("&nbsp;", " ");
+
+													var sellRate = new LegalRate
+													{
+														Organisation = currentOrganisation,
+														Currency = currency.Name,
+														Rate = sellCurrencyValue / currencyAmount,
+														Meaning = "sell"
+													};
+
+													rates.Add(sellRate);
+
+													var buyRate = new LegalRate
+													{
+														Organisation = currentOrganisation,
+														Currency = currency.Name,
+														Rate = buyCurrencyValue / currencyAmount,
+														Meaning = "buy"
+													};
+													rates.Add(buyRate);
+												}
 											}
 										}
 									}
@@ -85,7 +88,7 @@ namespace GreatCurrency.BLL.Services
 					}
 				}
 
-				if (rates.Count > 0)
+				if (rates.Count != 0)
 				{					
 					List<string> organisationList = [.. rates.Select(org => org.Organisation).Distinct()];
 					foreach (var org in organisationList)
@@ -95,14 +98,14 @@ namespace GreatCurrency.BLL.Services
 						var currency = new BankCurrency
 						{
 							BankName = org,
-							USDBuyRate = (organisationCurrency.Any(r => r.Currency == "USD")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "USD" && r.Meaning == "buy").Rate : 0,
-							USDSaleRate = (organisationCurrency.Any(r => r.Currency == "USD")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "USD" && r.Meaning == "sell").Rate : 0,
-							EURBuyRate = (organisationCurrency.Any(r => r.Currency == "EUR")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "EUR" && r.Meaning == "buy").Rate : 0,
-							EURSaleRate = (organisationCurrency.Any(r => r.Currency == "EUR")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "EUR" && r.Meaning == "sell").Rate : 0,
-							RUBBuyRate = (organisationCurrency.Any(r => r.Currency == "RUB")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "RUB" && r.Meaning == "buy").Rate : 0,
-							RUBSaleRate = (organisationCurrency.Any(r => r.Currency == "RUB")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "RUB" && r.Meaning == "sell").Rate : 0,
-							CNYSaleRate = (organisationCurrency.Any(r => r.Currency == "CNY")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "CNY" && r.Meaning == "sell").Rate : 0,
-							CNYBuyRate = (organisationCurrency.Any(r => r.Currency == "CNY")) ? organisationCurrency.FirstOrDefault(r => r.Currency == "CNY" && r.Meaning == "buy").Rate : 0
+							USDBuyRate = (organisationCurrency.Any(r => r.Currency == "USD")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "USD" && r.Meaning == "buy").Rate : 0,
+							USDSaleRate = (organisationCurrency.Any(r => r.Currency == "USD")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "USD" && r.Meaning == "sell").Rate : 0,
+							EURBuyRate = (organisationCurrency.Any(r => r.Currency == "EUR")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "EUR" && r.Meaning == "buy").Rate : 0,
+							EURSaleRate = (organisationCurrency.Any(r => r.Currency == "EUR")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "EUR" && r.Meaning == "sell").Rate : 0,
+							RUBBuyRate = (organisationCurrency.Any(r => r.Currency == "RUB")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "RUB" && r.Meaning == "buy").Rate : 0,
+							RUBSaleRate = (organisationCurrency.Any(r => r.Currency == "RUB")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "RUB" && r.Meaning == "sell").Rate : 0,
+							CNYSaleRate = (organisationCurrency.Any(r => r.Currency == "CNY")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "CNY" && r.Meaning == "sell").Rate : 0,
+							CNYBuyRate = (organisationCurrency.Any(r => r.Currency == "CNY")) ? (double)organisationCurrency.FirstOrDefault(r => r.Currency == "CNY" && r.Meaning == "buy").Rate : 0
 						};
 
 						currencies.Add(currency);
@@ -161,7 +164,7 @@ namespace GreatCurrency.BLL.Services
 												{
 													var stringValue = pStrings[1].InnerText.Replace(",", ".");
 
-													if (double.TryParse(stringValue, out double currencyValue))
+													if (decimal.TryParse(stringValue, out decimal currencyValue))
 													{
 														var rate = new LegalRate
 														{
@@ -180,18 +183,18 @@ namespace GreatCurrency.BLL.Services
 						}
 					}
 
-					if (rates.Count > 0)
+					if (rates.Count != 0)
 					{
 						var result = new BankCurrency
 						{
-							USDBuyRate = (rates.Any(r => r.Currency == "USD")) ? rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
-							USDSaleRate = (rates.Any(r => r.Currency == "USD")) ? rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
-							EURBuyRate = (rates.Any(r => r.Currency == "EUR")) ? rates.FirstOrDefault(r => r.Currency == "EUR").Rate : 0,
-							EURSaleRate = (rates.Any(r => r.Currency == "EUR")) ? rates.FirstOrDefault(r => r.Currency == "EUR").Rate : 0,
-							RUBBuyRate = (rates.Any(r => r.Currency == "RUB")) ? rates.FirstOrDefault(r => r.Currency == "RUB").Rate : 0,
-							RUBSaleRate = (rates.Any(r => r.Currency == "RUB")) ? rates.FirstOrDefault(r => r.Currency == "RUB").Rate : 0,
-							CNYSaleRate = (rates.Any(r => r.Currency == "CNY")) ? rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0,
-							CNYBuyRate = (rates.Any(r => r.Currency == "CNY")) ? rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0
+							USDBuyRate = (rates.Any(r => r.Currency == "USD")) ? (double)rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
+							USDSaleRate = (rates.Any(r => r.Currency == "USD")) ? (double)rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
+							EURBuyRate = (rates.Any(r => r.Currency == "EUR")) ? (double)rates.FirstOrDefault(r => r.Currency == "EUR").Rate : 0,
+							EURSaleRate = (rates.Any(r => r.Currency == "EUR")) ? (double)rates.FirstOrDefault(r => r.Currency == "EUR").Rate : 0,
+							RUBBuyRate = (rates.Any(r => r.Currency == "RUB")) ? (double)rates.FirstOrDefault(r => r.Currency == "RUB").Rate : 0,
+							RUBSaleRate = (rates.Any(r => r.Currency == "RUB")) ? (double)rates.FirstOrDefault(r => r.Currency == "RUB").Rate : 0,
+							CNYSaleRate = (rates.Any(r => r.Currency == "CNY")) ? (double)rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0,
+							CNYBuyRate = (rates.Any(r => r.Currency == "CNY")) ? (double)rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0
 						};
 
 						return result;

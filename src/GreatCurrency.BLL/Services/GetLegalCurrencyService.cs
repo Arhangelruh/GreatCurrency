@@ -30,7 +30,7 @@ namespace GreatCurrency.BLL.Services
 
 					var ratesList = await _statusbanApiService.GetRatesAsync(statusbankAPIanswer.sessionToken);
 
-					if (ratesList.ClientQuotes.Count > 0)
+					if (ratesList.ClientQuotes != null)
 					{
 						var requestId = await _requestService.AddRequestAsync(new LERequestDto { IncomingDate = DateTime.Now });
 
@@ -60,31 +60,30 @@ namespace GreatCurrency.BLL.Services
 							};
 
 							await _currencyService.AddCurrencyAsync(currency);
+						}
 
-							
-							var otherBanksRates = await Banki24ParserService.GetBanksCurrencyAsync(Banki24LinksConstant.LegalRatesLink);
+						var otherBanksRates = await Banki24ParserService.GetBanksCurrencyAsync(Banki24LinksConstant.LegalRatesLink);
 
-							if (otherBanksRates.Count > 0)
+						if (otherBanksRates.Count != 0)
+						{
+							foreach (var rate in otherBanksRates)
 							{
-								foreach (var rate in otherBanksRates)
-								{
-									var organisation = await OrganisationCheckOrSaveAsync(rate.BankName);
+								var organisation = await OrganisationCheckOrSaveAsync(rate.BankName);
 
-									var otherCurrency = new LECurrencyDto
-									{
-										RequestId = requestId,
-										OrganisationId = organisation,
-										USDBuyRate = rate.USDBuyRate,
-										USDSaleRate = rate.USDSaleRate,
-										EURBuyRate = rate.EURBuyRate,
-										EURSaleRate = rate.EURSaleRate,
-										RUBBuyRate = rate.RUBBuyRate,
-										RUBSaleRate = rate.RUBSaleRate,
-										CNYBuyRate = rate.CNYBuyRate,
-										CNYSaleRate = rate.CNYSaleRate
-									};
-									await _currencyService.AddCurrencyAsync(otherCurrency);
-								}
+								var otherCurrency = new LECurrencyDto
+								{
+									RequestId = requestId,
+									OrganisationId = organisation,
+									USDBuyRate = rate.USDBuyRate,
+									USDSaleRate = rate.USDSaleRate,
+									EURBuyRate = rate.EURBuyRate,
+									EURSaleRate = rate.EURSaleRate,
+									RUBBuyRate = rate.RUBBuyRate,
+									RUBSaleRate = rate.RUBSaleRate,
+									CNYBuyRate = rate.CNYBuyRate,
+									CNYSaleRate = rate.CNYSaleRate
+								};
+								await _currencyService.AddCurrencyAsync(otherCurrency);
 							}
 						}
 					}

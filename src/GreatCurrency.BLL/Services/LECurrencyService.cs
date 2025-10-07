@@ -12,10 +12,7 @@ namespace GreatCurrency.BLL.Services
 
 		public async Task AddCurrencyAsync(LECurrencyDto currencyDto)
 		{
-			if (currencyDto is null)
-			{
-				throw new ArgumentNullException(nameof(currencyDto));
-			}
+			ArgumentNullException.ThrowIfNull(currencyDto);
 
 			var newCurrency = new LECurrency
 			{
@@ -54,7 +51,7 @@ namespace GreatCurrency.BLL.Services
 						foreach (var currency in getCurrencies)
 						{
 							_currencyRepository.Delete(currency);
-							await _currencyRepository.SaveChangesAsync();
+							await _currencyRepository.SaveChangesAsync();							
 						}
 					}
 					await _requestService.DeleteRequestAsync(request.Id);

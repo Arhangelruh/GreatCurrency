@@ -15,7 +15,7 @@
 		/// <summary>
 		/// Rate value.
 		/// </summary>
-		public double Rate { get; set; }
+		public decimal Rate { get; set; }
 
 		/// <summary>
 		/// Rate sell or buy meaning.

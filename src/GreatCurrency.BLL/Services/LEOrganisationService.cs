@@ -10,7 +10,6 @@ namespace GreatCurrency.BLL.Services
 		private readonly IRepository<LEOrganisation> _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 		private readonly IRepository<LECurrency> _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
 
-
 		public async Task<int> AddOrganisationAsync(LEOrganisationDto organisationDto)
 		{
 			ArgumentNullException.ThrowIfNull(organisationDto, nameof(organisationDto));
@@ -96,6 +95,20 @@ namespace GreatCurrency.BLL.Services
 
 			_repository.Update(getOrganisation);
 			await _repository.SaveChangesAsync();
+		}
+
+		public async Task CheckOrDeleteAsync()
+		{
+			var getOrganisations = await _repository.GetAll().AsNoTracking().ToListAsync();
+			foreach (var organisation in getOrganisations)
+			{
+				var currency = await _currencyRepository.GetEntityAsync(currency => currency.OrganisationId == organisation.Id);
+				if (currency is null)
+				{
+					_repository.Delete(organisation);
+					await _repository.SaveChangesAsync();
+				}
+			}
 		}
 	}
 }

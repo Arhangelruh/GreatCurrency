@@ -42,5 +42,11 @@ namespace GreatCurrency.BLL.Interfaces
 		/// <param name="organisationName">Organisation name</param>
 		/// <returns>organisation dto</returns>
 		Task<LEOrganisationDto> GetOrganisationByNameAsync(string organisationName);
+
+		/// <summary>
+		/// Check organisations and delete if there isn't currency;
+		/// </summary>
+		/// <returns></returns>
+		Task CheckOrDeleteAsync();
 	}
 }
