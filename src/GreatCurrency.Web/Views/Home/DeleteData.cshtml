@@ -35,3 +35,15 @@
         <input class="button_classic" type="submit" value="Удалить" />
     </div>
 </form>
+
+<div class="message_label">Введите дату до которой можно удалить данные по курсам Юр.лиц и нажмите кнопку удалить.</div>
+<form class="forms" method="post" asp-controller="LegalRates" asp-action="DeleteLegalRates">
+    <div class="formslabel">
+        <label asp-for="Date">Дата</label><br />
+        <input class="formsfield" type="date" asp-for="Date" />
+        <span asp-validation-for="Date" class="text_error"></span>
+    </div>
+    <div class="formslabel">
+        <input class="button_classic" type="submit" value="Удалить" />
+    </div>
+</form>

@@ -1,0 +1,35 @@
+.wrapper_rates{
+    margin: 20px;
+   min-width: 830px;
+   display: flex;
+}
+
+.legal_rates_table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;    
+}
+
+.get_statistic_dropbox_field{    
+    width: 35%;
+    min-width: 515px;
+    display: flex;
+    justify-content: center;
+}
+
+.legal_rates_table_footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.wrapper_statistic {
+    margin: 20px;
+    min-width: 830px;
+    display: flex;
+    justify-content: center;
+}
+
+.legal_statistic_table{
+    width: 80%;
+}

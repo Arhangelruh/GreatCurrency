@@ -16,8 +16,8 @@ namespace GreatCurrency.BLL.Services
 				.WithHeader("User-Agent", "statusbank")
 				.PostUrlEncodedAsync(new
 				{
-					username = "statusbank",
-					password = "XNwhvxPW"
+					username = login,
+					password
 				})
 				.ReceiveJson<MyfinAPILogin>();
 		}
