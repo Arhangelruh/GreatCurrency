@@ -16,5 +16,20 @@
         /// RUB
         /// </summary>
         public const string RUB = "RUB";
-    }
+
+		/// <summary>
+		/// EURUSD
+		/// </summary>
+		public const string EURUSD = "EURUSD";
+
+		/// <summary>
+		/// USDRUB
+		/// </summary>
+		public const string USDRUB = "USDRUB";
+
+		/// <summary>
+		/// EURRUB
+		/// </summary>
+		public const string EURRUB = "EURRUB";
+	}
 }

@@ -37,10 +37,40 @@
         /// </summary>
         public double RUBSaleRate { get; set; }
 
-        /// <summary>
-        /// Navigate to bank department.
-        /// </summary>
-        public int BankDepartmentId { get; set; }
+		/// <summary>
+		/// EURUSD buy currency.
+		/// </summary>
+		public double EURUSDBuyRate { get; set; }
+
+		/// <summary>
+		/// EURUSD sell currency.
+		/// </summary>
+		public double EURUSDSellRate { get; set; }
+
+		/// <summary>
+		/// USDRUB buy currency.
+		/// </summary>
+		public double USDRUBBuyRate { get; set; }
+
+		/// <summary>
+		/// USDRUB sell currency.
+		/// </summary>
+		public double USDRUBSellRate { get; set; }
+
+		/// <summary>
+		/// EURRUB buy currency.
+		/// </summary>
+		public double EURRUBBuyRate { get; set; }
+
+		/// <summary>
+		/// EURRUB sell currency.
+		/// </summary>
+		public double EURRUBSellRate { get; set; }
+
+		/// <summary>
+		/// Navigate to bank department.
+		/// </summary>
+		public int BankDepartmentId { get; set; }
 
         /// <summary>
         /// Navigate to request.
