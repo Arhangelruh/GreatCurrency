@@ -44,6 +44,12 @@
               <th>Купить EUR</th>
               <th>Сдать RUB</th>
               <th>Купить RUB</th>
+              <th>Сдать EUR/USD</th>
+              <th>Купить EUR/USD</th>
+              <th>Сдать USD/RUB</th>
+              <th>Купить USD/RUB</th>
+              <th>Сдать EUR/RUB</th>
+              <th>Купить EUR/RUB</th>
               <th>Время запроса</th>
            </tr>
           @foreach (var rate in Model.bestRates)
@@ -56,6 +62,12 @@
               <td>@rate.EURSaleRate</td>
               <td>@rate.RUBBuyRate</td>
               <td>@rate.RUBSaleRate</td>
+              <td>@rate.EURUSDBuyRate</td>
+              <td>@rate.EURUSDSellRate</td>
+              <td>@rate.USDRUBBuyRate</td>
+              <td>@rate.USDRUBSellRate</td>
+              <td>@rate.EURRUBBuyRate</td>
+              <td>@rate.EURRUBSellRate</td>
               <td>@rate.RequestTime</td>
            </tr>
           }

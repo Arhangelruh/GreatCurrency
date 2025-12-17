@@ -2,6 +2,6 @@
 {
 	public class RatesListConstant
 	{
-		public static List<string> Rates = [RatesConstant.USD, RatesConstant.EUR, RatesConstant.RUB];
+		public static List<string> Rates = [RatesConstant.USD, RatesConstant.EUR, RatesConstant.RUB, RatesConstant.EURUSD, RatesConstant.USDRUB, RatesConstant.EURRUB];
 	}
 }

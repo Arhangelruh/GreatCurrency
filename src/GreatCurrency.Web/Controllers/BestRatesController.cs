@@ -2,7 +2,6 @@
 using GreatCurrency.Web.Services;
 using GreatCurrency.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace GreatCurrency.Web.Controllers
 {
@@ -63,7 +62,7 @@ namespace GreatCurrency.Web.Controllers
 
 			DateTime firstDate = (DateTime)(!requestData.startDate.HasValue ? now.Date : requestData.startDate);
 			DateTime secondDate = (DateTime)(!requestData.endDate.HasValue ? now.Date.AddDays(1) : requestData.endDate);
-			var cityId = (int)(requestData.cityId == null ? cities.First().Id : requestData.cityId);			
+			var cityId = (int)(requestData.cityId == null ? cities.First().Id : requestData.cityId);
 
 			ViewData["StartData"] = firstDate;
 			ViewData["EndData"] = secondDate;
@@ -93,6 +92,12 @@ namespace GreatCurrency.Web.Controllers
 					EURSaleRate = rate.EURSaleRate,
 					RUBBuyRate = rate.RUBBuyRate,
 					RUBSaleRate = rate.RUBSaleRate,
+					EURUSDBuyRate = rate.EURUSDBuyRate,
+					EURUSDSellRate = rate.EURUSDSellRate,
+					USDRUBBuyRate = rate.USDRUBBuyRate,
+					USDRUBSellRate = rate.USDRUBSellRate,
+					EURRUBBuyRate = rate.EURRUBBuyRate,
+					EURRUBSellRate = rate.EURRUBSellRate,
 					BankId = rate.BankId,
 					BankName = bank.BankName,
 					RequestTime = rate.RequestTime

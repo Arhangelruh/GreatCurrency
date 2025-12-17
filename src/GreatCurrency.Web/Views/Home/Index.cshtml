@@ -109,7 +109,6 @@
 						</div>
 					}
 
-
 					<div class="statistic_data">Курс сдать RUB был выгодным @Model.Statistic.RUBBuyStatistic% времени</div>
 
 					@if (Model.Statistic.bestRubBuyRates.Any())
@@ -144,7 +143,115 @@
 								<div class="hidden_times">Свернуть...</div>
 							</div>
 						</div>
-					}
+					}				
+
+				<div class="statistic_data">Курс сдать EUR/USD был выгодным @Model.Statistic.EURUSDBuyStatistic% времени</div>
+
+				@if (Model.Statistic.bestEURUSDBuyRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestEURUSDBuyRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
+
+				<div class="statistic_data">Курс купить EUR/USD был выгодным @Model.Statistic.EURUSDSellStatistic% времени</div>
+
+				@if (Model.Statistic.bestEURUSDSellRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestEURUSDSellRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
+
+				<div class="statistic_data">Курс сдать USD/RUB был выгодным @Model.Statistic.USDRUBBuyStatistic% времени</div>
+
+				@if (Model.Statistic.bestUSDRUBBuyRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestUSDRUBBuyRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
+
+				<div class="statistic_data">Курс купить USD/RUB был выгодным @Model.Statistic.USDRUBSellStatistic% времени</div>
+
+				@if (Model.Statistic.bestUSDRUBSellRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestUSDRUBSellRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
+
+				<div class="statistic_data">Курс сдать EUR/RUB был выгодным @Model.Statistic.EURRUBBuyStatistic% времени</div>
+
+				@if (Model.Statistic.bestEURRUBBuyRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestEURRUBBuyRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
+
+				<div class="statistic_data">Курс купить EUR/RUB был выгодным @Model.Statistic.EURRUBSellStatistic% времени</div>
+
+				@if (Model.Statistic.bestEURRUBSellRates.Any())
+				{
+					<div class="time_field">
+						<div class="show_times">Время лучших курсов...</div>
+						<div class="statistic_times" style="display:none">
+							@foreach (var time in Model.Statistic.bestEURRUBSellRates)
+							{
+								<div class="static_time_field">
+									Максимальный курс с @time.startTime по @time.endTime.
+								</div>
+							}
+							<div class="hidden_times">Свернуть...</div>
+						</div>
+					</div>
+				}
 				</div>
 			}			   
                 @Html.ActionLink("Перейти к курсам", "BestRates", "BestRates", null, new {@class = "course_link" })         
@@ -263,6 +370,115 @@
 							</div>
 						</div>
 					}
+
+					<div class="statistic_data">Курс сдать EUR/USD был выгодным @Model.ServiceStatistic.EURUSDBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURUSDBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURUSDBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить EUR/USD был выгодным @Model.ServiceStatistic.EURUSDSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURUSDSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURUSDSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс сдать USD/RUB был выгодным @Model.ServiceStatistic.USDRUBBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestUSDRUBBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestUSDRUBBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить USD/RUB был выгодным @Model.ServiceStatistic.USDRUBSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestUSDRUBSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestUSDRUBSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс сдать EUR/RUB был выгодным @Model.ServiceStatistic.EURRUBBuyStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURRUBBuyRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURRUBBuyRates)
+								{
+									<div class="static_time_field">
+										Максимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+
+					<div class="statistic_data">Курс купить EUR/RUB был выгодным @Model.ServiceStatistic.EURRUBSellStatistic% времени</div>
+
+					@if (Model.ServiceStatistic.bestEURRUBSellRates.Any())
+					{
+						<div class="time_field">
+							<div class="show_times">Время лучших курсов...</div>
+							<div class="statistic_times" style="display:none">
+								@foreach (var time in Model.ServiceStatistic.bestEURRUBSellRates)
+								{
+									<div class="static_time_field">
+										Минимальный курс с @time.startTime по @time.endTime.
+									</div>
+								}
+								<div class="hidden_times">Свернуть...</div>
+							</div>
+						</div>
+					}
+					
 				</div>
 			}
 			 @Html.ActionLink("Перейти к курсам", "ServiceRates", "ServiceRates", null, new {@class = "course_link" })

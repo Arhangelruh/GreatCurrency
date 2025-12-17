@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
+	/// <inheritdoc cref="IBestCurrencyService"/>
 	public class BestCurrencyService(IRepository<BestCurrency> bestCurrencyRepository, IRequestService requestService) : IBestCurrencyService
 	{
 		private readonly IRepository<BestCurrency> _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
@@ -23,6 +24,12 @@ namespace GreatCurrency.BLL.Services
 				EURSaleRate = bestCurrencyDto.EURSaleRate,
 				RUBBuyRate = bestCurrencyDto.RUBBuyRate,
 				RUBSaleRate = bestCurrencyDto.RUBSaleRate,
+				EURUSDBuyRate = bestCurrencyDto.EURUSDBuyRate,
+				EURUSDSellRate = bestCurrencyDto.EURUSDSellRate,
+				USDRUBBuyRate = bestCurrencyDto.USDRUBBuyRate,
+				USDRUBSellRate = bestCurrencyDto.USDRUBSellRate,
+				EURRUBBuyRate = bestCurrencyDto.EURRUBBuyRate,
+				EURRUBSellRate = bestCurrencyDto.EURRUBSellRate,
 				RequestId = bestCurrencyDto.RequestId,
 				CityId = bestCurrencyDto.CityId
 			};
@@ -88,6 +95,12 @@ namespace GreatCurrency.BLL.Services
 								EURSaleRate = currency.EURSaleRate,
 								RUBBuyRate = currency.RUBBuyRate,
 								RUBSaleRate = currency.RUBSaleRate,
+								EURUSDBuyRate = currency.EURUSDBuyRate,
+								EURUSDSellRate = currency.EURUSDSellRate,
+								USDRUBBuyRate = currency.USDRUBBuyRate,
+								USDRUBSellRate = currency.USDRUBSellRate,
+								EURRUBBuyRate = currency.EURRUBBuyRate,
+								EURRUBSellRate = currency.EURRUBSellRate,
 								RequestId = currency.RequestId,
 								RequestTime = request.IncomingDate,
 								CityId = currency.CityId
@@ -144,6 +157,12 @@ namespace GreatCurrency.BLL.Services
 					EURSaleRate = currency.EURSaleRate,
 					RUBBuyRate = currency.RUBBuyRate,
 					RUBSaleRate = currency.RUBSaleRate,
+					EURUSDBuyRate = currency.EURUSDBuyRate,
+					EURUSDSellRate = currency.EURUSDSellRate,
+					USDRUBBuyRate = currency.USDRUBBuyRate,
+					USDRUBSellRate = currency.USDRUBSellRate,
+					EURRUBBuyRate = currency.EURRUBBuyRate,
+					EURRUBSellRate = currency.EURRUBSellRate,
 					RequestId = currency.RequestId,
 					CityId = currency.CityId
 				});
@@ -179,6 +198,12 @@ namespace GreatCurrency.BLL.Services
 						EURSaleRate = rate.EURSaleRate,
 						RUBBuyRate = rate.RUBBuyRate,
 						RUBSaleRate = rate.RUBSaleRate,
+						EURUSDBuyRate = rate.EURUSDBuyRate,
+						EURUSDSellRate = rate.EURUSDSellRate,
+						USDRUBBuyRate = rate.USDRUBBuyRate,
+						USDRUBSellRate = rate.USDRUBSellRate,
+						EURRUBBuyRate = rate.EURRUBBuyRate,
+						EURRUBSellRate = rate.EURRUBSellRate,
 						RequestId = rate.RequestId,
 						RequestTime = request.IncomingDate,
 						CityId = rate.CityId

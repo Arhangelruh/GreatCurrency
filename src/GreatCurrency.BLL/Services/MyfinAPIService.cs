@@ -6,6 +6,7 @@ using GreatCurrency.BLL.Models.MyfinModels;
 
 namespace GreatCurrency.BLL.Services
 {
+	/// <inheritdoc cref="IMyfinAPIService"/>
 	public class MyfinAPIService : IMyfinAPIService
 	{
 		public async Task<MyfinAPILogin> GetBearerToken(string login, string password)
@@ -41,8 +42,6 @@ namespace GreatCurrency.BLL.Services
 			int page = 1;
 			int pageSize = 1000;
 			var allCurrencyRates = new List<MyfinAPICurrencyRates>();
-
-			var currencies = new[] { "USD", "EUR", "BYN" };
 
 			while (true)
 			{
@@ -80,7 +79,6 @@ namespace GreatCurrency.BLL.Services
 					break;
 				}
 			}
-
 			return allCurrencyRates;
 		}
 	}
