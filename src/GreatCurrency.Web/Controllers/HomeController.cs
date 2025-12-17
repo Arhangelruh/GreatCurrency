@@ -101,7 +101,19 @@ namespace GreatCurrency.Web.Controllers
 							RUBBuyStatistic = getStatistic.RUBBuyStatistic,
 							bestRubBuyRates = getStatistic.bestRubBuyRates,
 							RUBSellStatistic = getStatistic.RUBSellStatistic,
-							bestRubSellRates = getStatistic.bestRubSellRates
+							bestRubSellRates = getStatistic.bestRubSellRates,
+							EURUSDBuyStatistic = getStatistic.EURUSDBuyStatistic,
+							bestEURUSDBuyRates = getStatistic.bestEURUSDBuyRates,
+							EURUSDSellStatistic = getStatistic.EURUSDSellStatistic,
+							bestEURUSDSellRates = getStatistic.bestEURUSDSellRates,
+							USDRUBBuyStatistic = getStatistic.USDRUBBuyStatistic,
+							bestUSDRUBBuyRates = getStatistic.bestUSDRUBBuyRates,
+							USDRUBSellStatistic = getStatistic.USDRUBSellStatistic,
+							bestUSDRUBSellRates = getStatistic.bestUSDRUBSellRates,
+							EURRUBBuyStatistic = getStatistic.EURRUBBuyStatistic,
+							bestEURRUBBuyRates = getStatistic.bestEURRUBBuyRates,
+							EURRUBSellStatistic = getStatistic.EURRUBSellStatistic,
+							bestEURRUBSellRates = getStatistic.bestEURRUBSellRates
 						};
 						model.Statistic = statistic;
 					}
@@ -110,7 +122,6 @@ namespace GreatCurrency.Web.Controllers
 
 			var mainService = await _serviceCurrencyService.GetServiceByNameAsync(_getParameters.MainService);
 			var services = await _serviceCurrencyService.GetAllServicesAsync();
-
 
 			if (services.Count > 0)
 			{
@@ -152,12 +163,23 @@ namespace GreatCurrency.Web.Controllers
 						RUBBuyStatistic = getServiceStatistic.RUBBuyStatistic,
 						bestRubBuyRates = getServiceStatistic.BestRubBuyRates,
 						RUBSellStatistic = getServiceStatistic.RUBSellStatistic,
-						bestRubSellRates = getServiceStatistic.BestRubSellRates
+						bestRubSellRates = getServiceStatistic.BestRubSellRates,
+						EURUSDBuyStatistic = getServiceStatistic.EURUSDBuyStatistic,
+						bestEURUSDBuyRates = getServiceStatistic.BestEURUSDBuyRates,
+						EURUSDSellStatistic = getServiceStatistic.EURUSDSellStatistic,
+						bestEURUSDSellRates = getServiceStatistic.BestEURUSDSellRates,
+						USDRUBBuyStatistic = getServiceStatistic.USDRUBBuyStatistic,
+						bestUSDRUBBuyRates = getServiceStatistic.BestUSDRUBBuyRates,
+						USDRUBSellStatistic = getServiceStatistic.USDRUBSellStatistic,
+						bestUSDRUBSellRates = getServiceStatistic.BestUSDRUBSellRates,
+						EURRUBBuyStatistic = getServiceStatistic.EURRUBBuyStatistic,
+						bestEURRUBBuyRates = getServiceStatistic.BestEURRUBBuyRates,
+						EURRUBSellStatistic = getServiceStatistic.EURRUBSellStatistic,
+						bestEURRUBSellRates = getServiceStatistic.BestEURRUBSellRates
 					};
 					model.ServiceStatistic = serviceStatistic;
 				}
 			}
-
 			model.Request = requestViewModel;
 			return View(model);
 		}
@@ -199,6 +221,6 @@ namespace GreatCurrency.Web.Controllers
 			ViewBag.ErrorTitle = "Ошибка";
 			ViewBag.ErrorMessage = "Ошибка ввода даты.";
 			return View("~/Views/Error/Error.cshtml");
-		}		
+		}
 	}
 }

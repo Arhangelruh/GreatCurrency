@@ -1,6 +1,5 @@
 ﻿using GreatCurrency.BLL.Interfaces;
 using GreatCurrency.BLL.Models;
-using GreatCurrency.BLL.Services;
 using GreatCurrency.Web.Services;
 using GreatCurrency.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +58,12 @@ namespace GreatCurrency.Web.Controllers
 					EURSaleRate = rate.EURSaleRate,
 					RUBBuyRate = rate.RUBBuyRate,
 					RUBSaleRate = rate.RUBSaleRate,
+					EURUSDBuyRate = rate.EURUSDBuyRate,
+					EURUSDSellRate = rate.EURUSDSellRate,
+					USDRUBBuyRate = rate.USDRUBBuyRate,
+					USDRUBSellRate = rate.USDRUBSellRate,
+					EURRUBBuyRate = rate.EURRUBBuyRate,
+					EURRUBSellRate = rate.EURRUBSellRate,
 					ServiceId = rate.CurrencyServiceId,
 					ServiceName = service.ServiceName ?? "",
 					RequestTime = rate.RequestTime
@@ -102,7 +107,7 @@ namespace GreatCurrency.Web.Controllers
 					models.Add(new ServiceViewModel
 					{
 						Id = service.Id,
-						ServiceName = service.ServiceName						
+						ServiceName = service.ServiceName
 					});
 				}
 			}
@@ -136,10 +141,10 @@ namespace GreatCurrency.Web.Controllers
 				{
 					var service = new ServiceDto()
 					{
-						ServiceName = model.ServiceName						
+						ServiceName = model.ServiceName
 					};
 
-					await _serviceCurrencyService.AddServiceAsync(service);					
+					await _serviceCurrencyService.AddServiceAsync(service);
 
 					return RedirectToAction("Services");
 				}
@@ -166,7 +171,7 @@ namespace GreatCurrency.Web.Controllers
 				var serviceViewModel = new ServiceViewModel
 				{
 					Id = getService.Id,
-					ServiceName = getService.ServiceName					
+					ServiceName = getService.ServiceName
 				};
 				return View(serviceViewModel);
 			}
@@ -191,7 +196,7 @@ namespace GreatCurrency.Web.Controllers
 				var service = new ServiceDto
 				{
 					Id = model.Id,
-					ServiceName = model.ServiceName					
+					ServiceName = model.ServiceName
 				};
 
 				await _serviceCurrencyService.UpdateServiceAsync(service);
@@ -217,7 +222,7 @@ namespace GreatCurrency.Web.Controllers
 				var service = new ServiceViewModel
 				{
 					Id = getservice.Id,
-					ServiceName = getservice.ServiceName					
+					ServiceName = getservice.ServiceName
 				};
 				return View(service);
 			}
@@ -248,7 +253,7 @@ namespace GreatCurrency.Web.Controllers
 				return Json("error");
 			}
 			return Json("error");
-		}		
+		}
 	}
 
 
