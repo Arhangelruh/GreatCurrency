@@ -67,5 +67,65 @@
         /// </summary>
         public List<TimeRates> bestRubSellRates { get; set; }
 
-    }
+		/// <summary>
+		/// EUR/USD buy converting percent static.
+		/// </summary>
+		public int EURUSDBuyStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best buy converting rate EUR/USD.
+		/// </summary>
+		public List<TimeRates> bestEURUSDBuyRates { get; set; }
+
+		/// <summary>
+		/// EUR/USD sell converting percent static.
+		/// </summary>
+		public int EURUSDSellStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best sell converting rate EUR/USD.
+		/// </summary>
+		public List<TimeRates> bestEURUSDSellRates { get; set; }
+
+		/// <summary>
+		/// USD/RUB buy converting percent static.
+		/// </summary>
+		public int USDRUBBuyStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best buy converting rate USD/RUB.
+		/// </summary>
+		public List<TimeRates> bestUSDRUBBuyRates { get; set; }
+
+		/// <summary>
+		/// USD/RUB sell converting percent static.
+		/// </summary>
+		public int USDRUBSellStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best sell converting rate USD/RUB.
+		/// </summary>
+		public List<TimeRates> bestUSDRUBSellRates { get; set; }
+
+		/// <summary>
+		/// EUR/RUB buy converting percent static.
+		/// </summary>
+		public int EURRUBBuyStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best buy converting rate EUR/RUB.
+		/// </summary>
+		public List<TimeRates> bestEURRUBBuyRates { get; set; }
+
+		/// <summary>
+		/// EUR/RUB sell converting percent static.
+		/// </summary>
+		public int EURRUBSellStatistic { get; set; }
+
+		/// <summary>
+		/// Times whith best sell converting rate EUR/RUB.
+		/// </summary>
+		public List<TimeRates> bestEURRUBSellRates { get; set; }
+
+	}
 }

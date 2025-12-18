@@ -38,62 +38,30 @@
                         <th>Купить EUR</th>
                         <th>Сдать RUB</th>
                         <th>Купить RUB</th>
+                        <th>Сдать EUR/USD</th>
+                        <th>Купить EUR/USD</th>
+                        <th>Сдать USD/RUB</th>
+                        <th>Купить USD/RUB</th>
+                        <th>Сдать EUR/RUB</th>
+                        <th>Купить EUR/RUB</th>
                         <th>Время запроса</th>
                     </tr>
                     @foreach (var rate in Model.serviceRates)
                     {
                         <tr>
                             <td>@rate.ServiceName</td>
-                            <td>
-                                @if(rate.USDBuyRate != 0){
-                                    @rate.USDBuyRate
-                                }
-                                else
-                                {
-                                     <p>-</p>
-                                }           
-                            </td>                 
-                            <td>
-                                 @if(rate.USDSaleRate != 0){
-                                      @rate.USDSaleRate
-                                }
-                                else
-                                {
-                                     <p>-</p>
-                                }            
-                            </td>                                           
-                            <td>
-                                    @if(rate.EURBuyRate != 0){
-                                    @rate.EURBuyRate
-                                }
-                                else
-                                {
-                                    <p>-</p>
-                                }
-                                </td>
-                            <td>
-                                    @if(rate.EURSaleRate != 0){
-                                    @rate.EURSaleRate
-                                }
-                                else
-                                {
-                                    <p>-</p>
-                                }
-                                </td>
-                            <td>
-                                    @if( rate.RUBBuyRate != 0){
-                                     @rate.RUBBuyRate
-                                }else{<p>-</p>}
-                               </td>
-                            <td>
-                                    @if(rate.RUBSaleRate != 0){
-                                     @rate.RUBSaleRate
-                                }
-                                else
-                                {
-                                    <p>-</p>
-                                }
-                               </td>
+                            <td>@(rate.USDBuyRate == 0 ? "-" : rate.USDBuyRate)</td>                 
+                            <td>@(rate.USDSaleRate == 0 ? "-" : rate.USDSaleRate)</td>                                           
+                            <td>@(rate.EURBuyRate == 0 ? "-" : rate.EURBuyRate)</td>
+                            <td>@(rate.EURSaleRate == 0 ? "-" : rate.EURSaleRate)</td>
+                            <td>@(rate.RUBBuyRate == 0 ? "-" : rate.RUBBuyRate)</td>
+                            <td>@(rate.RUBSaleRate == 0 ? "-" : rate.RUBSaleRate)</td>
+                            <td>@(rate.EURUSDBuyRate == 0 ? "-" : rate.EURUSDBuyRate)</td>
+                            <td>@(rate.EURUSDSellRate == 0 ? "-" : rate.EURUSDSellRate)</td>
+                            <td>@(rate.USDRUBBuyRate == 0 ? "-" : rate.USDRUBBuyRate)</td>
+                            <td>@(rate.USDRUBSellRate == 0 ? "-" : rate.USDRUBSellRate)</td>
+                            <td>@(rate.EURRUBBuyRate == 0 ? "-" : rate.EURRUBBuyRate)</td>
+                            <td>@(rate.EURRUBSellRate == 0 ? "-" : rate.EURRUBSellRate)</td>
                             <td>@rate.RequestTime</td>
                         </tr>
                     }
@@ -104,15 +72,15 @@
                     @if (Model.serviceRates.HasPreviousPage)
                     {
                         <a class="change_page" onclick="location.href =
-                   '@Url.Action(
-                   "ServiceRates",
-                   "ServiceRates",
-                    new { page = Model.serviceRates.PageIndex - 1,
-                      pageSize = ViewData["PageSize"],
-                      startDate = ViewData["StartData"],
-                      endDate = ViewData["EndData"],
-                      cityId = ViewData["CurrentCity"]
-                     })'">
+                           '@Url.Action(
+                           "ServiceRates",
+                           "ServiceRates",
+                           new { page = Model.serviceRates.PageIndex - 1,
+                           pageSize = ViewData["PageSize"],
+                           startDate = ViewData["StartData"],
+                           endDate = ViewData["EndData"],
+                           cityId = ViewData["CurrentCity"]
+                           })'">
                             <img title="Previous" src="/images/Left.svg" />
                         </a>
                     }

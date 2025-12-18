@@ -24,6 +24,12 @@ namespace GreatCurrency.BLL.Services
 				EURSaleRate = cSCurrencyDto.EURSaleRate,
 				RUBBuyRate = cSCurrencyDto.RUBBuyRate,
 				RUBSaleRate = cSCurrencyDto.RUBSaleRate,
+				EURUSDBuyRate = cSCurrencyDto.EURUSDBuyRate,
+				EURUSDSellRate = cSCurrencyDto.EURUSDSellRate,
+				USDRUBBuyRate = cSCurrencyDto.USDRUBBuyRate,
+				USDRUBSellRate = cSCurrencyDto.USDRUBSellRate,
+				EURRUBBuyRate = cSCurrencyDto.EURRUBBuyRate,
+				EURRUBSellRate = cSCurrencyDto.EURRUBSellRate,
 				RequestId = cSCurrencyDto.RequestId
 			};
 
@@ -87,6 +93,12 @@ namespace GreatCurrency.BLL.Services
 								EURSaleRate = currency.EURSaleRate,
 								RUBBuyRate = currency.RUBBuyRate,
 								RUBSaleRate = currency.RUBSaleRate,
+								EURUSDBuyRate = currency.EURUSDBuyRate,
+								EURUSDSellRate = currency.EURUSDSellRate,
+								USDRUBBuyRate = currency.USDRUBBuyRate,
+								USDRUBSellRate = currency.USDRUBSellRate,
+								EURRUBBuyRate = currency.EURRUBBuyRate,
+								EURRUBSellRate = currency.EURRUBSellRate,
 								RequestId = currency.RequestId,
 								RequestTime = request.IncomingDate
 							});
@@ -97,7 +109,7 @@ namespace GreatCurrency.BLL.Services
 			return currencies;
 		}
 
-		public async Task<List<CSCurrencyDto>> GetCurrenciesWithParamsAsync(DateTime start, DateTime end, int pageIndex, int pageSize) 
+		public async Task<List<CSCurrencyDto>> GetCurrenciesWithParamsAsync(DateTime start, DateTime end, int pageIndex, int pageSize)
 		{
 			var getCurrencies = await _currencyRepository.GetAll()
 				   .Where(r => r.SCRequest.IncomingDate > start && r.SCRequest.IncomingDate < end)
@@ -109,22 +121,29 @@ namespace GreatCurrency.BLL.Services
 
 			List<CSCurrencyDto> currencies = [];
 
-			if (getCurrencies.Count != 0) { 
-			     foreach(var rate in getCurrencies)
+			if (getCurrencies.Count != 0)
+			{
+				foreach (var rate in getCurrencies)
 				{
 					var request = await _requestService.GetRequestByIdAsync(rate.RequestId);
 					currencies.Add(new CSCurrencyDto
 					{
 						Id = rate.Id,
 						CurrencyServiceId = rate.CurrencyServicesId,
-						RequestId=rate.RequestId,
+						RequestId = rate.RequestId,
 						RequestTime = request.IncomingDate,
 						RUBBuyRate = rate.RUBBuyRate,
 						RUBSaleRate = rate.RUBSaleRate,
 						EURBuyRate = rate.EURBuyRate,
 						EURSaleRate = rate.EURSaleRate,
 						USDBuyRate = rate.USDBuyRate,
-						USDSaleRate = rate.USDSaleRate
+						USDSaleRate = rate.USDSaleRate,
+						EURUSDBuyRate = rate.EURUSDBuyRate,
+						EURUSDSellRate = rate.EURUSDSellRate,
+						USDRUBBuyRate = rate.USDRUBBuyRate,
+						USDRUBSellRate = rate.USDRUBSellRate,
+						EURRUBBuyRate = rate.EURRUBBuyRate,
+						EURRUBSellRate = rate.EURRUBSellRate
 					});
 				}
 			}

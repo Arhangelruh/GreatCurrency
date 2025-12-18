@@ -5,6 +5,7 @@ using GreatCurrency.BLL.Models.MyfinModels;
 
 namespace GreatCurrency.BLL.Services
 {
+	/// <inheritdoc cref="ISaveMyfinAPICurrencyService"/>
 	public class SaveMyfinAPICurrencyService : ISaveMyfinAPICurrencyService
 	{
 		private readonly ICityService _cityService;
@@ -91,6 +92,16 @@ namespace GreatCurrency.BLL.Services
 									var USDrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.USD);
 									var EURrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EUR);
 									var RUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.RUB);
+									var EURUSDrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EURUSD);
+									var USDRUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.USDRUB);
+									var EURRUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EURRUB);
+
+									var EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy;
+									var EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell;
+									var USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy;
+									var USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell;
+									var EURRUBBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy;
+									var EURRUBSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell;
 
 									var newSCCurrency = new CSCurrencyDto
 									{
@@ -101,7 +112,13 @@ namespace GreatCurrency.BLL.Services
 										EURBuyRate = EURrates.rate_buy,
 										EURSaleRate = EURrates.rate_sell,
 										RUBBuyRate = RUBrates.rate_buy,
-										RUBSaleRate = RUBrates.rate_sell
+										RUBSaleRate = RUBrates.rate_sell,
+										EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
+										EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
+										USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
+										USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
+										EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+										EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell
 									};
 
 									await _cSCurrencyService.AddCurrencyAsync(newSCCurrency);
@@ -126,6 +143,9 @@ namespace GreatCurrency.BLL.Services
 							var USDrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.USD);
 							var EURrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EUR);
 							var RUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.RUB);
+							var EURUSDrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EURUSD);
+							var USDRUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.USDRUB);
+							var EURRUBrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EURRUB);
 
 							var newCurrency = new CurrencyDto
 							{
@@ -135,6 +155,12 @@ namespace GreatCurrency.BLL.Services
 								EURSaleRate = EURrates.rate_sell,
 								RUBBuyRate = RUBrates.rate_buy,
 								RUBSaleRate = RUBrates.rate_sell,
+								EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
+								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
+								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
+								USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
+								EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+								EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell,
 								BankDepartmentId = departmentId,
 								RequestId = requestId
 							};
@@ -147,6 +173,12 @@ namespace GreatCurrency.BLL.Services
 								EURSaleRate = EURrates.rate_sell,
 								RUBBuyRate = RUBrates.rate_buy,
 								RUBSaleRate = RUBrates.rate_sell,
+								EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
+								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
+								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
+								USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
+								EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+								EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell,
 								BankId = bankId,
 								CityId = city.Id,
 								RequestId = requestId
@@ -213,6 +245,12 @@ namespace GreatCurrency.BLL.Services
 					EURSaleRate = bankcurrencies.Select(usd => usd.EURSaleRate).Min(),
 					RUBBuyRate = bankcurrencies.Select(usd => usd.RUBBuyRate).Max(),
 					RUBSaleRate = bankcurrencies.Select(usd => usd.RUBSaleRate).Min(),
+					EURUSDBuyRate = bankcurrencies.Select(eurusd => eurusd.EURUSDBuyRate).Max(),
+					EURUSDSellRate = bankcurrencies.Select(eurusd => eurusd.EURUSDSellRate).Min(),
+					USDRUBBuyRate = bankcurrencies.Select(eurusd => eurusd.USDRUBBuyRate).Max(),
+					USDRUBSellRate = bankcurrencies.Select(eurusd => eurusd.USDRUBSellRate).Min(),
+					EURRUBBuyRate = bankcurrencies.Select(eurusd => eurusd.EURRUBBuyRate).Max(),
+					EURRUBSellRate = bankcurrencies.Select(eurusd => eurusd.EURRUBSellRate).Min(),
 					BankId = bankId,
 					CityId = bankcurrencies.Select(cityid => cityid.CityId).First(),
 					RequestId = bankcurrencies.Select(r => r.RequestId).FirstOrDefault()
