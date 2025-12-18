@@ -117,8 +117,8 @@ namespace GreatCurrency.BLL.Services
 										EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
 										USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
 										USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
-										EURRUBBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
-										EURRUBSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell
+										EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+										EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell
 									};
 
 									await _cSCurrencyService.AddCurrencyAsync(newSCCurrency);
@@ -159,8 +159,8 @@ namespace GreatCurrency.BLL.Services
 								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
 								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
 								USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
-								EURRUBBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
-								EURRUBSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
+								EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+								EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell,
 								BankDepartmentId = departmentId,
 								RequestId = requestId
 							};
@@ -177,8 +177,8 @@ namespace GreatCurrency.BLL.Services
 								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
 								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
 								USDRUBSellRate = USDRUBrates == null ? 0 : USDRUBrates.rate_sell,
-								EURRUBBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
-								EURRUBSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
+								EURRUBBuyRate = EURRUBrates == null ? 0 : EURRUBrates.rate_buy,
+								EURRUBSellRate = EURRUBrates == null ? 0 : EURRUBrates.rate_sell,
 								BankId = bankId,
 								CityId = city.Id,
 								RequestId = requestId
