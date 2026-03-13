@@ -1,7 +1,7 @@
 ﻿namespace GreatCurrency.Web.Services
 {
 	/// <summary>
-	/// Get credentials to myfin api.
+	/// Get credentials to statusbank api for legal rates.
 	/// </summary>
 	/// <param name="login">login parameter</param>
 	/// <param name="password">password parameter</param>
