@@ -1,21 +1,24 @@
 ﻿using GreatCurrency.BLL.Interfaces;
 using GreatCurrency.BLL.Models;
+using GreatCurrency.DAL.Context;
 using GreatCurrency.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
 	/// <inheritdoc cref="ICurrencyService"/>
-	public class CurrencyService : ICurrencyService
+	public class CurrencyService(
+		IRepository<Currency> currencyRepository,
+		IRepository<Request> requestRepository,
+		IRequestService requestService,
+		IRepository<BestCurrency> bestCurrencyRepository,
+		GreatCurrencyContext context) : ICurrencyService
 	{
-		private readonly IRepository<Currency> _currencyRepository;
-		private readonly IRequestService _requestService;
-
-		public CurrencyService(IRepository<Currency> currencyRepository, IRequestService requestService)
-		{
-			_currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
-			_requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
-		}
+		private readonly IRepository<Currency> _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
+		private readonly IRepository<Request> _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
+		private readonly IRequestService _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
+		private readonly IRepository<BestCurrency> _bestCurrencyRepository = bestCurrencyRepository ?? throw new ArgumentNullException(nameof(bestCurrencyRepository));
+		private readonly DbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
 		public async Task AddCurrencyAsync(CurrencyDto currencyDto)
 		{
@@ -48,28 +51,34 @@ namespace GreatCurrency.BLL.Services
 
 		public async Task DeleteCurrenciesAsync(DateTime date)
 		{
-			var getRequests = await _requestService.GetRequestByDateAsync(date);
+			const int batchSize = 5000;
 
-			if (getRequests.Any())
+			while (true)
 			{
-				foreach (var request in getRequests)
-				{
-					var getCurrencies = await _currencyRepository
-				   .GetAll()
-				   .Where(currency => currency.RequestId == request.Id)
-				   .AsNoTracking()
-				   .ToListAsync();
+				var ids = await _requestRepository
+					.GetAll()
+					.Where(r => r.IncomingDate <= date)
+					.Select(r => r.Id)
+					.Take(batchSize)
+					.ToListAsync();
 
-					if (getCurrencies.Any())
-					{
-						foreach (var currency in getCurrencies)
-						{
-							_currencyRepository.Delete(currency);
-							await _currencyRepository.SaveChangesAsync();
-						}
-					}
-					await _requestService.DeleteRequestAsync(request.Id);
-				}
+				if (!ids.Any())
+					break;
+
+				await _currencyRepository
+					.GetAll()
+					.Where(c => ids.Contains(c.RequestId))
+					.ExecuteDeleteAsync();
+
+				await _bestCurrencyRepository
+					.GetAll()
+					.Where(c => ids.Contains(c.RequestId))
+					.ExecuteDeleteAsync();
+
+				await _requestRepository
+					.GetAll()
+					.Where(r => ids.Contains(r.Id))
+					.ExecuteDeleteAsync();
 			}
 		}
 
