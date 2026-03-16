@@ -505,7 +505,7 @@ namespace GreatCurrency.BLL.Services
 		public async Task SendMessageAsync(string Message)
 		{
 			var chatId = BotConfiguration.ChatId;
-			await _client.SendTextMessageAsync($"{chatId}", Message);
+			await _client.SendMessage($"{chatId}", Message);
 		}
 	}
 }
