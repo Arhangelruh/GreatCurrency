@@ -186,6 +186,7 @@ namespace GreatCurrency.BLL.Services
 							await _currencyService.AddCurrencyAsync(newCurrency);
 						}
 						await SaveBestCurrencyAsync(tableForCount);
+						await _requestService.CompleteRequestAsync(requestId);
 					}
 				}
 				await _checkCurrency.CheckCurrencyAsync(mainBankId);

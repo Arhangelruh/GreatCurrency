@@ -13,9 +13,14 @@
         public DateTime IncomingDate { get; set; }
 
         /// <summary>
-        /// Navigation to Currency.
+        /// Request status.
         /// </summary>
-        public ICollection<Currency> Currencies { get; set; }
+		public bool IsCompleted { get; set; }
+
+		/// <summary>
+		/// Navigation to Currency.
+		/// </summary>
+		public ICollection<Currency> Currencies { get; set; }
 
         /// <summary>
         /// Navigation to Best Currency.

@@ -28,7 +28,8 @@ namespace GreatCurrency.BLL.Services
 
             var newRequest = new Request
             {
-                IncomingDate = requestDto.IncomingDate
+                IncomingDate = requestDto.IncomingDate,
+                IsCompleted = false
             };
 
             await _requestRepository.AddAsync(newRequest);
@@ -135,5 +136,18 @@ namespace GreatCurrency.BLL.Services
             }
             return requests;
         }
+
+        public async Task CompleteRequestAsync(int requestId)
+        {
+			var getrequest = await _requestRepository.GetEntityAsync(request => request.Id == requestId);
+
+			if (getrequest != null && getrequest.IsCompleted == false)
+			{				
+                getrequest.IsCompleted = true;
+
+				_requestRepository.Update(getrequest);
+				await _requestRepository.SaveChangesAsync();
+			}
+		}
     }
 }

@@ -42,6 +42,11 @@ namespace GreatCurrency.BLL.Services
 			_cSCurrencyService = cSCurrencyService ?? throw new ArgumentNullException(nameof(cSCurrencyService));
 		}
 
+		/// <summary>
+		/// Get currencies and save.
+		/// </summary>
+		/// <param name="mainBankId">Current bank for checking difference between rates.</param>
+		/// <returns></returns>
 		public async Task GetAndSaveAsync(int mainBankId)
 		{
 			var cities = await _cityService.GetAllCitiesAsync();
@@ -121,6 +126,7 @@ namespace GreatCurrency.BLL.Services
 							await _currencyService.AddCurrencyAsync(newCurrency);
 						}
 						await SaveBestCurrencyAsync(tableForCount);
+						await _requestService.CompleteRequestAsync(requestId);
 					}
 				}
 				await _checkCurrency.CheckCurrencyAsync(mainBankId);

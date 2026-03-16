@@ -44,5 +44,13 @@ namespace GreatCurrency.BLL.Interfaces
         /// <param name="end">Finish date.</param>
         /// <returns>List requestdto</returns>
         Task<List<RequestDto>> GetRequestByDateBetweenAsync(DateTime begin, DateTime end);
-    }
+
+        /// <summary>
+        /// Change request status to complete.
+        /// </summary>
+        /// <param name="requestId"></param>
+        /// <returns></returns>
+		Task CompleteRequestAsync(int requestId);
+
+	}
 }
