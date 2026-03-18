@@ -17,7 +17,7 @@ namespace GreatCurrency.BLL.Services
             var token = configuration.GetSection("BotToken");
             var client = new TelegramBotClient(token.Value);
             var webHook = $"{configuration.GetSection("HostAddress").Value}{configuration.GetSection("Route").Value}/api/message/update";
-            client.SetWebhookAsync(webHook).Wait();
+            client.SetWebhook(webHook).Wait();
 
             serviceCollection.AddTransient<ITelegramBotClient>(x => client);
 

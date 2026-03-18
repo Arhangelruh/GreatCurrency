@@ -149,12 +149,12 @@ namespace GreatCurrency.BLL.Services
 
 							var newCurrency = new CurrencyDto
 							{
-								USDBuyRate = USDrates.rate_buy,
-								USDSaleRate = USDrates.rate_sell,
-								EURBuyRate = EURrates.rate_buy,
-								EURSaleRate = EURrates.rate_sell,
-								RUBBuyRate = RUBrates.rate_buy,
-								RUBSaleRate = RUBrates.rate_sell,
+								USDBuyRate = USDrates == null ? 0 : USDrates.rate_buy,
+								USDSaleRate = USDrates == null ? 0 : USDrates.rate_sell,
+								EURBuyRate = EURrates == null ? 0 : EURrates.rate_buy,
+								EURSaleRate = EURrates == null ? 0 : EURrates.rate_sell,
+								RUBBuyRate = RUBrates == null ? 0 : RUBrates.rate_buy,
+								RUBSaleRate = RUBrates == null ? 0 : RUBrates.rate_sell,
 								EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
 								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
 								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
@@ -167,12 +167,12 @@ namespace GreatCurrency.BLL.Services
 
 							tableForCount.Add(new BestCurrencyDto
 							{
-								USDBuyRate = USDrates.rate_buy,
-								USDSaleRate = USDrates.rate_sell,
-								EURBuyRate = EURrates.rate_buy,
-								EURSaleRate = EURrates.rate_sell,
-								RUBBuyRate = RUBrates.rate_buy,
-								RUBSaleRate = RUBrates.rate_sell,
+								USDBuyRate = USDrates == null ? 0 : USDrates.rate_buy,
+								USDSaleRate = USDrates == null ? 0 : USDrates.rate_sell,
+								EURBuyRate = EURrates == null ? 0 : EURrates.rate_buy,
+								EURSaleRate = EURrates == null ? 0 : EURrates.rate_sell,
+								RUBBuyRate = RUBrates == null ? 0 : RUBrates.rate_buy,
+								RUBSaleRate = RUBrates == null ? 0 : RUBrates.rate_sell,
 								EURUSDBuyRate = EURUSDrates == null ? 0 : EURUSDrates.rate_buy,
 								EURUSDSellRate = EURUSDrates == null ? 0 : EURUSDrates.rate_sell,
 								USDRUBBuyRate = USDRUBrates == null ? 0 : USDRUBrates.rate_buy,
@@ -186,6 +186,7 @@ namespace GreatCurrency.BLL.Services
 							await _currencyService.AddCurrencyAsync(newCurrency);
 						}
 						await SaveBestCurrencyAsync(tableForCount);
+						await _requestService.CompleteRequestAsync(requestId);
 					}
 				}
 				await _checkCurrency.CheckCurrencyAsync(mainBankId);
@@ -240,11 +241,11 @@ namespace GreatCurrency.BLL.Services
 				var bestBankCurrency = new BestCurrencyDto
 				{
 					USDBuyRate = bankcurrencies.Select(usd => usd.USDBuyRate).Max(),
-					USDSaleRate = bankcurrencies.Select(usd => usd.USDSaleRate).Min(),
+					USDSaleRate = bankcurrencies.Where(usd => usd.USDSaleRate > 0).Min(usd => usd.USDSaleRate),
 					EURBuyRate = bankcurrencies.Select(usd => usd.EURBuyRate).Max(),
-					EURSaleRate = bankcurrencies.Select(usd => usd.EURSaleRate).Min(),
+					EURSaleRate = bankcurrencies.Where(usd => usd.EURSaleRate > 0).Min(usd => usd.EURSaleRate),
 					RUBBuyRate = bankcurrencies.Select(usd => usd.RUBBuyRate).Max(),
-					RUBSaleRate = bankcurrencies.Select(usd => usd.RUBSaleRate).Min(),
+					RUBSaleRate = bankcurrencies.Where(usd => usd.RUBSaleRate > 0).Min(usd => usd.RUBSaleRate),
 					EURUSDBuyRate = bankcurrencies.Select(eurusd => eurusd.EURUSDBuyRate).Max(),
 					EURUSDSellRate = bankcurrencies.Select(eurusd => eurusd.EURUSDSellRate).Min(),
 					USDRUBBuyRate = bankcurrencies.Select(eurusd => eurusd.USDRUBBuyRate).Max(),

@@ -107,34 +107,5 @@ namespace GreatCurrency.Web.Controllers
 			var paginatedList = new PaginatedList<BestRatesViewModel>(modelsBestRates, getCount, page ?? 0, pageSize);
 			return View((paginatedList, requestViewModel));
 		}
-
-		/// <summary>
-		/// Delete currency request.
-		/// </summary>
-		/// <param name="datatime">datatime parameter</param>
-		/// <returns></returns>
-		[HttpPost]
-		public async Task<IActionResult> DeleteDataBestCurrency(DeleteDataViewModel dataTime)
-		{
-			if (ModelState.IsValid)
-			{
-				await _bestCurrencyService.DeleteCurrenciesAsync(dataTime.Date);
-				var banks = await _bankService.GetAllBanksAsync();
-				foreach (var bank in banks)
-				{
-					var departments = await _bankDepartmentService.GetAllBankDepartmentsAsync(bank);
-					foreach (var department in departments)
-					{
-						await _bankDepartmentService.DeleteBankDepartmentAsync(department);
-					}
-
-					await _bankService.DeleteBankAsync(bank);
-				}
-				return View("~/Views/Home/DeleteDataSucces.cshtml");
-			}
-			ViewBag.ErrorTitle = "Ошибка";
-			ViewBag.ErrorMessage = "Ошибка ввода даты.";
-			return View("~/Views/Error/Error.cshtml");
-		}
 	}
 }
