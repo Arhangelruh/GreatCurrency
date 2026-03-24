@@ -43,5 +43,20 @@ namespace GreatCurrency.BLL.Interfaces
         /// <param name="bankDepartmentName">Bank department name</param>
         /// <returns></returns>
         Task<BankDepartmentDto> GetBankDepartmentByNameAsync(string bankDepartmentName);
-    }
+
+        /// <summary>
+        /// Get bank department by external id.
+        /// </summary>
+        /// <param name="id">id number</param>
+        /// <returns></returns>
+        Task<BankDepartmentDto> GetBankDepartmentByExternalIdAsync(int id);
+
+        /// <summary>
+        /// Add department external id.
+        /// </summary>
+        /// <param name="bankDepartment"></param>
+        /// <returns></returns>
+        Task AddExternalIdAsync(BankDepartmentDto bankDepartment);
+
+	}
 }

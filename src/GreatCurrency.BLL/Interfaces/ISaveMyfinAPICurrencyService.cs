@@ -23,6 +23,6 @@
 		/// </summary>
 		/// <param name="departmentName">department name</param>
 		/// <returns>depatment dto</returns>
-		Task<int> DepartmentChekOrSaveAsync(string departmentName, int bankId, int cityId);
+		Task<int> DepartmentChekOrSaveAsync(int? departmentId, string departmentName, string departmentAddress, int bankId, int cityId);
 	}
 }

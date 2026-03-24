@@ -14,7 +14,10 @@ namespace GreatCurrency.DAL.Configurations
             builder.ToTable(TableConstants.BankDepartment)
                 .HasKey(bankdepartnent => bankdepartnent.Id);
 
-            builder.Property(bankdepartnent => bankdepartnent.DepartmentAddress)
+			builder.Property(bankdepartnent => bankdepartnent.DepartmentName)
+				.IsRequired();
+
+			builder.Property(bankdepartnent => bankdepartnent.DepartmentAddress)
                 .IsRequired();
 
             builder.HasOne(bank => bank.Bank)
