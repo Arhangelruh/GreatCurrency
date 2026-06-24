@@ -1,4 +1,6 @@
-﻿namespace GreatCurrency.DAL.Models
+﻿using GreatCurrency.BLL.Models;
+
+namespace GreatCurrency.DAL.Models
 {
 	public class LERequest
 	{
@@ -16,5 +18,10 @@
 		/// Navigation to Currency.
 		/// </summary>
 		public ICollection<LECurrency> LECurrencies { get; set; }
+
+		/// <summary>
+		/// Navigation to deal stock rates.
+		/// </summary>
+		public DealStockRates DealStockRates { get; set; }
 	}
 }

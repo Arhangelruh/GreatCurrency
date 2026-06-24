@@ -1,4 +1,5 @@
-﻿using GreatCurrency.DAL.Configurations;
+﻿using GreatCurrency.BLL.Models;
+using GreatCurrency.DAL.Configurations;
 using GreatCurrency.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,6 +72,11 @@ namespace GreatCurrency.DAL.Context
 		/// </summary>
 		public DbSet<LECurrency> LECurrencies { get; set; }
 
+		/// <summary>
+		/// Currecies for legal entities.
+		/// </summary>
+		public DbSet<DealStockRates> DealStockRates { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder = modelBuilder ?? throw new ArgumentNullException(nameof(modelBuilder));
@@ -87,6 +93,7 @@ namespace GreatCurrency.DAL.Context
 			modelBuilder.ApplyConfiguration(new LEOrganisationConfiguration());
 			modelBuilder.ApplyConfiguration(new LECurrenciesConfiguration());
 			modelBuilder.ApplyConfiguration(new LERequestConfiguration());
+            modelBuilder.ApplyConfiguration(new DealStockRatesConfiguration());
 
 			base.OnModelCreating(modelBuilder);
         }
