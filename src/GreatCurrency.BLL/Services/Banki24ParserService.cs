@@ -89,7 +89,7 @@ namespace GreatCurrency.BLL.Services
 				}
 
 				if (rates.Count != 0)
-				{					
+				{
 					List<string> organisationList = [.. rates.Select(org => org.Organisation).Distinct()];
 					foreach (var org in organisationList)
 					{
@@ -109,7 +109,7 @@ namespace GreatCurrency.BLL.Services
 						};
 
 						currencies.Add(currency);
-					}					
+					}
 				}
 			}
 			return currencies;
@@ -120,11 +120,12 @@ namespace GreatCurrency.BLL.Services
 		/// </summary>
 		/// <param name="url">Url for stock currency</param>
 		/// <returns>Bankcurrency model with all rates</returns>
-		public static async Task<BankCurrency?> GetStockCurrencyAsync(string url)
+		public static async Task<Banki24Rates> GetStockCurrencyAsync(string url)
 		{
 
 			HtmlWeb web = new();
 			HtmlDocument doc = await web.LoadFromWebAsync(url);
+			Banki24Rates banki24RatesModel = new();
 
 			HtmlNode exchangeContainer = doc.DocumentNode.SelectSingleNode(".//div[@class='exchange-container']");
 			if (exchangeContainer != null)
@@ -174,6 +175,14 @@ namespace GreatCurrency.BLL.Services
 
 														rates.Add(rate);
 													}
+													var dealStockRate = await GetDealRateAsync(currency.Name);
+
+													if (dealStockRate != null)
+													{
+														banki24RatesModel.dealStockRates ??= [];
+
+														banki24RatesModel.dealStockRates.Add(dealStockRate);
+													}
 												}
 											}
 										}
@@ -185,7 +194,7 @@ namespace GreatCurrency.BLL.Services
 
 					if (rates.Count != 0)
 					{
-						var result = new BankCurrency
+						banki24RatesModel.bankCurrency = new BankCurrency
 						{
 							USDBuyRate = (rates.Any(r => r.Currency == "USD")) ? (double)rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
 							USDSaleRate = (rates.Any(r => r.Currency == "USD")) ? (double)rates.FirstOrDefault(r => r.Currency == "USD").Rate : 0,
@@ -196,12 +205,53 @@ namespace GreatCurrency.BLL.Services
 							CNYSaleRate = (rates.Any(r => r.Currency == "CNY")) ? (double)rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0,
 							CNYBuyRate = (rates.Any(r => r.Currency == "CNY")) ? (double)rates.FirstOrDefault(r => r.Currency == "CNY").Rate : 0
 						};
-
-						return result;
 					}
 				}
 			}
 
+			return banki24RatesModel;
+		}
+
+		/// <summary>
+		/// Get last deal rate.
+		/// </summary>
+		/// <param name="currency">Currency.</param>
+		/// <returns>Deal stock rate.</returns>
+		private static async Task<DealStockRateDto?> GetDealRateAsync(string currency)
+		{
+			string url = Banki24LinksConstant.LegalDealRateLink + currency.ToLower();
+
+			HtmlWeb web = new();
+			HtmlDocument doc = await web.LoadFromWebAsync(url);
+
+			HtmlNode tablesContainer = doc.DocumentNode.SelectSingleNode(".//div[@class='tab-content']");
+			if (tablesContainer != null)
+			{
+				HtmlNodeCollection tables = tablesContainer.SelectNodes("//table[@class='table']");
+				if (tables.Count >= 2)
+				{
+					HtmlNodeCollection rows = tables[1].SelectNodes(".//tr");
+					if (rows.Count >= 3)
+					{
+						HtmlNodeCollection column = rows[2].SelectNodes(".//td");
+						if (column.Count >= 2)
+						{
+							var dealRateString = column[1].InnerText.Replace(",", ".");
+
+							if (decimal.TryParse(dealRateString, out decimal rate))
+							{
+								var rateModel = new DealStockRateDto
+								{
+									Currency = currency,
+									Rate = rate
+								};
+
+								return rateModel;
+							}
+						}
+					}
+				}
+			}
 			return null;
 		}
 	}

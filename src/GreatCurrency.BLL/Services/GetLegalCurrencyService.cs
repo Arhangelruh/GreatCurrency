@@ -9,13 +9,15 @@ namespace GreatCurrency.BLL.Services
 		IStatusBankAPIService statusBankAPIService,
 		ILEOrganisationService organisationService,
 		ILERequestService requestService,
-		ILECurrencyService currencyService
+		ILECurrencyService currencyService,
+		IDealStockRatesService dealStockRatesService
 		) : IGetLegalCurrencyService
 	{
 		private readonly IStatusBankAPIService _statusbanApiService = statusBankAPIService ?? throw new ArgumentNullException(nameof(statusBankAPIService));
 		private readonly ILEOrganisationService _organisationService = organisationService ?? throw new ArgumentNullException(nameof(organisationService));
 		private readonly ILERequestService _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
 		private readonly ILECurrencyService _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
+		private readonly IDealStockRatesService _dealStockRatesService = dealStockRatesService ?? throw new ArgumentNullException(nameof(_dealStockRatesService));
 
 		public async Task GetAndSaveAsync(string login, string password)
 		{
@@ -42,24 +44,36 @@ namespace GreatCurrency.BLL.Services
 
 						if (stockCurrency != null)
 						{
-
-							var stockOrganisation = await OrganisationCheckOrSaveAsync(LegalOrganisationConstants.Stock);
-
-							var currency = new LECurrencyDto
+							if (stockCurrency.bankCurrency != null)
 							{
-								RequestId = requestId,
-								OrganisationId = stockOrganisation,
-								USDBuyRate = stockCurrency.USDBuyRate,
-								USDSaleRate = stockCurrency.USDSaleRate,
-								EURBuyRate = stockCurrency.EURBuyRate,
-								EURSaleRate = stockCurrency.EURSaleRate,
-								RUBBuyRate = stockCurrency.RUBBuyRate,
-								RUBSaleRate = stockCurrency.RUBSaleRate,
-								CNYBuyRate = stockCurrency.CNYBuyRate,
-								CNYSaleRate = stockCurrency.CNYSaleRate
-							};
+								var stockOrganisation = await OrganisationCheckOrSaveAsync(LegalOrganisationConstants.Stock);
 
-							await _currencyService.AddCurrencyAsync(currency);
+								var currency = new LECurrencyDto
+								{
+									RequestId = requestId,
+									OrganisationId = stockOrganisation,
+									USDBuyRate = stockCurrency.bankCurrency.USDBuyRate,
+									USDSaleRate = stockCurrency.bankCurrency.USDSaleRate,
+									EURBuyRate = stockCurrency.bankCurrency.EURBuyRate,
+									EURSaleRate = stockCurrency.bankCurrency.EURSaleRate,
+									RUBBuyRate = stockCurrency.bankCurrency.RUBBuyRate,
+									RUBSaleRate = stockCurrency.bankCurrency.RUBSaleRate,
+									CNYBuyRate = stockCurrency.bankCurrency.CNYBuyRate,
+									CNYSaleRate = stockCurrency.bankCurrency.CNYSaleRate
+								};
+
+								await _currencyService.AddCurrencyAsync(currency);
+							}
+
+							if(stockCurrency.dealStockRates != null)
+							{																
+								foreach(var rate in stockCurrency.dealStockRates)
+								{
+									rate.RequestId = requestId;
+								}
+
+								await _dealStockRatesService.AddDealStokRatesAsync(stockCurrency.dealStockRates);
+							}
 						}
 
 						var otherBanksRates = await Banki24ParserService.GetBanksCurrencyAsync(Banki24LinksConstant.LegalRatesLink);
