@@ -48,6 +48,9 @@ builder.Services.AddScoped<ILEOrganisationService, LEOrganisationService>();
 builder.Services.AddScoped<ILERequestService, LERequestService>();
 builder.Services.AddScoped<IGetLegalCurrencyService, GetLegalCurrencyService>();
 builder.Services.AddScoped<ILegalCurrencyCounterService, LegalCurrencyCounterService>();
+builder.Services.AddScoped<ICurrenciesService, CurrenciesService>();
+builder.Services.AddScoped<IDealStockRatesService, DealStockRatesService>();
+
 
 
 builder.Services.AddHangfire(configuration => configuration
