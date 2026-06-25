@@ -15,8 +15,13 @@ namespace GreatCurrency.DAL.Configurations
 				.HasKey(rate => rate.Id);
 
 			builder.HasOne(deal => deal.LERequest)
-			.WithOne(request => request.DealStockRates)
-			.HasForeignKey<DealStockRates>(deal => deal.RequestId)
+			.WithMany(request => request.dealStockRates)
+			.HasForeignKey(deal => deal.RequestId)
+			.OnDelete(DeleteBehavior.Restrict);
+
+			builder.HasOne(deal => deal.Currency)
+			.WithMany(с => с.dealStockRates)
+			.HasForeignKey(deal => deal.CurrencyId)
 			.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

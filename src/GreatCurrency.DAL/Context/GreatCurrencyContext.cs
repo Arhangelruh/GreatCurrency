@@ -73,6 +73,11 @@ namespace GreatCurrency.DAL.Context
 		public DbSet<LECurrency> LECurrencies { get; set; }
 
 		/// <summary>
+		/// Currecies.
+		/// </summary>
+		public DbSet<Currencies> Currencies { get; set; }
+
+		/// <summary>
 		/// Currecies for legal entities.
 		/// </summary>
 		public DbSet<DealStockRates> DealStockRates { get; set; }

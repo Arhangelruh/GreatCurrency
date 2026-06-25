@@ -30,25 +30,20 @@ namespace GreatCurrency.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("CNYRate")
-                        .HasColumnType("numeric");
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer");
 
-                    b.Property<decimal>("EURRate")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("RUBRate")
+                    b.Property<decimal>("Rate")
                         .HasColumnType("numeric");
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("USDRate")
-                        .HasColumnType("numeric");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestId")
-                        .IsUnique();
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("RequestId");
 
                     b.ToTable("DealStockRates", (string)null);
                 });
@@ -247,6 +242,23 @@ namespace GreatCurrency.DAL.Migrations
                     b.ToTable("City", (string)null);
                 });
 
+            modelBuilder.Entity("GreatCurrency.DAL.Models.Currencies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
+                });
+
             modelBuilder.Entity("GreatCurrency.DAL.Models.Currency", b =>
                 {
                     b.Property<int>("Id")
@@ -440,11 +452,19 @@ namespace GreatCurrency.DAL.Migrations
 
             modelBuilder.Entity("GreatCurrency.BLL.Models.DealStockRates", b =>
                 {
-                    b.HasOne("GreatCurrency.DAL.Models.LERequest", "LERequest")
-                        .WithOne("DealStockRates")
-                        .HasForeignKey("GreatCurrency.BLL.Models.DealStockRates", "RequestId")
+                    b.HasOne("GreatCurrency.DAL.Models.Currencies", "Currency")
+                        .WithMany("dealStockRates")
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("GreatCurrency.DAL.Models.LERequest", "LERequest")
+                        .WithMany("dealStockRates")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
 
                     b.Navigation("LERequest");
                 });
@@ -571,6 +591,11 @@ namespace GreatCurrency.DAL.Migrations
                     b.Navigation("BestCurrencies");
                 });
 
+            modelBuilder.Entity("GreatCurrency.DAL.Models.Currencies", b =>
+                {
+                    b.Navigation("dealStockRates");
+                });
+
             modelBuilder.Entity("GreatCurrency.DAL.Models.CurrencyService", b =>
                 {
                     b.Navigation("CSCurrencies");
@@ -583,10 +608,9 @@ namespace GreatCurrency.DAL.Migrations
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.LERequest", b =>
                 {
-                    b.Navigation("DealStockRates")
-                        .IsRequired();
-
                     b.Navigation("LECurrencies");
+
+                    b.Navigation("dealStockRates");
                 });
 
             modelBuilder.Entity("GreatCurrency.DAL.Models.Request", b =>

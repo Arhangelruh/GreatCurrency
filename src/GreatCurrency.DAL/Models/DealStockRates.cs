@@ -10,24 +10,9 @@ namespace GreatCurrency.BLL.Models
 		public int Id { get; set; }
 
 		/// <summary>
-		/// USD Rate value.
+		/// Rate value.
 		/// </summary>
-		public decimal USDRate { get; set; }
-
-		/// <summary>
-		/// EUR Rate value.
-		/// </summary>
-		public decimal EURRate { get; set; }
-
-		/// <summary>
-		/// RUB Rate value.
-		/// </summary>
-		public decimal RUBRate { get; set; }
-
-		/// <summary>
-		/// CNY Rate value.
-		/// </summary>
-		public decimal CNYRate { get; set; }
+		public decimal Rate { get; set; }
 
 		/// <summary>
 		/// Navigate to SC request.
@@ -38,5 +23,15 @@ namespace GreatCurrency.BLL.Models
 		/// Navigate to SC request.
 		/// </summary>
 		public LERequest LERequest { get; set; }
+
+		/// <summary>
+		/// Navigate to currency.
+		/// </summary>
+		public int CurrencyId { get; set; }
+
+		/// <summary>
+		/// Navigate to currency.
+		/// </summary>
+		public Currencies Currency { get; set; }
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace GreatCurrency.DAL.Models
 {
-	public class LERequest
+	public class Currencies
 	{
 		/// <summary>
 		/// Currency Id.
@@ -10,14 +10,9 @@ namespace GreatCurrency.DAL.Models
 		public int Id { get; set; }
 
 		/// <summary>
-		/// Incoming date.
+		/// Currency name.
 		/// </summary>
-		public DateTime IncomingDate { get; set; }
-
-		/// <summary>
-		/// Navigation to Currency.
-		/// </summary>
-		public ICollection<LECurrency> LECurrencies { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Navigation to deal stock rates.

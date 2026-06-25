@@ -67,6 +67,11 @@
 		public const string LECurrencies = nameof(LECurrencies);
 
 		/// <summary>
+		/// Currencies.
+		/// </summary>
+		public const string Currencies = nameof(Currencies);
+
+		/// <summary>
 		/// Last deal stock rates.
 		/// </summary>
 		public const string DealStockRates = nameof(DealStockRates);
