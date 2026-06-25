@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
-    public class BankDepartmentService(IRepository<Bank> bankRepository, IRepository<City> cityRepository,
+    public class BankDepartmentService(
 		IRepository<BankDepartment> bankDepartmentRepository, IRepository<Currency> currencyRepository) : IBankDepartmentService
     {
         private readonly IRepository<Currency> _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
