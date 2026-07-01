@@ -1,6 +1,7 @@
 ﻿using GreatCurrency.BLL.Constants;
 using GreatCurrency.BLL.Models;
 using HtmlAgilityPack;
+using static Microsoft.EntityFrameworkCore.Query.Internal.ExpressionTreeFuncletizer;
 
 namespace GreatCurrency.BLL.Services
 {
@@ -227,26 +228,32 @@ namespace GreatCurrency.BLL.Services
 			HtmlNode tablesContainer = doc.DocumentNode.SelectSingleNode(".//div[@class='tab-content']");
 			if (tablesContainer != null)
 			{
-				HtmlNodeCollection tables = tablesContainer.SelectNodes("//table[@class='table']");
-				if (tables.Count >= 2)
+				HtmlNode currencyInfo = tablesContainer.SelectSingleNode(".//h3[@class='h2']");
+				var currencyInfoValue = currencyInfo.InnerText.Split(" ");
+
+				if (int.TryParse(currencyInfoValue[5], out int currencyAmount))
 				{
-					HtmlNodeCollection rows = tables[1].SelectNodes(".//tr");
-					if (rows.Count >= 3)
+					HtmlNodeCollection tables = tablesContainer.SelectNodes("//table[@class='table']");
+					if (tables.Count >= 2)
 					{
-						HtmlNodeCollection column = rows[2].SelectNodes(".//td");
-						if (column.Count >= 2)
+						HtmlNodeCollection rows = tables[1].SelectNodes(".//tr");
+						if (rows.Count >= 3)
 						{
-							var dealRateString = column[1].InnerText.Replace(",", ".");
-
-							if (decimal.TryParse(dealRateString, out decimal rate))
+							HtmlNodeCollection column = rows[2].SelectNodes(".//td");
+							if (column.Count >= 2)
 							{
-								var rateModel = new DealStockRateDto
-								{
-									Currency = currency,
-									Rate = rate
-								};
+								var dealRateString = column[1].InnerText.Replace(",", ".");
 
-								return rateModel;
+								if (decimal.TryParse(dealRateString, out decimal rate))
+								{
+									var rateModel = new DealStockRateDto
+									{
+										Currency = currency,
+										Rate = rate / currencyAmount
+									};
+
+									return rateModel;
+								}
 							}
 						}
 					}
