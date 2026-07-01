@@ -1,5 +1,7 @@
 ﻿@model LegalStatisticViewModel;
 
+<input type="hidden" id="requestModelData" value=@Html.Raw(Json.Serialize(Model.Request))>
+
 <div class="wrapper">
 	<div class="request_field">
 		<form class="get_statistic_form" method="get" asp-controller="LegalRates" asp-action="LegalRates">
@@ -175,8 +177,17 @@
 	</div>
 </div>
 
+<div class="charts_area">
+	<div class="chart_field"><canvas id="USD" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+	<div class="chart_field"><canvas id="EUR" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+	<div class="chart_field"><canvas id="RUB" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+	<div class="chart_field"><canvas id="CNY" class="chart" style="height: 400px; width: 100%;"></canvas></div>
+</div>
+
 	@section js {
 		<script src="~/js/indexPage.js" asp-append-version="true"></script>
+		<script src="~/lib/chart.js/chart.umd.js"></script>
+		<script type="module" src="~/js/charts.js"></script>
 	}
 
 @section css {
