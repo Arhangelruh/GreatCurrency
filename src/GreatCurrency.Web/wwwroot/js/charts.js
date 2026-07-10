@@ -1,5 +1,5 @@
 var viewModelData = JSON.parse(document.getElementById('requestModelData').value);
-//var chartsarea =  document.getElementById('USD');
+var comparePercent = 0.0005;
 
 async function showCharts(){        
     var link = "/Chart/GetStockRates?";   
@@ -39,15 +39,15 @@ async function showCharts(){
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам +5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate + row.dealRate*0.05),
+                  label: 'Курс биржи по сделкам +' + comparePercent*100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate + row.dealRate * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам -5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate - row.dealRate* 0.05),
+                  label: 'Курс биржи по сделкам -' + comparePercent*100 +'%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate - row.dealRate * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
@@ -94,15 +94,15 @@ async function showCharts(){
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам +5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate + row.dealRate*0.05),
+                  label: 'Курс биржи по сделкам +' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate + row.dealRate * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам -5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate - row.dealRate* 0.05),
+                  label: 'Курс биржи по сделкам -' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate - row.dealRate * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
@@ -148,15 +148,15 @@ async function showCharts(){
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам +5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate*100 + row.dealRate*100* 0.05),
+                  label: 'Курс биржи по сделкам +' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate * 100 + row.dealRate * 100 * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам -5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate*100 - row.dealRate*100* 0.05),
+                  label: 'Курс биржи по сделкам -' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate * 100 - row.dealRate * 100 * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
@@ -202,15 +202,15 @@ async function showCharts(){
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам +5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate*10 + row.dealRate*10* 0.05),
+                  label: 'Курс биржи по сделкам +' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate * 10 + row.dealRate * 10 * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
               },
               {
-                label: 'Курс биржи по сделкам -5%',
-                data: element.list.map(row=>row.dealRate === 0 ? null : row.dealRate*10 - row.dealRate*10* 0.05),
+                  label: 'Курс биржи по сделкам -' + comparePercent * 100 + '%',
+                  data: element.list.map(row => row.dealRate === 0 ? null : row.dealRate * 10 - row.dealRate * 10 * comparePercent),
                 fill: false,
                 borderColor: 'rgb(79, 19, 192)',
                 tension: 0.1
