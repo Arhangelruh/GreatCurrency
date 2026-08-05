@@ -33,3 +33,16 @@
 .legal_statistic_table{
     width: 80%;
 }
+
+
+/**************Charts************/
+.charts_area{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 2em;
+}
+
+.chart{
+    margin-top: 20px;
+}

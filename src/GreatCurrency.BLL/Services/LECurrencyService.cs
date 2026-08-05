@@ -5,10 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreatCurrency.BLL.Services
 {
-	public class LECurrencyService(IRepository<LECurrency> currencyRepository, ILERequestService requestService) : ILECurrencyService
+	public class LECurrencyService(
+		IRepository<LECurrency> currencyRepository,
+		ILERequestService requestService,
+		IRepository<LERequest> requestRepository,
+		IRepository<DealStockRates> repositoryDealStockRates
+		) : ILECurrencyService
 	{
 		private readonly IRepository<LECurrency> _currencyRepository = currencyRepository ?? throw new ArgumentNullException(nameof(currencyRepository));
 		private readonly ILERequestService _requestService = requestService ?? throw new ArgumentNullException(nameof(requestService));
+		private readonly IRepository<LERequest> _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
+		private readonly IRepository<DealStockRates> _repositoryDealStockRates = repositoryDealStockRates ?? throw new ArgumentNullException(nameof(repositoryDealStockRates));
 
 		public async Task AddCurrencyAsync(LECurrencyDto currencyDto)
 		{
@@ -34,28 +41,34 @@ namespace GreatCurrency.BLL.Services
 
 		public async Task DeleteCurrenciesAsync(DateTime date)
 		{
-			var getRequests = await _requestService.GetRequestByDateAsync(date);
+			const int batchSize = 5000;
 
-			if (getRequests.Count != 0)
+			while (true)
 			{
-				foreach (var request in getRequests)
-				{
-					var getCurrencies = await _currencyRepository
-				   .GetAll()
-				   .Where(currency => currency.RequestId == request.Id)
-				   .AsNoTracking()
-				   .ToListAsync();
+				var ids = await _requestRepository
+					.GetAll()
+					.Where(r => r.IncomingDate <= date)
+					.Select(r => r.Id)
+					.Take(batchSize)
+					.ToListAsync();
 
-					if (getCurrencies.Count != 0)
-					{
-						foreach (var currency in getCurrencies)
-						{
-							_currencyRepository.Delete(currency);
-							await _currencyRepository.SaveChangesAsync();							
-						}
-					}
-					await _requestService.DeleteRequestAsync(request.Id);
-				}
+				if (!ids.Any())
+					break;
+
+				await _repositoryDealStockRates
+					.GetAll()
+					.Where(c => ids.Contains(c.RequestId))
+					.ExecuteDeleteAsync();
+
+				await _currencyRepository
+					.GetAll()
+					.Where(c => ids.Contains(c.RequestId))
+					.ExecuteDeleteAsync();
+
+				await _requestRepository
+					.GetAll()
+					.Where(r => ids.Contains(r.Id))
+					.ExecuteDeleteAsync();
 			}
 		}
 
