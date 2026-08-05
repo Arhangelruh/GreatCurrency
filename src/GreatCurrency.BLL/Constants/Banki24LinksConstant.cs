@@ -1,4 +1,6 @@
-﻿namespace GreatCurrency.BLL.Constants
+﻿using static System.Net.WebRequestMethods;
+
+namespace GreatCurrency.BLL.Constants
 {
 	public class Banki24LinksConstant
 	{
@@ -12,5 +14,9 @@
 		/// </summary>
 		public const string LegalRatesLink = "https://banki24.by/kurs/dlya-yurlic?curr=";
 
+		/// <summary>
+		/// Common link to get deal rate.
+		/// </summary>
+		public const string LegalDealRateLink = "https://banki24.by/exchange/currencymarket/";		
 	}
 }

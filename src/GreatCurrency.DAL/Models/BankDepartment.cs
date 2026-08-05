@@ -8,9 +8,19 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Department adress.
+        /// Department name
         /// </summary>
-        public string DepartmentAddress { get; set; }
+		public string DepartmentName { get; set; }
+
+        /// <summary>
+        /// Department Id for myfin.
+        /// </summary>
+        public int? ExternalDepartmentId { get; set; }
+
+		/// <summary>
+		/// Department adress.
+		/// </summary>
+		public string DepartmentAddress { get; set; }
 
         /// <summary>
         /// Bank id.

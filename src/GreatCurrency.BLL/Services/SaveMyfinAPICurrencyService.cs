@@ -138,7 +138,13 @@ namespace GreatCurrency.BLL.Services
 						foreach (var currency in currencies)
 						{
 							var bankId = await BankCheckOrSaveAsync(currency.bank.name);
-							var departmentId = await DepartmentChekOrSaveAsync(currency.department_name.Replace("\\", ""), bankId, city.Id);
+							var departmentId = await DepartmentChekOrSaveAsync(
+								currency.department_id,
+								currency.department_name.Replace("\\", ""),
+								currency.department_address.Replace("\\", ""),
+								bankId,
+								city.Id
+								);
 
 							var USDrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.USD);
 							var EURrates = currency.rates.FirstOrDefault(c => c.currency.code == RatesConstant.EUR);
@@ -209,25 +215,45 @@ namespace GreatCurrency.BLL.Services
 			}
 		}
 
-		public async Task<int> DepartmentChekOrSaveAsync(string departmentName, int bankId, int cityId)
+		public async Task<int> DepartmentChekOrSaveAsync(int? departmentId, string departmentName,string departmentAddress, int bankId, int cityId)
 		{
-			var getDepartment = await _bankDepartmentService.GetBankDepartmentByNameAsync(departmentName);
-			if (getDepartment != null)
+		
+			if (departmentId != null)
 			{
-				return getDepartment.Id;
+				int id = (int)departmentId;
+				var getDepartmentByExId = await _bankDepartmentService.GetBankDepartmentByExternalIdAsync(id);
+
+				if (getDepartmentByExId != null)
+					return getDepartmentByExId.Id;
+			}			
+
+			var getDepartmentByName = await _bankDepartmentService.GetBankDepartmentByNameAsync(departmentName);
+
+			if (getDepartmentByName != null)
+			{
+				if (getDepartmentByName.ExternalDepartmentId == null && departmentId != null) {
+					int id = (int)departmentId;
+					getDepartmentByName.ExternalDepartmentId = id;
+					await _bankDepartmentService.AddExternalIdAsync(getDepartmentByName);
+					return getDepartmentByName.Id;
+				}
+
+				if (departmentId == null || getDepartmentByName.ExternalDepartmentId == departmentId)
+					return getDepartmentByName.Id;
 			}
-			else
-			{
-				var addDepartment = new BankDepartmentDto
+		
+			var addDepartment = new BankDepartmentDto
 				{
-					DepartmentAddress = departmentName,
+				    DepartmentName = departmentName,
+					DepartmentAddress = departmentAddress,
+					ExternalDepartmentId = departmentId,
 					BankId = bankId,
 					CityId = cityId
 				};
-				var departmentId = await _bankDepartmentService.AddBankDepartmentAsync(addDepartment);
 
-				return departmentId;
-			}
+			var newDepartmentId = await _bankDepartmentService.AddBankDepartmentAsync(addDepartment);
+
+				return newDepartmentId;
 		}
 
 		public async Task SaveBestCurrencyAsync(List<BestCurrencyDto> listcurrencies)

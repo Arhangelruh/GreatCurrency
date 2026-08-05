@@ -28,7 +28,6 @@ builder.Services.AddScoped<IBankDepartmentService, BankDepartmentService>();
 builder.Services.AddScoped<IBankService, BankService>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
-builder.Services.AddScoped<ISaveCurrencyService, SaveCurrencyService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IBestCurrencyService, BestCurrencyService>();
 builder.Services.AddScoped<IBestRatesCounterService, BestRatesCounterService>();
@@ -49,6 +48,9 @@ builder.Services.AddScoped<ILEOrganisationService, LEOrganisationService>();
 builder.Services.AddScoped<ILERequestService, LERequestService>();
 builder.Services.AddScoped<IGetLegalCurrencyService, GetLegalCurrencyService>();
 builder.Services.AddScoped<ILegalCurrencyCounterService, LegalCurrencyCounterService>();
+builder.Services.AddScoped<ICurrenciesService, CurrenciesService>();
+builder.Services.AddScoped<IDealStockRatesService, DealStockRatesService>();
+
 
 
 builder.Services.AddHangfire(configuration => configuration

@@ -26,9 +26,10 @@ namespace GreatCurrency.Web.Controllers
 		public async Task<IActionResult> LegalRates(RequestViewModel requestData)
 		{
 
-			DateTime now = DateTime.Now;
-			DateTime firstDate = (DateTime)(!requestData.startDate.HasValue ? now.Date : requestData.startDate);
-			DateTime secondDate = (DateTime)(!requestData.endDate.HasValue ? now.Date.AddDays(1) : requestData.endDate);
+			DateTime now = DateTime.Now; 
+			var myDt = DateTime.SpecifyKind(now, DateTimeKind.Unspecified);
+			DateTime firstDate = (DateTime)(!requestData.startDate.HasValue ? myDt.Date : requestData.startDate);
+			DateTime secondDate = (DateTime)(!requestData.endDate.HasValue ? myDt.Date.AddDays(1) : requestData.endDate);
 
 			var requestViewModel = new RequestViewModel { startDate = firstDate, endDate = secondDate };
 

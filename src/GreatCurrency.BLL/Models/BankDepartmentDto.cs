@@ -17,9 +17,19 @@
         /// </summary>
         public int CityId { get; set; }
 
+		/// <summary>
+		/// Department name.
+		/// </summary>
+		public required string DepartmentName { get; set; }
+
+		/// <summary>
+		/// Department adress.
+		/// </summary>
+		public required string DepartmentAddress { get; set; }
+
         /// <summary>
-        /// Department adress.
+        /// MyFin department id.
         /// </summary>
-        public string DepartmentAddress { get; set; }
+        public int? ExternalDepartmentId { get; set; }
     }
 }
