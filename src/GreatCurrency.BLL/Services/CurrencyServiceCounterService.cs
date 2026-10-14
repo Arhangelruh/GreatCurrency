@@ -137,11 +137,15 @@ namespace GreatCurrency.BLL.Services
 		  RateType cfg,
 		  int serviceid)
 		{
-			var bestValue = cfg.IsMax
-				? group.Max(cfg.Selector)
-				: group.Min(cfg.Selector);
+			var validRates = group
+				.Where(c => cfg.Selector(c) != 0)
+				.ToList();
 
-			var list = group.Where(c => cfg.Selector(c) == bestValue).ToList();
+			var bestValue = cfg.IsMax
+				? validRates.Max(cfg.Selector)
+				: validRates.Min(cfg.Selector);
+
+			var list = validRates.Where(c => cfg.Selector(c) == bestValue).ToList();
 
 			return list.FirstOrDefault(c => c.CurrencyServiceId == serviceid) ?? list[0];
 		}
